@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+data/
+mlruns/
+*.db
+outputs/
+models/*.onnx
+models/*.pt
+node_modules/
+dist/
+.env
+*.log
