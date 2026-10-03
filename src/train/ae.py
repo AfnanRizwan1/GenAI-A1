@@ -22,7 +22,8 @@ from src.data.pets import GpuBatcher, load_pets
 from src.models.autoencoder import ConvAE
 
 COND_IDS = {"all": [0, 1, 2, 3], "corrupted": [1, 2, 3], "salt": [1], "blur": [2], "occlusion": [3]}
-DEFAULTS = dict(lr=1e-3, batch_size=64, base_ch=32, latent_dim=512, dropout=0.1, alpha=0.8, weight_decay=0.0)
+DEFAULTS = dict(lr=1e-3, batch_size=64, base_ch=32, latent_dim=512, dropout=0.1, alpha=0.8, weight_decay=0.0,
+                bottleneck="linear", latent_ch=16)
 
 
 def load_data(cond, device, root="data"):
@@ -52,7 +53,8 @@ def evaluate(model, val, bs=256):
 def train_ae(cfg, pets, val, cond="all", epochs=20, device="cuda", trial=None, log=True, seed=42):
     cfg = {**DEFAULTS, **cfg}
     torch.manual_seed(seed)
-    model = ConvAE(cfg["base_ch"], cfg["latent_dim"], cfg["dropout"]).to(device)
+    model = ConvAE(cfg["base_ch"], cfg["latent_dim"], cfg["dropout"], bottleneck=cfg["bottleneck"],
+                   latent_ch=cfg["latent_ch"]).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg["lr"], weight_decay=cfg["weight_decay"])
     batcher = GpuBatcher(pets["train"], cfg["batch_size"], device, seed=seed)
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, cfg["lr"], total_steps=epochs * len(batcher))

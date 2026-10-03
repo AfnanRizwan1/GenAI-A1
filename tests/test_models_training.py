@@ -119,3 +119,44 @@ def test_optuna_objective_runs_and_prunes_api():
 def test_gpu_batcher_clamps_batch_size_to_dataset():
     b = GpuBatcher(fake_images(10), 128, "cpu")
     assert b.bs == 10 and len(b) == 1 and next(iter(b)).shape[0] == 10
+
+
+@pytest.mark.parametrize("latent_ch", [4, 16])
+def test_conv_bottleneck_is_compressed_and_has_no_skip(latent_ch):
+    m = ConvAE(base_ch=16, dropout=0.1, bottleneck="conv", latent_ch=latent_ch).eval()
+    x = torch.rand(2, 3, 128, 128)
+    z = m.encode(x)
+    assert z.shape == (2, latent_ch, 8, 8) and m.latent_size == latent_ch * 64
+    assert m.latent_size < 3 * 128 * 128 / 10          # at least 10x compression
+    y = m(x)
+    assert y.shape == x.shape and torch.allclose(m.decode(z), y, atol=1e-6)  # output depends only on the code
+
+
+def test_linear_checkpoint_keys_unchanged_by_conv_option():
+    """Checkpoints from the linear-bottleneck run must still load."""
+    old = ConvAE(base_ch=16, latent_dim=64, bottleneck="linear")
+    assert any(k.startswith("to_latent.1.") for k in old.state_dict())
+    ConvAE(base_ch=16, latent_dim=64).load_state_dict(old.state_dict())
+
+
+def test_ae_trains_with_conv_bottleneck():
+    pets = {"train": fake_images(64)}
+    val = fake_val(8, labels=(1,))
+    best, state, hist, cfg = train_ae(dict(base_ch=16, batch_size=16, lr=3e-3, bottleneck="conv", latent_ch=8),
+                                      pets, val, "salt", 6, "cpu", log=False)
+    assert hist[-1]["train_loss"] < hist[0]["train_loss"] and best < hist[0]["val_objective"]
+
+
+def test_ae_study_objective_samples_conditional_space():
+    from src.optuna_studies.ae_study import make_objective
+    import src.common.tracking as T, tempfile
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    T.TRACKING_DIR = tempfile.mkdtemp()
+    T.init("pytest-ae")
+    pets, val = {"train": fake_images(40)}, fake_val(4, labels=(1,))
+    study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=0))
+    study.optimize(make_objective(pets, val, "salt", 1, "cpu"), n_trials=4)
+    for t in study.trials:
+        assert t.state.name == "COMPLETE"
+        assert ("latent_dim" in t.params) == (t.params["bottleneck"] == "linear")
+        assert ("latent_ch" in t.params) == (t.params["bottleneck"] == "conv")
