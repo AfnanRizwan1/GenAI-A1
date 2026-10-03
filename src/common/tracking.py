@@ -4,11 +4,15 @@ import os
 
 import mlflow
 
-TRACKING_DIR = os.environ.get("MLFLOW_DIR", "outputs/mlruns")
+TRACKING_DIR = os.environ.get("MLFLOW_DIR", "outputs/mlflow")
 
 
 def init(experiment):
-    mlflow.set_tracking_uri(f"file:{os.path.abspath(TRACKING_DIR)}")
+    """SQLite backend (the file store is deprecated in current MLflow); artifacts next to the db."""
+    os.makedirs(TRACKING_DIR, exist_ok=True)
+    mlflow.set_tracking_uri(f"sqlite:///{os.path.abspath(TRACKING_DIR)}/mlflow.db")
+    if mlflow.get_experiment_by_name(experiment) is None:
+        mlflow.create_experiment(experiment, artifact_location=f"file:{os.path.abspath(TRACKING_DIR)}/artifacts")
     mlflow.set_experiment(experiment)
 
 
