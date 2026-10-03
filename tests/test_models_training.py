@@ -114,3 +114,8 @@ def test_optuna_objective_runs_and_prunes_api():
     study.optimize(make_objective(pets, val, 2, "cpu"), n_trials=2)
     assert len(study.trials) == 2 and all(t.state.name == "COMPLETE" for t in study.trials)
     assert set(study.best_params) == {"lr", "batch_size", "channels", "dropout", "weight_decay"}
+
+
+def test_gpu_batcher_clamps_batch_size_to_dataset():
+    b = GpuBatcher(fake_images(10), 128, "cpu")
+    assert b.bs == 10 and len(b) == 1 and next(iter(b)).shape[0] == 10
