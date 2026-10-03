@@ -3,7 +3,7 @@
     python -m src.optuna_studies.ae_study --name t1 --cond all --n-trials 8 --epochs 5
     python -m src.optuna_studies.ae_study --name spec_shared --cond corrupted --n-trials 8 --epochs 5
 
-Search space: lr, batch size, bottleneck dim, base encoder channels, dropout, alpha (L1 vs SSIM weight).
+Search space: lr, batch size, bottleneck type (+ its size), base encoder channels, dropout, alpha (L1 vs SSIM weight).
 Resumable: storage is a SQLite file in outputs/<name>/study.db.
 """
 import argparse
@@ -17,16 +17,24 @@ from src.common import tracking
 from src.train.ae import COND_IDS, load_data, train_ae
 
 
+BOTTLENECKS = ["linear", "conv"]
+
+
 def make_objective(pets, val, cond, epochs, device):
     def objective(trial):
         cfg = dict(
             lr=trial.suggest_float("lr", 3e-4, 3e-3, log=True),
             batch_size=trial.suggest_categorical("batch_size", [32, 64, 128]),
-            latent_dim=trial.suggest_categorical("latent_dim", [128, 256, 512, 1024]),
             base_ch=trial.suggest_categorical("base_ch", [16, 32, 48, 64]),
             dropout=trial.suggest_float("dropout", 0.0, 0.3),
             alpha=trial.suggest_float("alpha", 0.5, 0.95),
         )
+        # bottleneck type decides which size parameter is searched (conditional search space)
+        cfg["bottleneck"] = trial.suggest_categorical("bottleneck", BOTTLENECKS)
+        if cfg["bottleneck"] == "linear":
+            cfg["latent_dim"] = trial.suggest_categorical("latent_dim", [128, 256, 512, 1024])
+        else:
+            cfg["latent_ch"] = trial.suggest_categorical("latent_ch", [4, 8, 16, 32])
         with tracking.run(f"trial-{trial.number}", params=cfg, tags={"stage": "optuna", "cond": cond}, nested=True):
             best, _, _, _ = train_ae(cfg, pets, val, cond, epochs, device, trial=trial)
             tracking.log_metrics({"best_val_objective": best})
