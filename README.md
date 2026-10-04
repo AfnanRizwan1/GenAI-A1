@@ -146,9 +146,7 @@ cd app/frontend && npm install && npm test                                      
 
 ## 7. Notes and limitations
 
-* The Docker setup (`docker-compose.yml`, both Dockerfiles, `nginx.conf`) was written and its parts were exercised separately (clean
-  virtual environment with only the backend requirements and files, built frontend served through a proxy against the real backend), but
-  `docker compose up` itself needs a machine with Docker.
+* `docker compose up --build` was run with the real trained ONNX models: the backend reports 7/7 models loaded and all four workspaces return results through the nginx-served frontend.
 * FS2K's official test split is style-skewed (619 / 381 / 46 images for styles 1 / 2 / 3), which matters when reading per-style results.
 * The assignment was completed under a tight deadline; the exact Optuna budgets and epochs used for each task are stated in the report.
 * AI tools were used for research, coding and debugging; see the AI-use appendix of the report.
