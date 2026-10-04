@@ -129,16 +129,22 @@ With $x$ the clean image, $\tilde{x}$ the corrupted input and $\hat{x}=D(E(\tild
 with SSIM computed over $11\times11$ Gaussian windows ($\sigma=1.5$). Models are trained with AdamW~\cite{loshchilov2019}, a one-cycle learning-rate schedule~\cite{smith2019}, mixed precision, and the whole dataset resident on the GPU.
 The Optuna study (TPE sampler, seed 42, median pruner) searches the learning rate $[3\cdot10^{-4},3\cdot10^{-3}]$ (log), batch size $\{32,64,128\}$, base channels $c\in\{16,32,48,64\}$, dropout $[0,0.3]$, the loss weight $\alpha\in[0.5,0.95]$, the bottleneck type,
 and its size ($d\in\{128,256,512,1024\}$ or $c_z\in\{4,8,16,32\}$). The objective, minimised on the validation manifest, is $L_1+(1-\mathrm{SSIM})$, which is independent of $\alpha$ so that trials with different $\alpha$ are comparable.
-The planned budget is 30 trials of 10 epochs followed by 150 epochs of final training. \todo{state the completed/pruned trial counts, best trial and final configuration from Table~\ref{tab:optuna}}
+The planned budget is 30 trials of 10 epochs followed by 150 epochs of final training. The study completed 30 trials: 13 ran to the end and 17 were pruned. The best trial (number 15, validation objective 0.414 after 10 epochs) used the convolutional bottleneck with $c_z=32$, $c=48$, learning rate $7.7\cdot10^{-4}$, batch size 32, dropout $0.10$ and $\alpha=0.51$,
+and all 13 completed trials used the convolutional bottleneck. Two selected values lie at the edge of the allowed range ($c_z=32$ is the largest code that was searched and $\alpha=0.51$ is close to the smallest weight, $0.5$), so a larger code or an even stronger SSIM weight might have scored better.
+The final model, trained for 150 epochs, reached a validation PSNR of about 24.6\,dB and SSIM of 0.79 (all four input conditions averaged).
 
 \subsection{A first run and the bottleneck study}
 A first, smaller run (8 trials of 5 epochs, linear bottleneck only, 40 final epochs) reached a validation PSNR of 18.75\,dB and SSIM of 0.471, and the curve had flattened. Because the linear code discards spatial layout, we added the convolutional bottleneck to the
-search space for the main run. \todo{compare the main run with this first run: PSNR/SSIM gain, which bottleneck Optuna selected}
+search space for the main run. The main run reached a validation PSNR of 24.6\,dB and SSIM of 0.79, that is $+5.9$\,dB and $+0.32$ over the first run, and Optuna chose the convolutional bottleneck in every completed trial.
+The gain combines the code that keeps the $8\times8$ spatial layout ($2\,048$ numbers for $c_z=32$ instead of one vector) with the larger search and the longer training; we did not separate these effects.
 
 \subsection{Results}
 Tables~\ref{tab:rest_psnr} and~\ref{tab:rest_ssim} report PSNR and SSIM on the fixed test manifest for every corruption and severity, together with the no-restoration baseline (the corrupted input itself), which every model must beat.
 \figmaybe[\textwidth]{curves_t1_t2.pdf}
-\todo{interpret the Task 1 rows: where the autoencoder beats the input and where it does not, per corruption and severity; discuss the strict-bottleneck limitation}
+Against the no-restoration baseline the universal autoencoder helps most where the damage is largest. For salt-and-pepper noise PSNR rises from 20.1, 15.9 and 13.1\,dB (low, medium, high severity) to 25.3, 25.2 and 25.1\,dB, and for occlusion from 16.7, 13.3 and 10.8\,dB to 23.1, 21.6 and 19.8\,dB.
+Its output quality is almost independent of the input condition (about 25\,dB for clean, salt-and-pepper and mildly blurred images). This shows that the quality is limited by the reconstruction ceiling of the bottleneck and not by the corruption: even a \emph{clean} image comes back at only 25.3\,dB (SSIM 0.82).
+Consequently the model does not beat the input where the input is already close to the target: clean images (60\,dB for the identity mapping), low and medium blur (32.3 and 26.8\,dB for the input against 25.4 and 25.3\,dB) and, in SSIM, low occlusion (0.862 against 0.771).
+Only for high blur do the two meet in PSNR (24.4 against 24.2\,dB), and there the autoencoder is better in SSIM (0.740 against 0.692). This is the price of a strict bottleneck without skip connections: the model removes noise and fills in occlusions, but it cannot reproduce fine detail.
 
 \begin{figure*}[t]
 \centering
@@ -159,7 +165,8 @@ Tables~\ref{tab:rest_psnr} and~\ref{tab:rest_ssim} report PSNR and SSIM on the f
 \subsection{Classifier}
 The classifier has four blocks of a stride-1 and a stride-2 $3\times3$ convolution (batch normalisation, ReLU), global average pooling, dropout and a linear layer with four outputs. Its labels come from the run-time corruption pipeline, and every training batch is exactly balanced
 (equal numbers of clean, salt-and-pepper, blur and occlusion samples), so the classifier cannot favour one class. It is trained with cross-entropy and AdamW. The Optuna study searches the learning rate, batch size, channel configuration
-(small, medium, large), dropout and weight decay, and maximises validation macro-F1. \todo{report the study (Table~\ref{tab:optuna}) and the final configuration}
+(small, medium, large), dropout and weight decay, and maximises validation macro-F1. The study completed 30 trials (6 ran to the end, 24 were pruned). The best trial (number 21, validation macro-F1 0.9915 after 10 epochs) used the small channel configuration, learning rate $3.7\cdot10^{-3}$, batch size 32, dropout $0.44$ and weight decay $9.5\cdot10^{-5}$;
+the dropout lies near the upper end of the searched range ($0.5$). The final model, trained for 60 epochs, reached a validation macro-F1 of 0.9956.
 
 \subsection{Specialists and hard routing}
 Three specialist autoencoders share one architecture but are trained independently, each only on its own corruption and with the same clean targets. To keep the cost feasible the architecture is chosen by one shared Optuna search on the three corruptions
@@ -197,7 +204,10 @@ Test accuracy of the classifier is \gen{classifier_summary} (Table~\ref{tab:cls}
 \caption{Misrouting cases: the four classifier errors with the largest PSNR loss compared with oracle routing.}
 \label{fig:misroute}
 \end{figure}
-\todo{discuss the misrouting cases in Fig.~\ref{fig:misroute} and the gap between oracle and predicted routing in Tables~\ref{tab:rest_psnr}--\ref{tab:rest_ssim}}
+With oracle routing the specialists are better than the universal autoencoder in every corrupted condition, by 0.8 to 1.6\,dB PSNR (for example 26.8 against 25.3\,dB for low salt-and-pepper noise and 25.8 against 24.2\,dB for high blur) and by about 0.01 to 0.04 SSIM,
+which supports the idea that three narrower problems are easier than one broad one. They share the limitation of the bottleneck: for low and medium blur they remain below the uncorrected input (26.4 and 26.6\,dB against 32.3 and 26.8\,dB).
+Predicted routing is practically as good as oracle routing. For all nine corrupted conditions the two PSNR values agree to within 0.01\,dB; the only visible effect of classifier errors is on clean images, where the mean PSNR falls from 60 (the cap for an exact identity) to 59.85\,dB because some clean inputs were sent through an expert.
+On this benchmark the cost of the classifier's mistakes is therefore negligible. \todo{describe the four misrouting cases in Fig.~\ref{fig:misroute}}
 
 %% ------------------------------------------------------------------------------------------------
 \section{Task 3: Jointly Trained Soft Mixture of Experts}
