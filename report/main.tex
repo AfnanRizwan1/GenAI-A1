@@ -7,6 +7,8 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
 \usepackage{url}
 \usepackage[hidelinks]{hyperref}
 
@@ -113,6 +115,9 @@ Photographs and sketches are resized to $128\times128$ and the pairing is preser
 by a single affine warp to the six-channel stack of photograph and sketch, so the pixel correspondence is preserved by construction.
 
 %% ------------------------------------------------------------------------------------------------
+\input{arch_figure}
+Figure~\ref{fig:arch} summarises the four architectures.
+
 \section{Task 1: Universal Multi-Corruption Denoising Autoencoder}
 \subsection{Architecture}
 The encoder has four stages, each a stride-2 $4\times4$ convolution followed by a $3\times3$ convolution (batch normalisation~\cite{ioffe2015} and LeakyReLU after each), taking the spatial size from $128$ to $8$ while the channels

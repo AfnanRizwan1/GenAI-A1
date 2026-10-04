@@ -22,8 +22,8 @@ Requirements: Docker with Compose v2. No Python or Node is needed.
 ```bash
 git clone https://github.com/AfnanRizwan1/GenAI-A1.git && cd GenAI-A1
 
-# 1. get the trained ONNX models into ./models  (7 files, see models/README.md)
-MODELS_BASE_URL=<url of the release / folder that holds the .onnx files> bash scripts/download_models.sh
+# 1. get the trained ONNX models into ./models  (7 files, ~200 MB, from the models-v1 release; see models/README.md)
+bash scripts/download_models.sh
 
 # 2. start the whole application
 docker compose up --build
