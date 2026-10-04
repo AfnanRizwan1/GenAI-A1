@@ -1,4 +1,6 @@
 import numpy as np
+from pathlib import Path
+from PIL import Image
 import optuna
 import torch
 
@@ -150,3 +152,47 @@ def test_load_fs2k_pairs_split_and_cache(tmp_path):
     again = load_fs2k(tmp_path)                                  # second call comes from the cache
     assert np.array_equal(again["val"]["name"], d["val"]["name"])
     assert (tmp_path / "FS2K" / "cache_128.npz").exists()
+
+
+def test_evaluate_t4_outputs_and_independent_metric_check(tmp_path, monkeypatch):
+    import json, sys
+    import pandas as pd
+    from src.data.fs2k import load_fs2k
+    from src.eval import evaluate_t4 as ev
+
+    _write_fake_fs2k(tmp_path / "FS2K", n_train=30, n_test=12)
+    torch.save({"state_dict": UNetGenerator(8, 8, 0.0).state_dict(), "cfg": {"base_ch": 8, "emb_dim": 8, "dropout": 0.0}}, tmp_path / "gen.pt")
+    out = tmp_path / "eval"
+    monkeypatch.setattr(sys, "argv", ["evaluate_t4", "--gen", str(tmp_path / "gen.pt"), "--data-root", str(tmp_path), "--out", str(out)])
+    ev.main()
+
+    for f in ("summary.json", "per_image.csv", "examples_test.png", "failures_test.png", "style_conditioning_matrix.png"):
+        assert (out / f).exists(), f
+    s = json.loads((out / "summary.json").read_text())
+    assert s["n_test_images"] == 12 and sum(s["images_per_style"].values()) == 12
+    assert len(s["style_conditioning"]["mean_l1_matrix_true_vs_fed"]) == 3
+    assert set(s["by_style"]) == {"Style 1", "Style 2", "Style 3"}
+
+    # independent check of the grayscale-baseline L1 for the first test image, straight from the arrays
+    test = load_fs2k(tmp_path)["test"]
+    p, y = test["photo"][0].astype(np.float64) / 255, test["sketch"][0].astype(np.float64) / 255
+    gray = 0.299 * p[..., 0] + 0.587 * p[..., 1] + 0.114 * p[..., 2]
+    expected = np.abs(gray[..., None] - y).mean()
+    got = pd.read_csv(out / "per_image.csv").loc[0, "gray_l1"]
+    assert abs(expected - got) < 1e-4, (expected, got)
+
+
+def test_make_samples_is_deterministic_square_and_sized(tmp_path):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("make_samples", Path(__file__).resolve().parents[1] / "scripts" / "make_samples.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    r = np.random.default_rng(0)
+    ds = [(Image.fromarray((r.random((90 + i, 120 + 3 * i, 3)) * 255).astype(np.uint8)), 0) for i in range(20)]
+    a = mod.make_samples(ds, tmp_path / "a", n=5)
+    b = mod.make_samples(ds, tmp_path / "b", n=5)
+    assert [p.name for p in a] == [f"pet_0{i}.jpg" for i in range(1, 6)]
+    for pa, pb in zip(a, b):
+        ia, ib = Image.open(pa), Image.open(pb)
+        assert ia.size == (256, 256) and ia.mode == "RGB"
+        assert np.array_equal(np.asarray(ia), np.asarray(ib))        # same seed -> same pictures
