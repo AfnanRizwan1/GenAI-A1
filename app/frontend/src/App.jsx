@@ -8,7 +8,7 @@ import SketchPage from './pages/SketchPage'
 const NAV = [
   { to: '/universal', label: 'Universal Restoration', task: 'Task 1', icon: 'sliders', chip: 'Autoencoder restoration pipeline' },
   { to: '/hard', label: 'Hard-Routed Restoration', task: 'Task 2', icon: 'branch', chip: 'Classifier-routed specialists' },
-  { to: '/soft', label: 'Soft Mixture-of-Experts', task: 'Task 3', icon: 'layers', chip: 'Jointly trained gate and experts' },
+  { to: '/soft', label: 'Soft Mixture-of-Experts Restoration', task: 'Task 3', icon: 'layers', chip: 'Jointly trained gate and experts' },
   { to: '/sketch', label: 'Face-to-Sketch Generator', task: 'Task 4', icon: 'pencil', chip: 'Conditional GAN · 3 styles' },
 ]
 
