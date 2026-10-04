@@ -1,0 +1,73 @@
+% Architecture diagrams of the four systems (TikZ), included from main.tex.
+\begin{figure*}[t]
+\centering
+\tikzset{
+  blk/.style={draw, rounded corners=2pt, minimum height=6.5mm, inner sep=2.5pt, font=\scriptsize, align=center, fill=blue!7},
+  io/.style={draw, rounded corners=2pt, minimum height=6.5mm, inner sep=2.5pt, font=\scriptsize, align=center, fill=gray!15},
+  key/.style={draw, rounded corners=2pt, minimum height=6.5mm, inner sep=2.5pt, font=\scriptsize, align=center, fill=orange!25},
+  lab/.style={font=\scriptsize\itshape, align=center},
+  arr/.style={-{Stealth[length=1.6mm]}, thick}
+}
+\begin{minipage}[t]{0.49\textwidth}\centering
+\textbf{(a) Task 1: universal autoencoder}\\[1mm]
+\begin{tikzpicture}[node distance=4.5mm]
+\node[io] (x) {corrupted $\tilde x$\\$128{\times}128{\times}3$};
+\node[blk, right=of x] (e) {encoder\\4 stride-2\\stages};
+\node[key, right=of e] (z) {code\\$8{\times}8{\times}c_z$};
+\node[blk, right=of z] (d) {decoder\\4 up-\\sampling\\stages};
+\node[io, right=of d] (y) {restored $\hat x$};
+\draw[arr] (x)--(e); \draw[arr] (e)--(z); \draw[arr] (z)--(d); \draw[arr] (d)--(y);
+\node[lab, below=3mm of z] {no skip connections};
+\node[lab, below=3mm of y] {loss: $\alpha L_1{+}(1{-}\alpha)(1{-}\mathrm{SSIM})$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}\centering
+\textbf{(b) Task 2: classifier and hard routing}\\[1mm]
+\begin{tikzpicture}[node distance=4mm]
+\node[io] (x) {$\tilde x$};
+\node[key, right=of x] (c) {classifier\\(CNN)};
+\node[blk, right=9mm of c, yshift=11mm] (a0) {identity (clean)};
+\node[blk, below=1.5mm of a0] (a1) {salt AE};
+\node[blk, below=1.5mm of a1] (a2) {blur AE};
+\node[blk, below=1.5mm of a2] (a3) {occlusion AE};
+\node[io, right=9mm of a1, yshift=-5mm] (y) {$\hat x$};
+\draw[arr] (x)--(c);
+\foreach \a in {a0,a1,a2,a3}{\draw[arr] (c.east)--(\a.west); \draw[arr] (\a.east)--(y.west);}
+\node[lab, above=1mm of c] {argmax: one branch};
+\end{tikzpicture}
+\end{minipage}\\[4mm]
+\begin{minipage}[t]{0.49\textwidth}\centering
+\textbf{(c) Task 3: soft mixture of experts}\\[1mm]
+\begin{tikzpicture}[node distance=4mm]
+\node[io] (x) {$\tilde x$};
+\node[blk, right=9mm of x, yshift=-2mm] (i) {identity};
+\node[blk, below=1.5mm of i] (e1) {expert 1 (salt)};
+\node[blk, below=1.5mm of e1] (e2) {expert 2 (blur)};
+\node[blk, below=1.5mm of e2] (e3) {expert 3 (occl.)};
+\node[key, above=4mm of i] (g) {gate: $g=\mathrm{softmax}(z/T)$};
+\node[io, right=14mm of e1, yshift=-2mm] (s) {$\hat x=\sum_i g_i\,y_i$};
+\draw[arr] (x.north) |- (g.west);
+\foreach \a in {i,e1,e2,e3}{\draw[arr] (x.east)--(\a.west); \draw[arr] (\a.east)--(s.west);}
+\draw[arr, dashed] (g.east) -| (s.north);
+\node[lab, above right=0mm and 2mm of g.east] {weights $g_0,\dots,g_3$};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}\centering
+\textbf{(d) Task 4: style-conditioned cGAN}\\[1mm]
+\begin{tikzpicture}[node distance=4mm]
+\node[io] (p) {photo\\$128{\times}128$};
+\node[io, below=6mm of p] (s) {style 1/2/3};
+\node[key, right=of s] (em) {embedding};
+\node[blk, right=7mm of p, yshift=-5mm] (u) {U-Net generator\\6 levels\\concat + FiLM};
+\node[io, right=of u] (sk) {sketch};
+\node[blk, right=of sk, yshift=-8mm] (dd) {PatchGAN\\$D$};
+\node[io, above=4mm of dd] (rl) {real / fake\\per patch};
+\draw[arr] (p.east) -- (u.west |- p.east);
+\draw[arr] (s)--(em); \draw[arr] (em.east) -| (u.south);
+\draw[arr] (u)--(sk); \draw[arr] (sk.east)--(dd.north west); \draw[arr] (dd)--(rl);
+\node[lab, below=2mm of dd] {BCE $+\,\lambda L_1$};
+\end{tikzpicture}
+\end{minipage}
+\caption{Architectures of the four systems. (a) Task~1: a strict-bottleneck convolutional autoencoder without skip connections. (b) Task~2: a classifier selects exactly one branch (the identity for clean images, otherwise one of three specialist autoencoders). (c) Task~3: a gate assigns softmax weights to the identity branch and the three experts, and the output is the weighted sum. (d) Task~4: a U-Net generator conditioned on a learned style embedding (concatenation and FiLM) and a PatchGAN discriminator that also sees the embedding.}
+\label{fig:arch}
+\end{figure*}
