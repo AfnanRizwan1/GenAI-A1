@@ -105,6 +105,16 @@ bash scripts/run_t4.sh         # Task 4 (needs FS2K in data/fs2k)
 Useful environment variables: `TAG=_v2` (separate output folders), `TRIALS`, `TRIAL_EPOCHS`, `FINAL_EPOCHS`, `GPU`.
 View the tracking UI with `mlflow ui --backend-store-uri sqlite:///outputs/mlflow/mlflow.db`.
 
+After training and evaluation, two small scripts finish the record:
+
+```bash
+python scripts/log_results_to_mlflow.py --outputs outputs --models models --mlflow-dir outputs/mlflow   # checkpoints, test evaluation, ONNX verification into MLflow
+python scripts/collect_results.py --outputs outputs --models models --out .                              # configs/*.json and results/ (small files only)
+```
+
+`configs/` holds the hyper-parameters selected by each Optuna study (with the search budget that was used) and `results/` the Optuna trial
+tables, training histories, evaluation summaries, tables and figures and the ONNX verification. Checkpoints and ONNX files are too large for git.
+
 Evaluation on the fixed test manifest (tables per corruption and severity, no-restoration baseline, oracle vs predicted routing,
 confusion matrix, example / failure grids with error maps, routing heatmap and expert-activity checks):
 

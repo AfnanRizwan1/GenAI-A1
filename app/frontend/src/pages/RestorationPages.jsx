@@ -61,7 +61,7 @@ export function SoftPage() {
   return (
     <RestorationPage
       number={3}
-      title="Soft Mixture-of-Experts"
+      title="Soft Mixture-of-Experts Restoration"
       subtitle="A gating network gives every branch a continuous weight. The output is the weighted sum of the identity branch and the three experts, trained jointly."
       endpoint="/soft"
       filePrefix="soft-moe"

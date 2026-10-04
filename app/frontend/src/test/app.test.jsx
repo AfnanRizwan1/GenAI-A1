@@ -30,7 +30,7 @@ describe('App shell', () => {
     await user.click(screen.getAllByRole('link', { name: /Hard-Routed Restoration/ })[0])
     expect(await screen.findByRole('heading', { name: 'Hard-Routed Restoration' })).toBeInTheDocument()
     await user.click(screen.getAllByRole('link', { name: /Soft Mixture-of-Experts/ })[0])
-    expect(await screen.findByRole('heading', { name: 'Soft Mixture-of-Experts' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Soft Mixture-of-Experts Restoration' })).toBeInTheDocument()
     await user.click(screen.getAllByRole('link', { name: /Face-to-Sketch Generator/ })[0])
     expect(await screen.findByRole('heading', { name: 'Face-to-Sketch Generator' })).toBeInTheDocument()
   })
