@@ -1,0 +1,433 @@
+% IEEE conference-format technical report. Compile with pdflatex + bibtex (or upload the whole report/ folder to Overleaf).
+% Tables in generated/ and the result figures in figures/ are produced by scripts/make_report_assets.py from the real experiment outputs.
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\todo}[1]{{\color{red}\textbf{[TODO: #1]}}}
+\newcommand{\gen}[1]{\IfFileExists{generated/#1.tex}{\input{generated/#1.tex}}{\textbf{[pending: \detokenize{#1}]}}}
+\newcommand{\figmaybe}[2][\columnwidth]{\IfFileExists{figures/#2}{\includegraphics[width=#1]{figures/#2}}{\fbox{\parbox{0.8\dimexpr#1\relax}{\centering\small pending figure: \detokenize{#2}}}}}
+\newcommand{\Ltwo}{\ensuremath{\mathcal{L}}}
+
+\begin{document}
+
+\title{Restoration Studio: Universal, Hard-Routed and Soft Mixture-of-Experts Image Restoration, and Style-Conditioned Face-to-Sketch Generation}
+
+\author{\IEEEauthorblockN{Afnan Rizwan (23I-0561)}
+\IEEEauthorblockA{National University of Computer and Emerging Sciences (FAST), Generative AI, Assignment 1\\
+Repository: \url{https://github.com/AfnanRizwan1/GenAI-A1}\\
+Demonstration video: \todo{insert the YouTube link}}}
+
+\maketitle
+
+\begin{abstract}
+We design, train, evaluate and deploy four related generative systems and integrate them into one web application. Three of them restore
+$128\times128$ images of the Oxford-IIIT Pet dataset that are corrupted at run time by salt-and-pepper noise, Gaussian blur or rectangular
+occlusion: (1) a single universal denoising autoencoder with a compressed bottleneck, (2) a corruption classifier that hard-routes each image to one of three
+specialist autoencoders, and (3) a jointly trained soft mixture of experts in which a gate assigns a continuous weight to an identity branch and
+to the three experts. The fourth system is (4) a style-conditioned conditional GAN that translates face photographs of the FS2K dataset into
+sketches in one of three styles. Hyper-parameters of every model are tuned with Optuna, experiments are tracked with MLflow, the
+inference models are exported to ONNX and verified against PyTorch, and the whole system runs from one \texttt{docker compose} command
+behind a React and FastAPI application whose interface was designed in Google Stitch. On the fixed test manifest of 36,690 corrupted images, the mean PSNR is 23.3\,dB without restoration, 24.0\,dB for the universal autoencoder, 28.6\,dB for hard routing (classifier accuracy 99.8\,\%) and 28.0\,dB for the soft mixture, which has the best SSIM (0.837); the sketch generator reaches an SSIM of 0.48 and uses its style condition on every style.
+\end{abstract}
+
+\begin{IEEEkeywords}
+denoising autoencoder, mixture of experts, conditional GAN, image restoration, Optuna, ONNX, FastAPI
+\end{IEEEkeywords}
+
+%% ------------------------------------------------------------------------------------------------
+\section{Introduction}
+Real images are rarely clean: sensors add impulse noise, optics and motion blur the picture, and objects occlude parts of the scene. A
+practical restoration system therefore faces a choice. One model can be trained to cope with every degradation (a universal model), or the
+degradation can be recognised first and a specialist applied (hard routing). Both have drawbacks: the universal model must share
+capacity among very different inverse problems, whereas hard routing fails when the classifier is wrong or when an image carries more than one degradation.
+A differentiable \emph{soft} mixture of experts removes the hard decision and lets the routing be learned from the reconstruction error.
+
+This report studies this progression on a controlled benchmark (Tasks~1--3) and adds a fourth, generative task: translating face photographs into
+sketches whose style is chosen by the user (Task~4). The assignment is as much an engineering exercise as a modelling one, so the
+report also documents the data pipeline, the hyper-parameter searches, the experiment tracking, the ONNX export and the deployed application.
+All source code, configuration, Optuna studies, export code, Dockerfiles and the instructions to run everything are in the repository
+linked on the title page.
+
+Contributions: (i) a run-time corruption pipeline with deterministic validation and test manifests shared by all three restoration tasks;
+(ii) a comparison of a universal autoencoder, oracle-routed and classifier-routed specialists and a jointly fine-tuned mixture of experts under identical conditions;
+(iii) an analysis of the learned routing, including checks for inactive or dominating experts;
+(iv) a style-conditioned pix2pix-style generator and discriminator in which a learned style embedding enters both networks;
+(v) a containerised application that exposes all four systems and reports timing, routing and quality information.
+
+%% ------------------------------------------------------------------------------------------------
+\section{Related Work}
+\textbf{Denoising autoencoders.} Vincent \emph{et al.}\ showed that reconstructing a clean input from a corrupted one forces an autoencoder to learn robust
+features~\cite{vincent2008}. Our restoration models follow this idea with a convolutional encoder, a genuinely compressed code and a convolutional decoder.
+We combine an $L_1$ term with a structural-similarity term~\cite{wang2004}, which rewards preserved edges and local contrast rather than only pixel agreement.
+
+\textbf{U-Net and skip connections.} U-Net~\cite{ronneberger2015} concatenates encoder features into the decoder. This is excellent for translation tasks and is used in our
+Task~4 generator, but unrestricted skip connections would let a restoration model copy the corrupted input around the bottleneck, so the Task~1--3 autoencoders have none.
+
+\textbf{Mixtures of experts.} Jacobs \emph{et al.}\ introduced gated mixtures of local experts~\cite{jacobs1991}; Shazeer \emph{et al.}\ scaled them with a sparsely-gated layer~\cite{shazeer2017},
+and Switch Transformers~\cite{fedus2022} added an auxiliary load-balancing loss to stop the router from collapsing onto few experts. Our soft mixture is dense
+(every branch contributes) and uses a balance regulariser on the batch-mean routing weights in the same spirit.
+
+\textbf{Conditional GANs and image-to-image translation.} GANs~\cite{goodfellow2014} and their conditional variants~\cite{mirza2014} underlie pix2pix~\cite{isola2017}, which pairs a
+U-Net generator with a PatchGAN discriminator and an $L_1$ reconstruction term. We follow this recipe and make the condition (a sketch style) part of both networks through
+a learned embedding, using feature-wise linear modulation~\cite{perez2018} in the generator.
+
+\textbf{Hyper-parameter optimisation and tooling.} We use Optuna~\cite{akiba2019} with the tree-structured Parzen estimator~\cite{bergstra2011} and a median pruner, MLflow~\cite{mlflow} for tracking,
+PyTorch~\cite{paszke2019} for modelling and ONNX Runtime~\cite{onnxruntime} for inference.
+
+%% ------------------------------------------------------------------------------------------------
+\section{Datasets and Data Pipeline}
+\subsection{Oxford-IIIT Pet (Tasks 1--3)}
+We use the 3\,680 images of the official \emph{trainval} split as development data and the 3\,669 images of the official \emph{test} split only for final evaluation.
+The class labels are not used; the clean image is the restoration target. Development data are divided 80/20 with random seed 42 into 2\,944 training and 736 validation images, and the
+same split is used by all three tasks. Every image is converted to RGB and resized to $128\times128$ once and cached.
+
+\subsection{Run-time corruption}
+During training each clean image is turned into one of four input conditions with equal probability, and a new condition and severity are drawn every time an image is loaded;
+no corrupted copy is stored. The corruption is computed on the GPU on whole batches:
+\begin{itemize}
+\item \textbf{Salt-and-pepper:} a fraction $p\sim\mathcal{U}(0.02,0.15)$ of pixels is replaced by black or white with equal probability.
+\item \textbf{Gaussian blur:} kernel size from $\{3,5,7\}$, standard deviation $\sigma\sim\mathcal{U}(0.5,2.5)$ (separable convolution with reflect padding, equal to OpenCV's \texttt{GaussianBlur}; tested to $10^{-4}$).
+\item \textbf{Occlusion:} one to three black rectangles whose total area is $\mathcal{U}(10\%,35\%)$ of the image, at random positions and with aspect ratios in $[0.5,2]$.
+\end{itemize}
+The batched training version places rectangles independently, so overlapping rectangles make the achieved coverage slightly smaller than the target. The deterministic version used for the
+manifests avoids overlap by rejection sampling and records the achieved coverage.
+
+\subsection{Deterministic validation and test manifests}
+Validation and test corruptions are generated once and stored (type, severity level, parameters, rectangle coordinates and a per-entry random seed), so every model is evaluated on exactly the same
+corrupted images. The validation manifest contains, for each of the 736 validation images, the clean image and one entry per corruption type, with severity cycling through low, medium and high
+inside equal thirds of the training ranges (2\,944 entries). The test manifest contains for each of the 3\,669 test images the clean image and, for every corruption, the three fixed levels required by the assignment
+(36\,690 entries): salt-and-pepper $p\in\{0.03,0.08,0.15\}$; blur $(k,\sigma)\in\{(3,0.7),(5,1.5),(7,2.5)\}$; occlusion covering about $10\%$, $20\%$ and $35\%$ with one, two and three rectangles.
+Replaying a manifest is deterministic, and regenerating it reproduces the committed files byte for byte.
+
+\subsection{FS2K (Task 4)}
+FS2K~\cite{fan2022} contains 2\,104 photograph--sketch pairs in three sketch styles. We use the official training portion (1\,058 pairs) and test portion (1\,046 pairs). Fifteen percent of the training pairs, stratified by style with seed 42,
+form the validation set, which gives 899 training pairs and 159 validation pairs (54, 52 and 53 per style). The test set is style-skewed (619, 381 and 46 images for styles~1, 2 and~3) and is never used for training or tuning.
+Photographs and sketches are resized to $128\times128$ and the pairing is preserved by index. Augmentation (horizontal flip, rotation up to $5^\circ$, zoom $0.9$--$1.0$, shift up to $5\%$) is applied
+by a single affine warp to the six-channel stack of photograph and sketch, so the pixel correspondence is preserved by construction.
+
+%% ------------------------------------------------------------------------------------------------
+\section{Task 1: Universal Multi-Corruption Denoising Autoencoder}
+\subsection{Architecture}
+The encoder has four stages, each a stride-2 $4\times4$ convolution followed by a $3\times3$ convolution (batch normalisation~\cite{ioffe2015} and LeakyReLU after each), taking the spatial size from $128$ to $8$ while the channels
+grow from $c$ to $8c$. The bottleneck is one of two kinds, chosen by Optuna: a \emph{linear} code (flatten, then a fully connected layer to $d$ numbers) or a \emph{convolutional} code (a $1\times1$ convolution to $c_z$ channels, i.e.\ a
+$c_z\times8\times8$ tensor of $64c_z$ numbers). Dropout is applied to the code. The decoder mirrors the encoder with transposed convolutions and ends with a sigmoid. Even the smallest code is more than ten times smaller than the $49\,152$ input values.
+There are \emph{no skip connections}, so every output pixel depends only on the code (a unit test checks that decoding the encoder output reproduces the forward pass). Because no skip connection is used there is
+nothing to justify or ablate in the sense of the assignment's remark on limited skips; a skip-connection ablation was not run.
+
+\subsection{Loss, optimiser and tuning}
+With $x$ the clean image, $\tilde{x}$ the corrupted input and $\hat{x}=D(E(\tilde{x}))$ the reconstruction,
+\begin{equation}
+\Ltwo=\alpha\,\lVert\hat{x}-x\rVert_1+(1-\alpha)\bigl(1-\mathrm{SSIM}(\hat{x},x)\bigr),
+\end{equation}
+with SSIM computed over $11\times11$ Gaussian windows ($\sigma=1.5$). Models are trained with AdamW~\cite{loshchilov2019}, a one-cycle learning-rate schedule~\cite{smith2019}, mixed precision, and the whole dataset resident on the GPU.
+The Optuna study (TPE sampler, seed 42, median pruner) searches the learning rate $[3\cdot10^{-4},3\cdot10^{-3}]$ (log), batch size $\{32,64,128\}$, base channels $c\in\{16,32,48,64\}$, dropout $[0,0.3]$, the loss weight $\alpha\in[0.5,0.95]$, the bottleneck type,
+and its size ($d\in\{128,256,512,1024\}$ or $c_z\in\{4,8,16,32\}$). The objective, minimised on the validation manifest, is $L_1+(1-\mathrm{SSIM})$, which is independent of $\alpha$ so that trials with different $\alpha$ are comparable.
+The planned budget is 30 trials of 10 epochs followed by 150 epochs of final training. The study completed 30 trials: 13 ran to the end and 17 were pruned. The best trial (number 15, validation objective 0.414 after 10 epochs) used the convolutional bottleneck with $c_z=32$, $c=48$, learning rate $7.7\cdot10^{-4}$, batch size 32, dropout $0.10$ and $\alpha=0.51$,
+and all 13 completed trials used the convolutional bottleneck. Two selected values lie at the edge of the allowed range ($c_z=32$ is the largest code that was searched and $\alpha=0.51$ is close to the smallest weight, $0.5$), so a larger code or an even stronger SSIM weight might have scored better.
+The final model, trained for 150 epochs, reached a validation PSNR of about 24.6\,dB and SSIM of 0.79 (all four input conditions averaged).
+
+\subsection{A first run and the bottleneck study}
+A first, smaller run (8 trials of 5 epochs, linear bottleneck only, 40 final epochs) reached a validation PSNR of 18.75\,dB and SSIM of 0.471, and the curve had flattened. Because the linear code discards spatial layout, we added the convolutional bottleneck to the
+search space for the main run. The main run reached a validation PSNR of 24.6\,dB and SSIM of 0.79, that is $+5.9$\,dB and $+0.32$ over the first run, and Optuna chose the convolutional bottleneck in every completed trial.
+The gain combines the code that keeps the $8\times8$ spatial layout ($2\,048$ numbers for $c_z=32$ instead of one vector) with the larger search and the longer training; we did not separate these effects.
+
+\subsection{Results}
+Tables~\ref{tab:rest_psnr} and~\ref{tab:rest_ssim} report PSNR and SSIM on the fixed test manifest for every corruption and severity, together with the no-restoration baseline (the corrupted input itself), which every model must beat.
+\figmaybe[\textwidth]{curves_t1_t2.pdf}
+Against the no-restoration baseline the universal autoencoder helps most where the damage is largest. For salt-and-pepper noise PSNR rises from 20.1, 15.9 and 13.1\,dB (low, medium, high severity) to 25.3, 25.2 and 25.1\,dB, and for occlusion from 16.7, 13.3 and 10.8\,dB to 23.1, 21.6 and 19.8\,dB.
+Its output quality is almost independent of the input condition (about 25\,dB for clean, salt-and-pepper and mildly blurred images). This shows that the quality is limited by the reconstruction ceiling of the bottleneck and not by the corruption: even a \emph{clean} image comes back at only 25.3\,dB (SSIM 0.82).
+Consequently the model does not beat the input where the input is already close to the target: clean images (60\,dB for the identity mapping), low and medium blur (32.3 and 26.8\,dB for the input against 25.4 and 25.3\,dB) and, in SSIM, low occlusion (0.862 against 0.771).
+Only for high blur do the two meet in PSNR (24.4 against 24.2\,dB), and there the autoencoder is better in SSIM (0.740 against 0.692). This is the price of a strict bottleneck without skip connections: the model removes noise and fills in occlusions, but it cannot reproduce fine detail.
+
+\begin{figure*}[t]
+\centering
+\figmaybe[0.82\textwidth]{examples_t1.png}
+\caption{Twelve test examples (clean target, corrupted input, Task~1 reconstruction, absolute error map) covering every corruption and severity, plus extra high-severity cases.}
+\label{fig:t1_examples}
+\end{figure*}
+\begin{figure}[t]
+\centering
+\figmaybe{failures_t1.png}
+\caption{Task~1 failure cases: for each corruption the test entry with the lowest PSNR gain over the input, and the worst remaining entry.}
+\label{fig:t1_failures}
+\end{figure}
+The failure cases in Fig.~\ref{fig:t1_failures} show two different problems. First, the colour is not reproduced faithfully: the pink background of the salt-and-pepper example comes out beige and the purple background of the blur example blue-grey, so the PSNR (15.8\,dB) is much lower than that of the input (20.8 and 37.0\,dB). The strict bottleneck keeps the shape of the animal but not the exact colour of large uniform regions, and these regions dominate the pixel error.
+Second, in the two occlusion examples the animal sits on a black background, so a black rectangle is almost invisible and the input is already close to the target (58.2 and 48.9\,dB). The autoencoder nevertheless reconstructs a brown glow in the upper right corner, so restoration makes these images much worse (13.1 and 12.6\,dB). Both effects come from the same cause: the network always reconstructs from a compressed code and cannot copy pixels that were fine.
+
+%% ------------------------------------------------------------------------------------------------
+\section{Task 2: Corruption Classification and Hard-Routed Specialists}
+\subsection{Classifier}
+The classifier has four blocks of a stride-1 and a stride-2 $3\times3$ convolution (batch normalisation, ReLU), global average pooling, dropout and a linear layer with four outputs. Its labels come from the run-time corruption pipeline, and every training batch is exactly balanced
+(equal numbers of clean, salt-and-pepper, blur and occlusion samples), so the classifier cannot favour one class. It is trained with cross-entropy and AdamW. The Optuna study searches the learning rate, batch size, channel configuration
+(small, medium, large), dropout and weight decay, and maximises validation macro-F1. The study completed 30 trials (6 ran to the end, 24 were pruned). The best trial (number 21, validation macro-F1 0.9915 after 10 epochs) used the small channel configuration, learning rate $3.7\cdot10^{-3}$, batch size 32, dropout $0.44$ and weight decay $9.5\cdot10^{-5}$;
+the dropout lies near the upper end of the searched range ($0.5$). The final model, trained for 60 epochs, reached a validation macro-F1 of 0.9956.
+
+\subsection{Specialists and hard routing}
+Three specialist autoencoders share one architecture but are trained independently, each only on its own corruption and with the same clean targets. To keep the cost feasible the architecture is chosen by one shared Optuna search on the three corruptions
+(clean images excluded) with the same space and objective as Task~1; the three specialists are then trained from scratch with that configuration. At inference the classifier's arg-max selects the specialist, and a clean prediction uses an identity bypass
+(no expert is called).
+
+\subsection{Evaluation modes}
+\emph{Oracle routing} selects the expert from the true label in the test manifest and measures the specialists in isolation. \emph{Predicted routing} uses the classifier and measures the operational system. The difference between the two is the cost of classifier errors.
+
+\subsection{Results}
+Test accuracy of the classifier is \gen{classifier_summary} (Table~\ref{tab:cls}, Fig.~\ref{fig:confusion}); \gen{misrouted} of the test entries were misrouted.
+\begin{table}[t]
+\caption{Task~2 classifier on the test manifest (per class, macro average).}
+\label{tab:cls}
+\centering\small
+\gen{classifier_metrics}
+\end{table}
+\begin{table}[t]
+\caption{Classifier accuracy by corruption and severity (\%).}
+\label{tab:cls_cond}
+\centering\small
+\gen{classifier_by_condition}
+\end{table}
+\begin{figure}[t]
+\centering
+\figmaybe[0.8\columnwidth]{confusion_matrix.png}
+\caption{Row-normalised confusion matrix of the four-class classifier on the test manifest.}
+\label{fig:confusion}
+\end{figure}
+Corruption type is recognised almost perfectly: all salt-and-pepper and blur entries are classified correctly at every severity. The remaining errors are between clean and occlusion. Clean images have the lowest precision (0.984) because some occluded images are taken for clean ones, and occlusion has the lowest recall (0.994); the only severity below 99.6\,\% is low occlusion (98.3\,\%), where a single small rectangle is easy to miss, particularly on a dark background.
+
+\begin{figure}[t]
+\centering
+\figmaybe{failures_t2_misrouting.png}
+\caption{Misrouting cases: the four classifier errors with the largest PSNR loss compared with oracle routing.}
+\label{fig:misroute}
+\end{figure}
+With oracle routing the specialists are better than the universal autoencoder in every corrupted condition, by 0.8 to 1.6\,dB PSNR (for example 26.8 against 25.3\,dB for low salt-and-pepper noise and 25.8 against 24.2\,dB for high blur) and by about 0.01 to 0.04 SSIM,
+which supports the idea that three narrower problems are easier than one broad one. They share the limitation of the bottleneck: for low and medium blur they remain below the uncorrected input (26.4 and 26.6\,dB against 32.3 and 26.8\,dB).
+Predicted routing is practically as good as oracle routing. For all nine corrupted conditions the two PSNR values agree to within 0.01\,dB; the only visible effect of classifier errors is on clean images, where the mean PSNR falls from 60 (the cap for an exact identity) to 59.85\,dB because some clean inputs were sent through an expert.
+On this benchmark the cost of the classifier's mistakes is therefore negligible. The four misrouted examples in Fig.~\ref{fig:misroute} are all clean photographs with wide black borders (pictures that were letterboxed before the dataset was assembled). The classifier takes these borders for occlusion rectangles and sends the image to the occlusion specialist, which rebuilds it at 14.8 to 17.8\,dB instead of leaving it untouched (60\,dB). Such errors are rare, but a single one is costly because the identity bypass is lost.
+
+%% ------------------------------------------------------------------------------------------------
+\section{Task 3: Jointly Trained Soft Mixture of Experts}
+\subsection{Model}
+Let $z(\tilde{x})\in\mathbb{R}^4$ be the logits of the gate and $E_s,E_b,E_o$ the salt-and-pepper, blur and occlusion experts. With temperature $T$,
+\begin{align}
+g &= \mathrm{softmax}\bigl(z(\tilde{x})/T\bigr)=[g_0,g_s,g_b,g_o],\\
+\hat{x} &= g_0\,\tilde{x}+g_s E_s(\tilde{x})+g_b E_b(\tilde{x})+g_o E_o(\tilde{x}).
+\end{align}
+The first branch is an identity branch for clean inputs. The combination is differentiable, so gate and experts are trained through the final reconstruction error. The gate is initialised from the Task~2 classifier and the experts from the three trained Task~2 specialists; nothing starts from random weights.
+
+\subsection{Training}
+Training has two stages: a warm-up in which the experts are frozen (and kept in evaluation mode, so their batch-norm statistics do not change) and only the gate is trained, followed by joint fine-tuning of all components with a smaller learning rate. The loss is
+\begin{equation}
+\Ltwo = a\,\Ltwo_1+(1-a)\bigl(1-\mathrm{SSIM}\bigr)+\gamma\,\mathrm{CE}\!\left(\tfrac{z}{T},c\right)+\delta\,\Ltwo_{\mathrm{bal}},
+\end{equation}
+where $c$ is the true corruption class and
+\begin{equation}
+\Ltwo_{\mathrm{bal}}=\sum_{i=1}^{K}\left(\bar{g}_i-\tfrac{1}{K}\right)^2,\qquad K=4,
+\end{equation}
+with $\bar{g}_i$ the mean weight of branch $i$ over a class-balanced batch, so the target for a healthy gate is uniform usage of the four branches over the batch. The assignment's starting weights are $a=0.8$ ($\beta=0.2$ for SSIM, here $1-a$), $\gamma=0.1$ and $\delta=0.01$.
+(The assignment text gives the balance formula only in a garbled form, so we use the squared deviation from uniform usage, the simplest differentiable regulariser of this kind; Switch Transformers~\cite{fedus2022} use a related load-balancing loss.)
+Optuna tunes the joint learning rate $[10^{-5},5\cdot10^{-4}]$ (log), temperature $T\in[0.5,3]$, classification weight $\gamma\in[0.01,1]$ (log), balance weight $\delta\in[10^{-3},1]$ (log) and $a\in[0.5,0.95]$.
+A trial is pruned when its validation objective is poor, or when one branch receives a mean weight above 0.9 after the warm-up (routing collapse). All 20 trials completed and none was pruned; no trial collapsed. The best trial (number 15, validation objective 0.166) used joint learning rate $2.0\cdot10^{-4}$, temperature $T=2.18$, $\gamma=0.012$, $\delta=0.050$ and $a=0.53$; $\gamma$ and $a$ lie close to the lower edge of their ranges. The final model was trained for 40 epochs after a warm-up of 3 epochs.
+
+\subsection{Routing analysis}
+\gen{moe_gate_acc} of test entries have their largest weight on the branch that matches the true condition. Table~\ref{tab:moe_w} lists the mean routing weights per true corruption and severity and Fig.~\ref{fig:heatmap} shows them as a heat map.
+Table~\ref{tab:moe_act} checks for an inactive expert (mean weight below 0.05 over all inputs) and for an expert that dominates unrelated inputs (mean weight above 0.5 on inputs of other corruption types).
+\begin{table}[t]
+\caption{Task~3: mean routing weights on the test manifest by true corruption and severity (largest per row in bold).}
+\label{tab:moe_w}
+\centering\small
+\gen{moe_weights}
+\end{table}
+\begin{table}[t]
+\caption{Task~3: expert activity checks over all test entries.}
+\label{tab:moe_act}
+\centering\scriptsize
+\gen{moe_activity}
+\end{table}
+\begin{figure}[t]
+\centering
+\figmaybe[0.9\columnwidth]{moe_routing_heatmap.png}
+\caption{Mean routing weights by true corruption and severity.}
+\label{fig:heatmap}
+\end{figure}
+\begin{figure*}[t]
+\centering
+\begin{minipage}{0.48\textwidth}\centering\figmaybe{moe_examples_dominant.png}\end{minipage}\hfill
+\begin{minipage}{0.48\textwidth}\centering\figmaybe{moe_examples_distributed.png}\end{minipage}
+\caption{Left: inputs for which one expert dominates (lowest routing entropy). Right: inputs for which the weights are spread over several branches (highest entropy). Bars show the four routing weights.}
+\label{fig:moe_examples}
+\end{figure*}
+The gate learned a sensible division of labour. Salt-and-pepper noise goes to the salt expert at every severity (0.90 to 0.99), blur to the blur expert and occlusion to the occlusion expert, and the weight of the matching expert grows with severity (blur 0.38, 0.82, 0.95; occlusion 0.40, 0.79, 0.96). For clean images the identity branch receives 0.94. At low blur and low occlusion the identity branch gets the larger share (0.61 and 0.60), which is reasonable because these inputs are barely damaged; it also explains why the argmax matches the true condition for only 83.3\,\% of entries, since the gate is not trained to name the corruption but to restore.
+No expert is inactive (mean weights between 0.22 and 0.29) and none dominates unrelated inputs (mean weight on other types at most 0.010 for the experts; the identity branch has 0.20 on corrupted inputs because of the mild cases above). The examples in Fig.~\ref{fig:moe_examples} show both regimes: confident routing has an entropy of 0.0004\,nats, while the spread-out cases reach 1.10\,nats (maximum $\ln 4=1.39$).
+Compared with hard routing, the soft system has a lower mean $L_1$ error (0.0323 against 0.0343) and a higher SSIM in every corrupted condition (overall 0.837 against 0.811), and it is clearly better on low blur (30.4 against 26.5\,dB), where the identity branch keeps the sharp input. It is worse in PSNR on clean images (52.4 against 60\,dB, since the weight on the identity branch is 0.94 rather than 1) and on low and medium occlusion (21.3 against 24.1\,dB and 22.1 against 22.5\,dB), so its overall PSNR is lower (28.0 against 28.6\,dB). Hard routing is therefore better when the classifier is right and the cost of mixing matters, and soft routing gives smoother behaviour for mild corruptions; neither dominates.
+
+%% ------------------------------------------------------------------------------------------------
+\begin{table*}[t]
+\caption{Restoration quality on the fixed test manifest: PSNR (dB). The first column is the corrupted input without restoration. Best per row in bold (clean images give 60\,dB for an identity mapping, the cap used for identical images).}
+\label{tab:rest_psnr}
+\centering\small
+\resizebox{0.78\textwidth}{!}{\gen{restoration_psnr}}
+\end{table*}
+\begin{table*}[t]
+\caption{Restoration quality on the fixed test manifest: SSIM. Best per row in bold.}
+\label{tab:rest_ssim}
+\centering\small
+\resizebox{0.78\textwidth}{!}{\gen{restoration_ssim}}
+\end{table*}
+
+%% ------------------------------------------------------------------------------------------------
+\section{Task 4: Style-Conditioned Face-to-Sketch Generation}
+\subsection{Architecture}
+\textbf{Generator.} A U-Net with six down-sampling and six up-sampling levels ($128\to2\to128$) and skip connections. The style $s\in\{1,2,3\}$ selects a learned embedding $e_s\in\mathbb{R}^{m}$ ($m$ tuned). The embedding enters the generator in two places, so it is part of the model and not an interface label:
+it is broadcast over the image and concatenated to the input photograph, and in every decoder block it produces a per-channel scale and shift (FiLM~\cite{perez2018}) applied after instance normalisation~\cite{ulyanov2016}.
+\textbf{Discriminator.} A PatchGAN that receives the photograph, the (real or generated) sketch and the broadcast style embedding and outputs a grid of real/fake logits ($14\times14$ for $128\times128$ inputs). A unit test confirms that the style embedding receives gradients in both networks.
+
+\subsection{Objective and training}
+With photograph $x$, style $s$ and target sketch $y$, the discriminator minimises the average of the binary cross-entropy on real pairs $(x,s,y)$ and fake pairs $(x,s,G(x,s))$ (logged separately as D-real and D-fake) and the generator minimises
+\begin{equation}
+\Ltwo_G=\mathrm{BCE}\bigl(D(x,s,G(x,s)),1\bigr)+\lambda\,\lVert G(x,s)-y\rVert_1 ,
+\end{equation}
+with adversarial and reconstruction parts logged separately. Both networks use Adam ($\beta=(0.5,0.999)$). Optuna searches the generator and discriminator learning rates $[5\cdot10^{-5},10^{-3}]$ (log), batch size $\{8,16,32\}$, base channels $\{16,32,48,64\}$, dropout $[0,0.5]$,
+embedding dimension $\{8,16,32,64\}$ and $\lambda\in[10,200]$ (log), using 15 epochs per trial; the best configuration is retrained for 150 epochs. The objective is validation $L_1+(1-\mathrm{SSIM})$.
+The same first eight validation photographs are rendered every ten epochs to follow the generator's development.
+
+\subsection{Results}
+Table~\ref{tab:t4} reports $L_1$, SSIM and PSNR on the official test split per style, together with a baseline that simply converts the photograph to grayscale. Table~\ref{tab:t4_cond} checks style conditioning: every test photograph is generated with all three styles and compared with its ground-truth sketch.
+\begin{table}[t]
+\caption{Task~4 on the official FS2K test split (generator vs.\ grayscale-photo baseline, subscript $g$).}
+\label{tab:t4}
+\centering\scriptsize
+\gen{t4_metrics}
+\end{table}
+\begin{table}[t]
+\caption{Style conditioning: mean $L_1$ to the ground-truth sketch (rows: true style, columns: style given to the generator; lowest per row in bold).}
+\label{tab:t4_cond}
+\centering\small
+\gen{t4_conditioning}
+\end{table}
+\begin{figure*}[t]
+\centering
+\figmaybe[0.7\textwidth]{t4_examples_test.png}
+\caption{Test photographs generated in each of the three styles next to the ground-truth sketch of their true style.}
+\label{fig:t4_examples}
+\end{figure*}
+\begin{figure}[t]
+\centering
+\figmaybe[0.85\columnwidth]{t4_failures_test.png}
+\caption{Task~4 failure cases: the four test pairs with the largest $L_1$ error.}
+\label{fig:t4_fail}
+\end{figure}
+On the 1,046 test pairs the generator reaches an $L_1$ error of 0.106, an SSIM of 0.481 and a PSNR of 15.6\,dB, against 0.410, 0.268 and 6.8\,dB for the grayscale photograph without any generator. Style~2 is the hardest (12.4\,dB, SSIM 0.398), which fits the visual impression: its targets have heavy dark strokes and dense hatching that cannot be matched pixel by pixel. Style~1 (thin lines) and style~3 reach 17.4 and 18.7\,dB, but style~3 has only 46 test images, so its numbers are uncertain.
+The style condition is used. In Table~\ref{tab:t4_cond} the lowest error in every row is on the diagonal, that is, each style is closest to its own target when the matching style is given (for example 0.080 against 0.120 and 0.120 for style~1). In Fig.~\ref{fig:t4_examples} the three columns differ clearly: style~1 gives thin light lines, style~2 heavy dark strokes with shaded hair and clothes, and style~3 an intermediate look with a grey background tone.
+The failure cases show the limits of the model. Face outlines and eyes are placed correctly, but hair is rendered as a smooth mass or as short scribbles rather than the long strokes of the artist, and the contrast is lower than in the targets. This is what one expects from an objective dominated by $L_1$ with only 899 training pairs: the generator averages over plausible strokes, and the adversarial term is too weak to sharpen them fully.
+
+\begin{figure*}[t]
+\centering
+\figmaybe[0.95\textwidth]{curves_t3_t4.pdf}
+\caption{Left: Task~3 validation PSNR (dashed line: start of joint fine-tuning). Middle: gate accuracy and the largest mean routing weight (collapse indicator). Right: Task~4 training losses (D-real, D-fake, G-adversarial, G-reconstruction).}
+\label{fig:curves34}
+\end{figure*}
+
+%% ------------------------------------------------------------------------------------------------
+\section{Hyper-parameter Optimisation}
+Every task uses an Optuna study (SQLite storage, TPE sampler with seed 42, median pruner, resumable) whose trials, parameters and intermediate values are also logged to MLflow. Table~\ref{tab:optuna} summarises the studies and lists the selected parameters.
+\begin{table}[t]
+\caption{Optuna studies: number of trials and best objective value (validation $L_1+(1-\mathrm{SSIM})$ for the autoencoders and the GAN, macro-F1 for the classifier; lower is better except for the classifier).}
+\label{tab:optuna}
+\centering\small
+\gen{optuna_summary}
+\end{table}
+\begin{itemize}\footnotesize
+\IfFileExists{generated/optuna_best.tex}{\input{generated/optuna_best.tex}}{\item \textbf{[pending: Optuna results]}}
+\end{itemize}
+
+%% ------------------------------------------------------------------------------------------------
+\section{Application and Deployment}
+\subsection{Design}
+The interface was designed in Google Stitch~\cite{stitch} before it was implemented (project: \url{https://stitch.withgoogle.com/projects/10012210425231381214}). The first generation (Fig.~\ref{fig:stitch1}) already fixed the layout (sidebar with four workspaces, controls card, input / output panels, metric cards), but it
+contained details the system does not have (hardware names, network architectures, extra sketch controls, scores). We therefore wrote a design system (\texttt{design/DESIGN.md}: palette, typography, spacing, components, motion and strict rules about which data may be shown) and generated a refined design from it
+(Fig.~\ref{fig:stitch2}). The React and Tailwind implementation follows the second design and shows only quantities the application really computes.
+\begin{figure}[t]
+\centering
+\figmaybe{stitch_v1_universal.png}
+\caption{Original Stitch design (first generation), Universal Restoration screen.}
+\label{fig:stitch1}
+\end{figure}
+\begin{figure*}[t]
+\centering
+\begin{minipage}{0.24\textwidth}\centering\figmaybe{stitch_v2_universal.png}\end{minipage}\hfill
+\begin{minipage}{0.24\textwidth}\centering\figmaybe{stitch_v2_hard.png}\end{minipage}\hfill
+\begin{minipage}{0.24\textwidth}\centering\figmaybe{stitch_v2_soft.png}\end{minipage}\hfill
+\begin{minipage}{0.24\textwidth}\centering\figmaybe{stitch_v2_sketch.png}\end{minipage}
+\caption{Refined Stitch design: Universal Restoration, Hard-Routed Restoration, Soft Mixture-of-Experts and Face-to-Sketch Generator.}
+\label{fig:stitch2}
+\end{figure*}
+
+\subsection{Architecture}
+The frontend (React, Tailwind CSS, served by nginx) talks to a FastAPI backend that exposes \texttt{GET /api/health}, \texttt{POST /api/universal}, \texttt{/api/hard}, \texttt{/api/soft} and \texttt{/api/sketch}. The backend validates every upload (content type, size, pixel count, decodability, minimum size),
+resizes it to $128\times128$, optionally applies a chosen corruption (type, severity or custom parameters, seed) using exactly the corruption code that was used for training, runs the ONNX models with ONNX Runtime on the CPU and returns the images together with the corruption settings,
+inference time, PSNR and SSIM against the clean reference, and the classifier probabilities or routing weights (and their entropy). Already corrupted images can be uploaded and restored as they are. A difference map, a before/after slider and JSON export of the metrics are available.
+\begin{figure}[t]
+\centering
+\figmaybe[\columnwidth]{app_screenshots.png}
+\caption{The running application with the trained ONNX models (screenshots from the Docker deployment): universal restoration of a blurred image, hard routing of a salt-and-pepper image (classifier probabilities and selected expert), soft mixture of experts on an occluded image (routing weights), and the face-to-sketch generator in style~2.}
+\label{fig:app}
+\end{figure}
+
+\subsection{ONNX export and verification}
+All inference models (universal autoencoder, classifier with softmax, the three specialists, the complete soft mixture as one graph returning the image and the four weights, and only the generator of Task~4) are exported with opset 17 and a dynamic batch axis. Each exported model is run with ONNX Runtime and compared with PyTorch on several inputs and two batch sizes;
+the export command fails if the maximum absolute difference exceeds $10^{-4}$ (Table~\ref{tab:onnx}).
+\begin{table}[t]
+\caption{ONNX export verification (ONNX Runtime vs.\ PyTorch).}
+\label{tab:onnx}
+\centering\scriptsize
+\resizebox{\columnwidth}{!}{\gen{onnx}}
+\end{table}
+
+\subsection{Containers, tracking and reproducibility}
+\texttt{docker compose up --build} builds a backend image (Python, ONNX Runtime, no PyTorch) and a frontend image (multi-stage Node build served by nginx, which also proxies \texttt{/api}); the trained models are mounted from \texttt{./models}. The Compose setup was verified from a fresh clone on Windows with Docker Engine running in WSL~2.
+All runs were logged to MLflow (parameters, losses, metrics, checkpoints and sample images). The repository contains 59 Python tests and 33 frontend tests covering the corruption pipeline, models, training loops, Optuna objectives, evaluation, ONNX export, the API and the user interface.
+Trained model files are larger than GitHub's file limit and are distributed as downloadable assets (\texttt{scripts/download\_models.sh}).
+
+%% ------------------------------------------------------------------------------------------------
+\section{Limitations}
+The hyper-parameter searches are small (tens of trials of a few epochs) because of the time available, so the selected configurations are good rather than optimal; for the Task~4 search the best trial lay at the upper end of the allowed range for $\lambda$.
+All models work at $128\times128$. The strict bottleneck of the restoration autoencoders limits reconstruction detail, so for mild corruptions the corrupted input itself can be closer to the clean image than the restored one (see the baseline column in Tables~\ref{tab:rest_psnr}--\ref{tab:rest_ssim}).
+Training corruptions place occlusion rectangles independently, whereas the test manifest avoids overlap. The mixture of experts handles combined corruptions only to the extent its gate generalises; we did not construct a benchmark of images with several simultaneous corruptions.
+The sketch generator is trained on 899 pairs with an $L_1$-dominated objective and the style-3 test set has only 46 images, so per-style numbers must be read with care. No skip-connection ablation and no repeated runs with different seeds were performed, so no confidence intervals are given.
+
+\section{Conclusion}
+Specialisation helped. Three specialist autoencoders chosen by a classifier that is right in 99.8\,\% of cases beat the single universal autoencoder in every corrupted condition by 0.8 to 1.6\,dB, and the cost of the classifier's rare mistakes was negligible except for clean images with black borders, which it mistook for occlusion. The jointly trained soft mixture learned a clear division of labour without any expert becoming inactive or dominant, gave the best SSIM and the best result for low blur, and kept mild corruptions close to the input, but it lost PSNR on clean images and on occlusion. For salt-and-pepper noise all three restorers clearly improved the input; for blur and for mild occlusion the strict bottleneck often removes more detail than the corruption does, so doing nothing, or the identity branch of the mixture, can be better.
+The style-conditioned GAN follows its style input (the matching style has the lowest error in every case) and clearly beats a grayscale baseline, but it produces smoother and lighter strokes than the artists, especially for hair, and the style-3 result rests on only 46 test images.
+The application brings the four models together in one interface that starts from a single \texttt{docker compose} command. The main limits are the single training run per model without confidence intervals, hyper-parameters that sit at the edge of some searched ranges, and the missing comparison with a network with skip connections, which would show how much of the loss comes from the strict bottleneck.
+
+%% ------------------------------------------------------------------------------------------------
+\appendices
+\section{Use of AI tools}
+\begin{itemize}
+\item \textbf{Claude Code (Anthropic, \cite{claudecode})} was used throughout as a coding assistant: to write and refactor the data pipeline, models, training and evaluation scripts, Optuna studies, ONNX export, the FastAPI backend, the React frontend, the Dockerfiles, the tests, the report skeleton and the figure and table generation scripts; and to discuss design decisions (for example the convolutional bottleneck, the balance regulariser, the FiLM conditioning).
+\item \textbf{Google Stitch~\cite{stitch}} generated the interface mock-ups from prompts and a design-system file written for the project; the generated designs were corrected by hand where they contained invented content.
+\end{itemize}
+\textbf{How the outputs were tested and corrected.} Generated code was run, not trusted: the repository has 69 Python and 33 frontend tests, including tests that compare the batched GPU blur with OpenCV, check that decoding the code reproduces the autoencoder output (no skip path), verify that experts are frozen during warm-up, check that the augmentation transforms photograph and sketch identically, compare ONNX with PyTorch outputs, and check that the backend SSIM equals the library definition used in training.
+Several failures found this way were fixed (for example a wrongly ignored \texttt{src/data} folder that broke the cloud runs, a metric key naming slip in the routing analysis, and layout problems found by driving the application in a real browser), and a mutation check confirmed that the frontend tests fail when the code is deliberately broken.
+Training was run by the author on Kaggle GPUs, and every result in this report is read from the files written by the evaluation scripts. The student remains responsible for the submitted system. 
+
+\textbf{My own contribution.} I set the scope and made the main decisions (for example choosing Kaggle instead of a shared company server, the design brief for Stitch, the Docker setup), ran every training and Optuna job on Kaggle, downloaded and checked the results, reviewed the generated code and the interface in the browser, and wrote the interpretation of the results from the tables and figures. Every number in this report comes from the evaluation outputs in the repository.
+
+\section{Reproducing the results}
+\begin{enumerate}\footnotesize
+\item \texttt{bash scripts/run\_t1\_t2.sh} (Task~1 search and training, classifier, specialists), \texttt{bash scripts/run\_t3.sh}, \texttt{bash scripts/run\_t4.sh}.
+\item \texttt{python -m src.eval.evaluate ...} and \texttt{python -m src.eval.evaluate\_t4 ...} (test-set evaluation), \texttt{python -m src.export.export\_onnx ...} (ONNX).
+\item \texttt{python scripts/make\_report\_assets.py} regenerates every table and figure of this report from the outputs.
+\item \texttt{docker compose up --build} starts the application at \url{http://localhost:8080}.
+\end{enumerate}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

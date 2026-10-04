@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colour tokens (RGB triplets) from design/DESIGN.md */
+:root {
+  --canvas: 246 247 251; --surface: 255 255 255; --subdued: 241 243 249; --stage: 234 237 246; --line: 226 232 240;
+  --ink: 15 23 42; --ink-2: 71 85 105; --ink-3: 148 163 184;
+  --primary: 79 70 229; --primary-hover: 67 56 202; --tint: 238 242 255; --on-tint: 55 48 163;
+  --emerald: 5 150 105; --emerald-tint: 209 250 229;
+  --sky: 2 132 199; --sky-tint: 224 242 254;
+  --amber: 217 119 6; --amber-tint: 254 243 199;
+  --red: 220 38 38; --red-tint: 254 226 226;
+}
+.dark {
+  --canvas: 11 15 25; --surface: 19 26 42; --subdued: 26 35 56; --stage: 15 21 36; --line: 37 48 74;
+  --ink: 241 245 249; --ink-2: 148 163 184; --ink-3: 100 116 139;
+  --primary: 99 102 241; --primary-hover: 129 140 248; --tint: 30 31 75; --on-tint: 199 210 254;
+  --emerald: 52 211 153; --emerald-tint: 11 46 36;
+  --sky: 56 189 248; --sky-tint: 11 42 61;
+  --amber: 251 191 36; --amber-tint: 51 38 10;
+  --red: 248 113 113; --red-tint: 58 18 18;
+}
+
+@layer base {
+  html { color-scheme: light; }
+  html.dark { color-scheme: dark; }
+  body { @apply bg-canvas font-sans text-ink antialiased transition-colors duration-300; }
+  h1, h2, h3, h4 { @apply font-display; }
+  :focus-visible { @apply outline-none ring-2 ring-info ring-offset-2 ring-offset-canvas; }
+}
+
+@layer components {
+  .card { @apply rounded-xl border border-line bg-surface p-6 shadow-card transition-colors duration-300; }
+  .card-tight { @apply rounded-xl border border-line bg-surface p-4 shadow-card; }
+  .well { @apply rounded-md bg-subdued p-4; }
+  .label-caps { @apply text-[11px] font-bold uppercase tracking-[0.08em] text-ink-3; }
+  .num { @apply font-mono tabular-nums; }
+  .accent-line { @apply h-[3px] w-full rounded-full bg-gradient-to-r from-brand to-violet-500; }
+
+  .btn-primary { @apply inline-flex h-11 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white shadow-glow transition duration-150 hover:-translate-y-px hover:bg-brand-hover active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none; }
+  .btn-secondary { @apply inline-flex h-10 items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 text-sm font-medium text-ink transition duration-150 hover:shadow-card disabled:opacity-50; }
+  .btn-ghost { @apply inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium text-ink-2 transition hover:text-brand; }
+
+  .chip { @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold; }
+  .pill-label { @apply inline-flex items-center gap-1.5 rounded-full bg-ink/70 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-wider text-white backdrop-blur-md; }
+
+  .skeleton { @apply animate-shimmer bg-[length:200%_100%] bg-gradient-to-r from-subdued via-stage to-subdued; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

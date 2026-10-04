@@ -1,0 +1,24 @@
+# Start everything:   docker compose up --build        then open http://localhost:8080
+# The trained ONNX files must be in ./models first (see README: scripts/download_models.sh).
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: app/backend/Dockerfile
+    environment:
+      MODELS_DIR: /models
+    volumes:
+      - ./models:/models:ro
+    ports:
+      - "8000:8000"          # optional: API docs at http://localhost:8000/docs
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: app/frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

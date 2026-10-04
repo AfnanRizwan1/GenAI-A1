@@ -1,0 +1,20 @@
+{
+  "task": "Task 4 style-conditioned face-to-sketch cGAN",
+  "selected_by": "Optuna (TPE sampler, seed 42, median pruner)",
+  "search_budget": {
+    "trials": 20,
+    "epochs_per_trial": 15,
+    "final_epochs": 150
+  },
+  "selected_hyperparameters": {
+    "lr_g": 0.0009957775487959965,
+    "lr_d": 0.0003825784542300244,
+    "batch_size": 8,
+    "base_ch": 48,
+    "dropout": 0.1291369244913847,
+    "emb_dim": 8,
+    "lam": 196.2476381884901
+  },
+  "seed": 42,
+  "source_study": "t4"
+}

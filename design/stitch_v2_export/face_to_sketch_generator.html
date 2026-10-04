@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Face-to-Sketch Generator - Restoration Studio</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#3525cd",
+            "primary-container": "#4f46e5",
+            "on-primary": "#ffffff",
+            "secondary": "#006398",
+            "surface": "#f6f7fb",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f1f3f9",
+            "surface-container": "#f0ecf9",
+            "surface-container-high": "#eae6f4",
+            "surface-variant": "#e4e1ee",
+            "outline": "#94a3b8",
+            "outline-variant": "#e2e8f0",
+            "on-surface": "#0f172a",
+            "on-surface-variant": "#475569",
+            "error": "#dc2626",
+            "error-container": "#fee2e2",
+            "on-error-container": "#991b1b",
+            "tertiary": "#059669"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          },
+          borderRadius: {
+            "24": "24px",
+            "12": "12px"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen">
+<!-- Desktop Sidebar -->
+<aside class="hidden md:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low border-r border-outline-variant/60 z-50 flex-col justify-between p-6">
+<div class="flex flex-col gap-8">
+<!-- Logo & Brand Header -->
+<div class="flex items-center gap-3 px-1 py-1">
+<div class="w-10 h-10 shrink-0 rounded-12 overflow-hidden shadow-sm flex items-center justify-center">
+<img alt="Restoration Studio Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UNq7dymF7SsPj_La2BpwAS-vC9ob2H6w44fH9cgLZf6RAeaEp6vAkzkcFwLN9k2EwykSQb4fmsSMfXiaF9c8ShWrRhkBnQU8YeGjd-gLmeRn_mQ-_UEHYf52NnOXb95Xke31hSxBQ3Cn3VkyJ3shQIeQ44Sh6LU544Qa4jojduVVRgR_DHgEA38K_nW_XlBsOyYgE_fkRlVEehCj3P7ST5n9QrErNsPBYALzmfMp58sOAei3SeBzda6dhQ"/>
+</div>
+<div class="flex flex-col">
+<span class="font-headline text-lg font-bold text-on-surface tracking-tight leading-none">Restoration Studio</span>
+<span class="font-mono text-[11px] text-on-surface-variant tracking-wider uppercase mt-1">Research Lab</span>
+</div>
+</div>
+<!-- Navigation Section -->
+<div class="flex flex-col gap-2">
+<span class="font-mono text-[11px] uppercase tracking-wider text-outline px-3 mb-1 font-semibold">Workspaces</span>
+<nav class="flex flex-col gap-1.5">
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-12 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span>Universal Restoration</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-12 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">alt_route</span>
+<span>Hard-Routed Restoration</span>
+</a>
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-12 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">layers</span>
+<span>Soft Mixture-of-Experts</span>
+</a>
+<a aria-current="page" class="flex items-center gap-3 px-3.5 py-2.5 rounded-12 bg-primary-container text-on-primary text-sm font-semibold shadow-sm transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">face</span>
+<span>Face-to-Sketch Generator</span>
+</a>
+</nav>
+</div>
+</div>
+<!-- Sidebar Footer -->
+<div class="flex flex-col gap-3 pt-4 border-t border-outline-variant/60">
+<div class="flex items-center gap-2 bg-surface-container-lowest px-3 py-2 rounded-full border border-outline-variant/50 shadow-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+<span class="font-mono text-[11px] text-on-surface truncate">Backend online · 7 models loaded</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest p-2 rounded-12 border border-outline-variant/50 shadow-sm">
+<div class="flex items-center gap-2 px-1">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">memory</span>
+<span class="font-mono text-[11px] text-on-surface font-medium">ONNX Runtime · CPU</span>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-0.5 text-on-surface-variant">
+<button class="p-1 rounded bg-surface-container-lowest text-on-surface shadow-xs transition-colors" title="Light theme">
+<span class="material-symbols-outlined text-[16px] block">light_mode</span>
+</button>
+<button class="p-1 rounded hover:text-on-surface transition-colors" title="Dark theme">
+<span class="material-symbols-outlined text-[16px] block">dark_mode</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Mobile Top Navigation Header -->
+<header class="md:hidden fixed top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-md border-b border-outline-variant/60 z-40 flex items-center justify-between px-4">
+<div class="flex items-center gap-3">
+<img alt="Restoration Studio Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UNq7dymF7SsPj_La2BpwAS-vC9ob2H6w44fH9cgLZf6RAeaEp6vAkzkcFwLN9k2EwykSQb4fmsSMfXiaF9c8ShWrRhkBnQU8YeGjd-gLmeRn_mQ-_UEHYf52NnOXb95Xke31hSxBQ3Cn3VkyJ3shQIeQ44Sh6LU544Qa4jojduVVRgR_DHgEA38K_nW_XlBsOyYgE_fkRlVEehCj3P7ST5n9QrErNsPBYALzmfMp58sOAei3SeBzda6dhQ"/>
+<span class="font-headline font-bold text-on-surface text-base">Restoration Studio</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<div class="md:pl-72 flex flex-col min-h-screen pt-16 md:pt-0">
+<main class="w-full max-w-7xl mx-auto p-6 md:p-10 flex flex-col gap-6">
+<!-- 3. Top Inline Error Banner (Red tint, alert icon, failed upload notification) -->
+<div class="w-full bg-error-container/80 border border-error/30 text-on-error-container px-4 py-3 rounded-24 flex items-center justify-between gap-4 transition-all" id="upload-error-banner">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-error/15 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px] text-error">error</span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-sm">
+<span class="font-semibold text-on-error-container">Upload failed:</span>
+<span class="text-on-error-container/90">File is larger than 10 MB</span>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-3 py-1.5 bg-white text-error font-medium text-xs rounded-12 shadow-xs hover:bg-red-50 transition-colors" onclick="document.getElementById('file-input').click()">
+            Retry
+          </button>
+<button class="p-1 rounded-full text-on-error-container/70 hover:text-on-error-container hover:bg-error/10 transition-colors" onclick="document.getElementById('upload-error-banner').classList.add('hidden')" title="Dismiss">
+<span class="material-symbols-outlined text-[18px] block">close</span>
+</button>
+</div>
+</div>
+<!-- 1. Header & Title Section with 3px indigo-to-violet gradient accent line -->
+<header class="flex flex-col gap-2 pt-2">
+<div class="flex items-center gap-2">
+<span class="font-mono text-xs font-semibold uppercase tracking-wider text-primary">WORKSPACE 04</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+<span class="font-body text-xs text-on-surface-variant font-medium">Neural Sketch Synthesis</span>
+</div>
+<h1 class="font-headline text-3xl md:text-4xl font-extrabold text-on-surface tracking-tight">Face-to-Sketch Generator</h1>
+<p class="font-body text-on-surface-variant text-base max-w-3xl">Synthesize high-fidelity pencil sketch portraits from facial photographs</p>
+<!-- 3px indigo-to-violet gradient accent line -->
+<div class="h-[3px] w-full max-w-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 rounded-full mt-2"></div>
+</header>
+<!-- Main Layout: Controls Card (384px width, 24px radius) + Results Area -->
+<div class="flex flex-col lg:flex-row items-start gap-8 mt-2">
+<!-- 4. Controls Card (fixed 384px width on desktop, 24px radius, 12px inner elements) -->
+<div class="w-full lg:w-[384px] shrink-0 bg-surface-container-lowest p-6 rounded-24 border border-outline-variant/70 shadow-sm flex flex-col gap-6">
+<!-- Drop zone -->
+<div class="flex flex-col gap-2">
+<label class="font-headline text-sm font-bold text-on-surface">Input Photo</label>
+<div class="relative group border-2 border-dashed border-outline-variant hover:border-primary/60 rounded-24 p-6 bg-surface-container-low/50 hover:bg-surface-container-low transition-all cursor-pointer text-center flex flex-col items-center justify-center" id="dropzone">
+<input accept="image/jpeg,image/png,image/webp" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="file-input" type="file"/>
+<div class="w-11 h-11 rounded-12 bg-white shadow-xs border border-outline-variant/60 flex items-center justify-center text-primary group-hover:scale-105 transition-transform mb-3">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<p class="font-body text-sm font-semibold text-on-surface">Drop portrait photo here or <span class="text-primary underline">browse</span></p>
+<p class="font-body text-xs text-on-surface-variant mt-1.5">JPEG, PNG, WebP up to 10 MB. Resized to 128 × 128</p>
+</div>
+</div>
+<!-- Use Webcam Button -->
+<div class="flex flex-col gap-2">
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-12 bg-surface-container-low hover:bg-surface-container text-on-surface font-body text-sm font-medium border border-outline-variant/50 transition-colors" id="webcam-toggle-btn">
+<span class="material-symbols-outlined text-[18px] text-primary">photo_camera</span>
+<span>Use webcam</span>
+</button>
+<!-- Live Webcam Preview Container (Collapsible) -->
+<div class="hidden flex flex-col gap-3 p-3 bg-surface-container-low rounded-12 border border-outline-variant/60 mt-1" id="camera-modal-view">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-mono text-xs text-on-surface font-medium">Camera Feed Ready</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1" id="close-cam-btn" title="Close camera">
+<span class="material-symbols-outlined text-[16px] block">close</span>
+</button>
+</div>
+<div class="relative w-full aspect-video bg-neutral-900 rounded-12 overflow-hidden flex items-center justify-center">
+<div class="text-neutral-400 flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[28px]">videocam</span>
+<span class="font-mono text-[11px]">Align face in frame</span>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-12 bg-primary text-on-primary text-xs font-semibold hover:bg-primary-container transition-all" id="capture-photo-btn">
+<span class="material-symbols-outlined text-[16px]">camera</span>
+<span>Capture photo</span>
+</button>
+</div>
+</div>
+<!-- Quick Presets: 4 portrait photos (including Image 19) -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-headline text-xs font-bold uppercase tracking-wider text-outline">Quick presets</span>
+<span class="font-mono text-[11px] text-on-surface-variant">4 samples</span>
+</div>
+<div class="grid grid-cols-4 gap-2">
+<button class="sample-preset-btn relative aspect-square rounded-12 overflow-hidden ring-2 ring-primary transition-all hover:scale-105" data-preset="1">
+<img alt="Preset 1 portrait woman" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8lxkFiBvodtq25FsBxaElS92RlFaAojVGeczUEgrBWwM0pLDOA9ucv5bEvXr_QUnMuBSfaAsatV44vcWg3L2LS6K1XoWoTGbUoUR19XnUNyPkwlHRy5H4ccHXVWs70zitInTLKjpojM835jhDiQjYdCeXTomTNmIM-X1GJnklvFRAZQLDZXDNQVpNUcFM2A1HdaYieGL7qUOsIe9U118aMH0QTc11mICRa-eJ5koYruh-4sKRmkh1tw"/>
+</button>
+<button class="sample-preset-btn relative aspect-square rounded-12 overflow-hidden ring-1 ring-outline-variant/70 hover:ring-2 hover:ring-primary transition-all hover:scale-105" data-preset="2">
+<img alt="Preset 2 portrait senior man" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvaEF0MKU3tHuQGwPV63XVLAKLgdSftXSiq8mYYoexMkH979a7YOKvzlcnCXzSS9oFYPcRvWrquM7L6egCNuWZ80um7Fz7C3eYJvxMWq_WhydLCOO5uyAbbLLjpS0SchFhdlIbD279pG3mYVQlKvgrQig6HBkGANytqkpLfRXeHMP0c4nStiLA20KLsqIgBKJkpAwgg9sMTjcuN5VEIikJON1JCXXrYBxhb-Hlc1yCcX4IjhbBWLdsfg"/>
+</button>
+<button class="sample-preset-btn relative aspect-square rounded-12 overflow-hidden ring-1 ring-outline-variant/70 hover:ring-2 hover:ring-primary transition-all hover:scale-105" data-preset="3">
+<img alt="Preset 3 portrait man" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSdIeNpRO5x5piTEbKkaXb4WhS5xxcHGJsHm1Lv8V_eKC51vcEkZ-Gj5QcV1dcrZqAPAIbCq9JznzkqVqqlAl4mSkuGSQmOfV2XthhpqMUesav2_l9UTvzy4t7vZlH45itDoweSdrGs97dKCNYh4azAbcPEuXJHL7Hyfnm-Zg6VgpHG5yERdyaOr49MgG8M-YVMQBSF7b0emeqkJ0u5SGMCWNDcEml4WmK-nYQ-FZp2qe0QjDF973d2Q"/>
+</button>
+<button class="sample-preset-btn relative aspect-square rounded-12 overflow-hidden ring-1 ring-outline-variant/70 hover:ring-2 hover:ring-primary transition-all hover:scale-105" data-preset="4">
+<img alt="Preset 4 portrait woman" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgwACz0zA-TQ566JfWDRWOCAma2PRyaKVZBjfB496YzRBeU02Ro4poFbFTPzmza4BxR354zqmq_fqyGRuwJNPKklnjiMUcLBaIad-AqK0dzFnBgtnGyeR1xsRQnoMbnvCf1tzLzGXuGXY3Lyz-B0a5Bn1m9bDJESFw4Xh4wJATj4TMLoM4cXFsAy9gbfu-sEZF2Y_zk1cBIx4ECDrydFgk3JW7g5eVUkphU1Z4vJDd5Euw01XFrJ9G7A"/>
+</button>
+</div>
+</div>
+<!-- Selector with EXACTLY three options: Style 1, Style 2, Style 3 (strictly no sliders, no shading intensity) -->
+<div class="flex flex-col gap-2">
+<span class="font-headline text-xs font-bold uppercase tracking-wider text-outline">Synthesis Style</span>
+<div class="flex flex-col gap-2">
+<!-- Style 1 -->
+<label class="style-choice flex items-center justify-between p-2.5 rounded-12 border-2 border-primary bg-primary/5 cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg overflow-hidden bg-neutral-100 shrink-0 border border-outline-variant">
+<img alt="Style 1 thumbnail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4lltusmA-_zDcGA5CAl-yOwFxdp0QCJZfgFsZtP4GfBTRvuObYtKqE8mf6nFKuoQ0Hb7CjB4QhtZisvW57HJ5TJkq2PxekxgDJ2EBV_8B8OW_koKgBxuvEDvhRcX36V_ZWd9QaWILAC3LLAIIzBSwsRUjTkDuQUNWXJF4bmoUJiZiNcyYm5kIcNZwmVtRDzOJhUomv9kJtkqdJmmCdU_2NNktAeeZpvmg5rX4vBKk7rppTW1A7MwlDA"/>
+</div>
+<div class="flex flex-col">
+<span class="font-body text-sm font-semibold text-on-surface">Style 1</span>
+<span class="font-mono text-[10px] text-on-surface-variant">Fine pencil strokes</span>
+</div>
+</div>
+<input checked="" class="text-primary focus:ring-primary h-4 w-4" name="sketch-style" type="radio" value="Style 1"/>
+</label>
+<!-- Style 2 -->
+<label class="style-choice flex items-center justify-between p-2.5 rounded-12 border border-outline-variant bg-surface-container-low/40 hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg overflow-hidden bg-neutral-800 shrink-0 border border-outline-variant">
+<div class="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[16px]">brush</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body text-sm font-semibold text-on-surface">Style 2</span>
+<span class="font-mono text-[10px] text-on-surface-variant">Soft charcoal blend</span>
+</div>
+</div>
+<input class="text-primary focus:ring-primary h-4 w-4" name="sketch-style" type="radio" value="Style 2"/>
+</label>
+<!-- Style 3 -->
+<label class="style-choice flex items-center justify-between p-2.5 rounded-12 border border-outline-variant bg-surface-container-low/40 hover:bg-surface-container-low cursor-pointer transition-all">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg overflow-hidden bg-white shrink-0 border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] text-neutral-800">draw</span>
+</div>
+<div class="flex flex-col">
+<span class="font-body text-sm font-semibold text-on-surface">Style 3</span>
+<span class="font-mono text-[10px] text-on-surface-variant">Contour ink outline</span>
+</div>
+</div>
+<input class="text-primary focus:ring-primary h-4 w-4" name="sketch-style" type="radio" value="Style 3"/>
+</label>
+</div>
+</div>
+<!-- Primary button: "Generate sketch" (filled indigo with subtle glow) -->
+<button class="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-12 bg-indigo-600 hover:bg-indigo-700 text-white font-body text-sm font-semibold shadow-[0_4px_16px_rgba(79,70,229,0.35)] transition-all hover:shadow-[0_6px_20px_rgba(79,70,229,0.45)] active:scale-[0.99]" id="generate-btn">
+<span class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" id="gen-btn-spinner"></span>
+<span class="material-symbols-outlined text-[20px]" id="gen-btn-icon">draw</span>
+<span id="gen-btn-text">Generate sketch</span>
+</button>
+</div>
+<!-- 5. Results Area: Two large equal panels side by side + Details bar + Action buttons -->
+<div class="flex-1 w-full flex flex-col gap-6">
+<!-- Two Large Equal Panels Side by Side -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Panel 1: Original photo panel (Image 19, frosted label "ORIGINAL PHOTO", mono caption "128 × 128 RGB") -->
+<div class="bg-surface-container-lowest p-5 rounded-24 border border-outline-variant/70 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-headline text-sm font-bold text-on-surface">Input Portrait</span>
+<span class="font-mono text-xs text-on-surface-variant">128 × 128 RGB</span>
+</div>
+<!-- Image view container -->
+<div class="relative w-full aspect-square rounded-24 overflow-hidden bg-surface-container-low flex items-center justify-center border border-outline-variant/50">
+<img alt="Front-facing studio portrait photograph of a young woman with natural light, clean neutral gray background, calm neutral expression" class="w-full h-full object-cover" id="source-photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8lxkFiBvodtq25FsBxaElS92RlFaAojVGeczUEgrBWwM0pLDOA9ucv5bEvXr_QUnMuBSfaAsatV44vcWg3L2LS6K1XoWoTGbUoUR19XnUNyPkwlHRy5H4ccHXVWs70zitInTLKjpojM835jhDiQjYdCeXTomTNmIM-X1GJnklvFRAZQLDZXDNQVpNUcFM2A1HdaYieGL7qUOsIe9U118aMH0QTc11mICRa-eJ5koYruh-4sKRmkh1tw"/>
+<!-- Frosted label: ORIGINAL PHOTO -->
+<div class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/40 shadow-xs">
+<span class="font-mono text-[11px] font-semibold text-neutral-800 tracking-wider">ORIGINAL PHOTO</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-mono text-xs text-on-surface-variant">128 × 128 RGB</span>
+<span class="font-mono text-xs text-emerald-600 font-medium">Ready</span>
+</div>
+</div>
+<!-- Panel 2: Generated sketch panel (Image 20, frosted label "GENERATED SKETCH", mono caption "Style 1") -->
+<div class="bg-surface-container-lowest p-5 rounded-24 border border-outline-variant/70 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="font-headline text-sm font-bold text-on-surface">Rendered Sketch</span>
+<span class="font-mono text-xs text-primary font-medium" id="rendered-style-caption">Style 1</span>
+</div>
+<!-- Image view container -->
+<div class="relative w-full aspect-square rounded-24 overflow-hidden bg-surface-container-low flex items-center justify-center border border-outline-variant/50">
+<img alt="Fine grayscale pencil sketch portrait of a young woman corresponding to a front-facing studio portrait, delicate cross-hatching, graphite texture" class="w-full h-full object-cover" id="sketch-result" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4lltusmA-_zDcGA5CAl-yOwFxdp0QCJZfgFsZtP4GfBTRvuObYtKqE8mf6nFKuoQ0Hb7CjB4QhtZisvW57HJ5TJkq2PxekxgDJ2EBV_8B8OW_koKgBxuvEDvhRcX36V_ZWd9QaWILAC3LLAIIzBSwsRUjTkDuQUNWXJF4bmoUJiZiNcyYm5kIcNZwmVtRDzOJhUomv9kJtkqdJmmCdU_2NNktAeeZpvmg5rX4vBKk7rppTW1A7MwlDA"/>
+<!-- Frosted label: GENERATED SKETCH -->
+<div class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/40 shadow-xs">
+<span class="font-mono text-[11px] font-semibold text-indigo-900 tracking-wider">GENERATED SKETCH</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-mono text-xs text-on-surface-variant">Style 1</span>
+<span class="font-mono text-xs text-emerald-600 font-medium">Synthesized</span>
+</div>
+</div>
+</div>
+<!-- Details Bar / Card & Action Buttons -->
+<div class="bg-surface-container-lowest p-5 rounded-24 border border-outline-variant/70 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<!-- Telemetry / Details Bar -->
+<div class="flex items-center gap-6 flex-wrap">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-12 bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">brush</span>
+</div>
+<div class="flex flex-col">
+<span class="font-mono text-[11px] text-on-surface-variant uppercase tracking-wider">Selected style</span>
+<span class="font-body text-sm font-semibold text-on-surface" id="detail-selected-style">Style 1</span>
+</div>
+</div>
+<div class="h-8 w-px bg-outline-variant hidden sm:block"></div>
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-12 bg-emerald-50 text-emerald-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+</div>
+<div class="flex flex-col">
+<span class="font-mono text-[11px] text-on-surface-variant uppercase tracking-wider">Inference time</span>
+<span class="font-mono text-sm font-semibold text-on-surface">112.4 ms</span>
+</div>
+</div>
+</div>
+<!-- Action buttons: "Download sketch (PNG)", "Download sketch (SVG)" -->
+<div class="flex items-center gap-2.5 self-end sm:self-auto">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-12 bg-surface-container-low hover:bg-surface-container text-on-surface font-body text-xs font-semibold border border-outline-variant/60 transition-colors shadow-xs">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">vector_symbol</span>
+<span>Download sketch (SVG)</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-12 bg-indigo-600 hover:bg-indigo-700 text-white font-body text-xs font-semibold shadow-xs transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Download sketch (PNG)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    // Webcam Toggle
+    const webcamBtn = document.getElementById('webcam-toggle-btn');
+    const camModal = document.getElementById('camera-modal-view');
+    const closeCamBtn = document.getElementById('close-cam-btn');
+    const captureBtn = document.getElementById('capture-photo-btn');
+
+    if (webcamBtn && camModal) {
+      webcamBtn.addEventListener('click', () => {
+        camModal.classList.toggle('hidden');
+      });
+      closeCamBtn.addEventListener('click', () => {
+        camModal.classList.add('hidden');
+      });
+      captureBtn.addEventListener('click', () => {
+        camModal.classList.add('hidden');
+        triggerGenerateAnimation();
+      });
+    }
+
+    // Preset Selection
+    const presetButtons = document.querySelectorAll('.sample-preset-btn');
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        presetButtons.forEach(b => {
+          b.classList.remove('ring-2', 'ring-primary');
+          b.classList.add('ring-1', 'ring-outline-variant/70');
+        });
+        btn.classList.remove('ring-1', 'ring-outline-variant/70');
+        btn.classList.add('ring-2', 'ring-primary');
+        triggerGenerateAnimation();
+      });
+    });
+
+    // Style Radio Selection change sync
+    const styleRadios = document.querySelectorAll('input[name="sketch-style"]');
+    const styleLabels = document.querySelectorAll('.style-choice');
+    const renderedStyleCaption = document.getElementById('rendered-style-caption');
+    const detailSelectedStyle = document.getElementById('detail-selected-style');
+
+    styleRadios.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        styleLabels.forEach(lbl => {
+          lbl.classList.remove('border-2', 'border-primary', 'bg-primary/5');
+          lbl.classList.add('border', 'border-outline-variant', 'bg-surface-container-low/40');
+        });
+        const parent = radio.closest('label');
+        if (parent) {
+          parent.classList.remove('border', 'border-outline-variant', 'bg-surface-container-low/40');
+          parent.classList.add('border-2', 'border-primary', 'bg-primary/5');
+        }
+        if (renderedStyleCaption) renderedStyleCaption.textContent = e.target.value;
+        if (detailSelectedStyle) detailSelectedStyle.textContent = e.target.value;
+      });
+    });
+
+    // Primary Generation Animation Button
+    const genBtn = document.getElementById('generate-btn');
+    const genSpinner = document.getElementById('gen-btn-spinner');
+    const genIcon = document.getElementById('gen-btn-icon');
+    const genText = document.getElementById('gen-btn-text');
+
+    function triggerGenerateAnimation() {
+      if (!genBtn) return;
+      genBtn.disabled = true;
+      genSpinner.classList.remove('hidden');
+      genIcon.classList.add('hidden');
+      genText.textContent = 'Rendering...';
+
+      setTimeout(() => {
+        genBtn.disabled = false;
+        genSpinner.classList.add('hidden');
+        genIcon.classList.remove('hidden');
+        genText.textContent = 'Generate sketch';
+      }, 700);
+    }
+
+    if (genBtn) {
+      genBtn.addEventListener('click', triggerGenerateAnimation);
+    }
+  </script>
+</body></html>
