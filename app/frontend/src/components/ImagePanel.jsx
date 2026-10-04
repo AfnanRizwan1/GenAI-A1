@@ -9,11 +9,11 @@ const PILL = {
  * Square image stage with a floating frosted label, optional caption and a skeleton while loading.
  * Layout classes are passed through `className` so the panel can be staggered by the caller.
  */
-export default function ImagePanel({ title, src, label, tone = 'neutral', meta, caption, loading, placeholder = 'Nothing yet', className = '', style }) {
+export default function ImagePanel({ title, index, src, label, tone = 'neutral', meta, caption, loading, placeholder = 'Nothing yet', className = '', style }) {
   return (
     <figure className={`card-tight animate-fade-up ${className}`} style={style}>
       <figcaption className="mb-2.5 px-1">
-        <span className="block text-sm font-bold tracking-tight">{title}</span>
+        <span className="block text-sm font-bold tracking-tight">{index && <span className="mr-1 text-brand">{index}.</span>}{title}</span>
         <span className="num block h-4 text-[11px] text-ink-3">{meta ?? ''}</span>
       </figcaption>
       <div className="relative aspect-square w-full overflow-hidden rounded-md bg-stage">
