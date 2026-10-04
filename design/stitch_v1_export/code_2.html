@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-secondary-container":"#004666","surface-container-lowest":"#ffffff","on-primary":"#ffffff","surface-variant":"#d3e4fe","on-error":"#ffffff","secondary":"#006591","surface-tint":"#4d44e3","background":"#f8f9ff","tertiary-fixed-dim":"#4edea3","secondary-fixed-dim":"#89ceff","tertiary-fixed":"#6ffbbe","inverse-primary":"#c3c0ff","outline":"#777587","surface-dim":"#cbdbf5","on-tertiary-container":"#67f4b7","on-tertiary-fixed":"#002113","secondary-container":"#39b8fd","primary":"#3525cd","on-error-container":"#93000a","surface-container-low":"#eff4ff","surface-bright":"#f8f9ff","on-secondary-fixed":"#001e2f","inverse-surface":"#213145","error-container":"#ffdad6","primary-fixed-dim":"#c3c0ff","primary-fixed":"#e2dfff","on-background":"#0b1c30","secondary-fixed":"#c9e6ff","on-primary-fixed":"#0f0069","error":"#ba1a1a","surface-container":"#e5eeff","on-surface":"#0b1c30","on-primary-fixed-variant":"#3323cc","on-primary-container":"#dad7ff","surface-container-high":"#dce9ff","surface":"#f8f9ff","on-tertiary":"#ffffff","outline-variant":"#c7c4d8","on-tertiary-fixed-variant":"#005236","primary-container":"#4f46e5","on-secondary-fixed-variant":"#004c6e","tertiary-container":"#006e4b","on-surface-variant":"#464555","surface-container-highest":"#d3e4fe","tertiary":"#005338","inverse-on-surface":"#eaf1ff","on-secondary":"#ffffff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","margin-lg":"3rem","margin-sm":"1rem","space-2xs":"0.125rem","space-2xl":"3rem","gutter-lg":"2rem","space-lg":"1.5rem","space-sm":"0.5rem","space-xs":"0.25rem","space-xl":"2rem","space-md":"1rem","gutter":"1.5rem","gutter-sm":"1rem"},"fontFamily":{"body-md":["Inter"],"metric-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"metric-sm":["JetBrains Mono"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"metric-lg":["JetBrains Mono"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"]},"fontSize":{"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"metric-md":["14px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"metric-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"500"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"metric-lg":["20px",{"lineHeight":"24px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="hidden md:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex-col justify-between p-space-md"><div class="flex flex-col gap-space-lg"><div class="flex items-center gap-space-sm px-space-xs py-space-xs"><img alt="Restoration Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vkyy0iCP7j5E4aYEL88D_IeicVSAi9-RVCn2f0v4Nx31th8rgyDN_jQK0oqEtPchiB2Ks3SJMd8M9UHxY_QBpiWI8CDpoYsREbbpBJw57aogaXzc_e6-a0CQfhT5hg9g8il175eBEm8AAMuSlfK-nmzOJvrDdJRmH6aRoxPRkAA3-obVfaBnZ7ASJA3bgFepiMqGhjBKH3UtFWMjOq91P0lHc4tySjxjT92L_0nhRpX82aIDMJmCWUtGM"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Restoration Studio</span><span class="font-metric-sm text-metric-sm text-on-surface-variant tracking-wider uppercase mt-space-2xs">Gen-AI Research Lab</span></div></div><div class="px-space-xs"><span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Workspaces</span></div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="universal-restoration" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-md text-label-md">Universal Restoration</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="hard-routed-restoration" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-label-md text-label-md">Hard-Routed Restoration</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="soft-mixture-of-experts" href="#"><span class="material-symbols-outlined text-[20px]">layers</span><span class="font-label-md text-label-md">Soft Mixture-of-Experts</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all bg-primary-container text-on-primary font-label-md" data-path="face-to-sketch-generator" href="#"><span class="material-symbols-outlined text-[20px]">face</span><span class="font-label-md text-label-md">Face-to-Sketch Generator</span></a></nav></div><div class="flex flex-col gap-space-sm pt-space-md"><div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-xs rounded-full"><span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse shrink-0"></span><span class="font-metric-sm text-metric-sm text-on-surface truncate">Backend online · 7 models loaded</span></div><div class="flex items-center justify-between bg-surface-container-high p-space-xs rounded-xl"><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">memory</span><span class="font-metric-sm text-metric-sm text-on-surface">CUDA:0 (RTX 4090)</span></div><div class="flex items-center bg-surface-container rounded-lg p-space-2xs text-on-surface-variant"><span class="material-symbols-outlined text-[16px] p-space-2xs rounded bg-surface-container-lowest text-on-surface">light_mode</span><span class="material-symbols-outlined text-[16px] p-space-2xs">dark_mode</span></div></div></div></aside><div class="md:pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-0 md:left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md md:px-space-xl"><div class="flex items-center gap-space-sm"><button class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-surface-container-high text-on-surface"><span class="material-symbols-outlined">menu</span></button><div class="flex md:hidden items-center gap-space-xs"><img alt="Restoration Studio Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vkyy0iCP7j5E4aYEL88D_IeicVSAi9-RVCn2f0v4Nx31th8rgyDN_jQK0oqEtPchiB2Ks3SJMd8M9UHxY_QBpiWI8CDpoYsREbbpBJw57aogaXzc_e6-a0CQfhT5hg9g8il175eBEm8AAMuSlfK-nmzOJvrDdJRmH6aRoxPRkAA3-obVfaBnZ7ASJA3bgFepiMqGhjBKH3UtFWMjOq91P0lHc4tySjxjT92L_0nhRpX82aIDMJmCWUtGM"/><span class="font-headline-sm text-headline-sm text-on-surface">Restoration Studio</span></div><div class="hidden md:flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">terminal</span><span class="font-metric-sm text-metric-sm">Inference Engine v2.4-fp16</span></div></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full px-space-md md:px-space-xl pb-space-xl bg-surface"><div class="flex flex-col w-full">
+<!-- Toast / Error Simulation Banner -->
+<div class="mb-space-lg w-full bg-error-container text-on-error-container px-space-md py-space-sm rounded-xl flex items-center justify-between shadow-sm transition-all duration-300" id="simulated-error-banner">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-error">error</span>
+<div class="flex flex-col sm:flex-row sm:items-center gap-x-space-sm">
+<span class="font-label-md text-label-md font-semibold">Failed upload:</span>
+<span class="font-body-sm text-body-sm">File exceeds 15MB size limit or format is not supported (.raw/.tiff).</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-sm py-space-2xs bg-surface-container-lowest text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface transition-colors shadow-sm" onclick="document.getElementById('simulated-error-banner').classList.add('hidden')">
+        Retry
+      </button>
+<button class="text-on-error-container hover:opacity-75 p-space-2xs flex items-center" onclick="document.getElementById('simulated-error-banner').classList.add('hidden')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Workspace Header -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-xl">
+<div class="flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Neural Pipeline 04</span>
+<span class="inline-flex items-center gap-space-2xs px-space-sm py-space-2xs rounded-full bg-primary/10 text-primary font-label-md text-label-md font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+          Neural Pencil &amp; Charcoal Synthesis
+        </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Face-to-Sketch Generator</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+        Transform portrait photographs into high-fidelity artistic sketch renderings via dual-domain edge decoders and contextual cross-hatching diffusion.
+      </p>
+</div>
+<!-- Quick Status Stats -->
+<div class="flex items-center gap-space-md bg-surface-container-low px-space-md py-space-sm rounded-xl self-start lg:self-auto">
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">MODEL LATENCY</span>
+<span class="font-metric-md text-metric-md text-on-surface font-semibold">112.4 ms / step</span>
+</div>
+<div class="w-px h-8 bg-surface-variant"></div>
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">TEXTURE FIDELITY</span>
+<span class="font-metric-md text-metric-md text-tertiary-container font-semibold">99.2% LPIPS</span>
+</div>
+</div>
+</div>
+<!-- Main Grid Workspace -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-lg">
+<!-- Left Column: Controls & Input Card (5 cols on XL) -->
+<div class="xl:col-span-5 flex flex-col gap-space-lg">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-md flex flex-col gap-space-lg">
+<!-- Source Input Section -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Input Portrait</span>
+<span class="font-metric-sm text-metric-sm text-outline">RGB • 8-BIT</span>
+</div>
+<!-- Dropzone -->
+<div class="group relative flex flex-col items-center justify-center p-space-lg rounded-xl bg-surface-container-low hover:bg-surface-container transition-all cursor-pointer text-center" id="dropzone">
+<input accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="file-input" type="file"/>
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-primary group-hover:scale-110 transition-transform mb-space-sm shadow-sm">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface font-medium">Drag portrait here or <span class="text-primary underline">browse</span></p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">Supports PNG, JPG, WEBP up to 10MB</p>
+</div>
+<!-- Action Button: Webcam -->
+<div class="flex items-center gap-space-sm">
+<button class="flex-1 flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md font-medium" id="webcam-toggle-btn">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+<span>Use Webcam</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md" title="Clear selection">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+</button>
+</div>
+</div>
+<!-- Inline Live Camera Preview Panel (Expandable) -->
+<div class="hidden bg-surface-container-high p-space-md rounded-xl flex flex-col gap-space-sm shadow-sm animate-fadeIn" id="camera-modal-view">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs text-on-surface font-label-md text-label-md font-medium">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+              Live Camera Feed (HD 720p)
+            </div>
+<button class="text-on-surface-variant hover:text-on-surface p-space-2xs" id="close-cam-btn">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="relative w-full aspect-video bg-inverse-surface rounded-lg overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 opacity-40 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<div class="z-10 flex flex-col items-center gap-space-xs text-inverse-on-surface">
+<span class="material-symbols-outlined text-[32px] animate-pulse">videocam</span>
+<span class="font-metric-sm text-metric-sm">Optical Alignment Active • Face in Frame</span>
+</div>
+<!-- Face Tracking Guide Box Overlay -->
+<div class="absolute w-36 h-48 border-2 border-dashed border-tertiary-fixed rounded-xl pointer-events-none opacity-80 flex items-center justify-center">
+<span class="font-metric-sm text-metric-sm text-tertiary-fixed bg-inverse-surface/80 px-space-xs py-space-2xs rounded">Tracked Face</span>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md font-medium shadow-sm hover:bg-primary-container transition-all" id="capture-photo-btn">
+<span class="material-symbols-outlined text-[18px]">camera</span>
+<span>Capture Photo</span>
+</button>
+</div>
+<!-- Quick Sample Faces Picker -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Quick Test Presets</span>
+<span class="font-body-sm text-body-sm text-primary cursor-pointer hover:underline">Randomize</span>
+</div>
+<div class="grid grid-cols-4 gap-space-sm">
+<button class="sample-face-card relative rounded-lg overflow-hidden aspect-square ring-2 ring-primary transition-transform hover:scale-105" data-sample="1">
+<img class="w-full h-full object-cover" data-alt="Close-up studio portrait photograph of a young woman with sharp cheekbones, neutral expression, crisp frontal lighting, soft background gradient, hyper-detailed photography, 8k resolution" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0Mw6sN4FTFNtrzQt46yGG17r0vXPCalS0gwfavLDd823MDymb-8t1Gv8YztGChiAPexZaUNeOZ0T6xRNnMA4G8IIM-rl3ramSsHuprtBMR-rnBGIT-hJp0p8iDrYnfxJWY5Vtd9uybeCb_T4HduBq2U777909u_7hM2qhqADrwplJ4RlWXK4aZMPVuxnv_xmB6FhaZ7tnD3iUUar56SPJF82LKg_41-argpo9f5cI9gpkpe1pj3RcPA"/>
+<div class="absolute bottom-0 inset-x-0 bg-inverse-surface/60 text-inverse-on-surface text-center py-space-2xs font-metric-sm text-metric-sm backdrop-blur-sm">Anya</div>
+</button>
+<button class="sample-face-card relative rounded-lg overflow-hidden aspect-square ring-0 hover:ring-2 hover:ring-primary transition-transform hover:scale-105" data-sample="2">
+<img class="w-full h-full object-cover" data-alt="High contrast editorial portrait of an elder man with textured white beard and expressive weathered smile lines, deep shadows, cinematic rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvaEF0MKU3tHuQGwPV63XVLAKLgdSftXSiq8mYYoexMkH979a7YOKvzlcnCXzSS9oFYPcRvWrquM7L6egCNuWZ80um7Fz7C3eYJvxMWq_WhydLCOO5uyAbbLLjpS0SchFhdlIbD279pG3mYVQlKvgrQig6HBkGANytqkpLfRXeHMP0c4nStiLA20KLsqIgBKJkpAwgg9sMTjcuN5VEIikJON1JCXXrYBxhb-Hlc1yCcX4IjhbBWLdsfg"/>
+<div class="absolute bottom-0 inset-x-0 bg-inverse-surface/60 text-inverse-on-surface text-center py-space-2xs font-metric-sm text-metric-sm backdrop-blur-sm">Marcus</div>
+</button>
+<button class="sample-face-card relative rounded-lg overflow-hidden aspect-square ring-0 hover:ring-2 hover:ring-primary transition-transform hover:scale-105" data-sample="3">
+<img class="w-full h-full object-cover" data-alt="Studio portrait of an East Asian male model looking directly at the camera, clean minimal skin tones, balanced studio lighting, soft depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSdIeNpRO5x5piTEbKkaXb4WhS5xxcHGJsHm1Lv8V_eKC51vcEkZ-Gj5QcV1dcrZqAPAIbCq9JznzkqVqqlAl4mSkuGSQmOfV2XthhpqMUesav2_l9UTvzy4t7vZlH45itDoweSdrGs97dKCNYh4azAbcPEuXJHL7Hyfnm-Zg6VgpHG5yERdyaOr49MgG8M-YVMQBSF7b0emeqkJ0u5SGMCWNDcEml4WmK-nYQ-FZp2qe0QjDF973d2Q"/>
+<div class="absolute bottom-0 inset-x-0 bg-inverse-surface/60 text-inverse-on-surface text-center py-space-2xs font-metric-sm text-metric-sm backdrop-blur-sm">Kenji</div>
+</button>
+<button class="sample-face-card relative rounded-lg overflow-hidden aspect-square ring-0 hover:ring-2 hover:ring-primary transition-transform hover:scale-105" data-sample="4">
+<img class="w-full h-full object-cover" data-alt="Fashion portrait of a Black female model with coiled braided hairstyle, dramatic directional softbox lighting, warm tones, high dynamic range" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgwACz0zA-TQ566JfWDRWOCAma2PRyaKVZBjfB496YzRBeU02Ro4poFbFTPzmza4BxR354zqmq_fqyGRuwJNPKklnjiMUcLBaIad-AqK0dzFnBgtnGyeR1xsRQnoMbnvCf1tzLzGXuGXY3Lyz-B0a5Bn1m9bDJESFw4Xh4wJATj4TMLoM4cXFsAy9gbfu-sEZF2Y_zk1cBIx4ECDrydFgk3JW7g5eVUkphU1Z4vJDd5Euw01XFrJ9G7A"/>
+<div class="absolute bottom-0 inset-x-0 bg-inverse-surface/60 text-inverse-on-surface text-center py-space-2xs font-metric-sm text-metric-sm backdrop-blur-sm">Zahara</div>
+</button>
+</div>
+</div>
+<!-- Style Selector (Segmented Cards) -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">Synthesis Style</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Select stroke dynamics, texture density, and medium simulation.</p>
+<div class="flex flex-col gap-space-xs mt-space-xs">
+<!-- Style 1 -->
+<label class="style-option flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-high/60 hover:bg-surface-container-high cursor-pointer transition-all">
+<input checked="" class="mt-1 text-primary focus:ring-primary" name="sketch-style" type="radio" value="pencil"/>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Fine Pencil Sketch</span>
+<span class="px-space-xs py-space-2xs bg-primary/10 text-primary rounded font-metric-sm text-metric-sm font-semibold">Graphite 2B</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Delicate cross-hatching, fine continuous contours, realistic tonal gradients.</p>
+</div>
+</label>
+<!-- Style 2 -->
+<label class="style-option flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-all">
+<input class="mt-1 text-primary focus:ring-primary" name="sketch-style" type="radio" value="charcoal"/>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Charcoal Drama</span>
+<span class="px-space-xs py-space-2xs bg-surface-variant text-on-surface rounded font-metric-sm text-metric-sm font-semibold">Willow Black</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">High atmospheric contrast, smudged shadows, heavy expressive grain textures.</p>
+</div>
+</label>
+<!-- Style 3 -->
+<label class="style-option flex items-start gap-space-sm p-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-all">
+<input class="mt-1 text-primary focus:ring-primary" name="sketch-style" type="radio" value="ink"/>
+<div class="flex-1 flex flex-col">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Minimalist Ink Line</span>
+<span class="px-space-xs py-space-2xs bg-surface-variant text-on-surface rounded font-metric-sm text-metric-sm font-semibold">Pure Vector</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Crisp calligraphic ink strokes, high stroke abstraction, pure black and white line art.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Density / Parameter Tweaks -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface">Shading Intensity</span>
+<span class="font-metric-sm text-metric-sm text-primary font-medium" id="slider-val">74%</span>
+</div>
+<input class="w-full accent-primary h-1.5 bg-surface-variant rounded-lg cursor-pointer" max="100" min="10" oninput="document.getElementById('slider-val').textContent = this.value + '%'" type="range" value="74"/>
+</div>
+<!-- Primary Action Trigger -->
+<button class="w-full flex items-center justify-center gap-space-sm px-space-lg py-space-md rounded-xl bg-primary text-on-primary hover:bg-primary-container shadow-md font-label-md text-label-md font-semibold transition-all" id="generate-btn">
+<span class="hidden animate-spin h-4 w-4 border-2 border-on-primary border-t-transparent rounded-full" id="gen-btn-spinner"></span>
+<span class="material-symbols-outlined text-[20px]" id="gen-btn-icon">draw</span>
+<span id="gen-btn-text">Generate Sketch</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Hero Display Panels & Analytical Hub (7 cols on XL) -->
+<div class="xl:col-span-7 flex flex-col gap-space-lg">
+<!-- Split / Dual Canvas Viewport Panels -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Panel 1: Original Photo -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-md flex flex-col gap-space-sm relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Original Photo</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container font-metric-sm text-metric-sm text-on-surface-variant">512×512</span>
+<button class="p-space-2xs rounded bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" id="toggle-bbox" title="Toggle Face Landmark Bounding Box">
+<span class="material-symbols-outlined text-[16px]">crop_free</span>
+</button>
+</div>
+</div>
+<!-- Image Area with detection box -->
+<div class="relative w-full aspect-square bg-surface-container-low rounded-lg overflow-hidden flex items-center justify-center group">
+<img class="w-full h-full object-cover" data-alt="Anya front portrait photo, clean face, high-resolution photographic lighting, neutral expression, subtle skin details, white background studio photograph" id="source-photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYtxDNrYk9Bln_FBu5v-VtM76e4qkzl4wFZz78kjQlcwhXrzXTAMhebwFHVu2pcR4zxjOZpdcAKZ0USJA0U5gYMBhfR20-PcAIAiwdIAIp1xkJYaeU4mPwz10xB-bGxKHc8jGmXBYg9ZHcP7z6kuxz3ZILkqvKeNqWWaum9Twd__BlAUfMqLkPG9bhcyIP8d48boBvGzSfPFTM_9eK3e8jeJs4_62AcsbG_-uG9Bv6FZ9_8ChmVfijVw"/>
+<!-- Simulated Face Detection Overlay -->
+<div class="absolute inset-x-12 inset-y-10 border-2 border-primary-container rounded-lg pointer-events-none flex flex-col justify-between p-space-xs bg-primary/5" id="bbox-overlay">
+<div class="flex justify-between items-start">
+<span class="bg-primary text-on-primary font-metric-sm text-metric-sm px-space-xs py-space-2xs rounded">Face Conf 99.8%</span>
+<span class="material-symbols-outlined text-primary text-[14px]">center_focus_strong</span>
+</div>
+<div class="flex justify-between items-end text-primary font-metric-sm text-metric-sm">
+<span>[Yaw: -0.4°]</span>
+<span>[Roll: 0.1°]</span>
+</div>
+</div>
+<!-- Zoom floating HUD icon -->
+<div class="absolute top-space-xs right-space-xs bg-inverse-surface/70 backdrop-blur-md text-inverse-on-surface p-space-2xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">zoom_in</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-space-xs">
+<span class="font-metric-sm text-metric-sm">INPUT ENCODER: RESNET-50 BACKBONE</span>
+<span class="font-metric-sm text-metric-sm">RGB MATRIX</span>
+</div>
+</div>
+<!-- Panel 2: Generated Sketch -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-md flex flex-col gap-space-sm relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Generated Sketch</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-xs py-space-2xs rounded bg-surface-container-high text-primary font-metric-sm text-metric-sm font-semibold">Fine Pencil v2.4</span>
+<button class="p-space-2xs rounded bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" title="Zoom Texture">
+<span class="material-symbols-outlined text-[16px]">loupe</span>
+</button>
+</div>
+</div>
+<!-- Image Area: Generated Artwork -->
+<div class="relative w-full aspect-square bg-surface-container-low rounded-lg overflow-hidden flex items-center justify-center group">
+<img class="w-full h-full object-cover" data-alt="An exquisite high-fidelity graphite pencil sketch portrait of the same young woman, ultra-delicate cross-hatching strokes, detailed hair strands, realistic paper tooth texture, graphite sheen, classical fine-art anatomical drawing, museum quality" id="sketch-result" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVaClBHh2ajAy15PU1gYtIFYdj7fnNRCzJ4ciuvnlbXf1gQ1xaiebeUdyL6HnKuz0bcblw8SoPY6JKQmipAbXC2etE8dmxnVPfrANDaMYqW8CPC0Gi_1CEiXXOaKd6YbAL6JbGOj5FjHlOA3ovlwxQjfRbWZWaiHyEMaUObw8gpeSLfixCkt0K1zst-e1CDpaw5jQGhUdMnTEDnoqzkLUGEww3uXel-TWkppeAuQTtwMhdDbdE7mJDkg"/>
+<!-- Texture watermark badge -->
+<div class="absolute bottom-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-md px-space-xs py-space-2xs rounded font-metric-sm text-metric-sm text-on-surface flex items-center gap-space-2xs shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary">draw</span>
+<span>300 DPI Texture Synthesized</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-inverse-surface/70 backdrop-blur-md text-inverse-on-surface p-space-2xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">open_in_full</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant pt-space-xs">
+<span class="font-metric-sm text-metric-sm">DIFFUSION PASSES: 24 ITERATIONS</span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-semibold">CONVERGED</span>
+</div>
+</div>
+</div>
+<!-- Results & Inference Telemetry Bar -->
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-md flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- Left: Telemetry Data -->
+<div class="flex items-center gap-space-lg flex-wrap">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">INFERENCE TIME</span>
+<span class="font-metric-md text-metric-md text-on-surface font-semibold">112.4 ms</span>
+</div>
+</div>
+<div class="w-px h-8 bg-surface-variant hidden sm:block"></div>
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">DECODER ENGINE</span>
+<span class="font-metric-md text-metric-md text-on-surface font-semibold">Lightweight GAN-SD</span>
+</div>
+</div>
+<div class="w-px h-8 bg-surface-variant hidden md:block"></div>
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[18px]">high_density</span>
+</div>
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">STROKE COUNT</span>
+<span class="font-metric-md text-metric-md text-on-surface font-semibold">~14,280 lines</span>
+</div>
+</div>
+</div>
+<!-- Right: Export Buttons -->
+<div class="flex items-center gap-space-xs self-end md:self-auto">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-medium transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">tap_and_play</span>
+<span>SVG Vector</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-medium transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>High-Res PNG</span>
+</button>
+</div>
+</div>
+<!-- Friendly Empty State Helper Card (Interactive Toggle/Guidance) -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex items-center justify-between gap-space-md" id="empty-state-guide">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">info</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">No custom image captured yet?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Upload a portrait photo or use your webcam to test custom neural pencil &amp; charcoal styling in real-time.</span>
+</div>
+</div>
+<button class="px-space-md py-space-xs bg-surface-container-lowest text-primary hover:bg-surface-container font-label-md text-label-md rounded-lg whitespace-nowrap shadow-sm" onclick="document.getElementById('dropzone').scrollIntoView({behavior: 'smooth'})">
+          Upload Now
+        </button>
+</div>
+</div>
+</div>
+<script>
+    // Webcam view toggle micro-interaction
+    const webcamBtn = document.getElementById('webcam-toggle-btn');
+    const camModal = document.getElementById('camera-modal-view');
+    const closeCamBtn = document.getElementById('close-cam-btn');
+    const captureBtn = document.getElementById('capture-photo-btn');
+
+    if (webcamBtn && camModal) {
+      webcamBtn.addEventListener('click', () => {
+        camModal.classList.toggle('hidden');
+      });
+      closeCamBtn.addEventListener('click', () => {
+        camModal.classList.add('hidden');
+      });
+      captureBtn.addEventListener('click', () => {
+        camModal.classList.add('hidden');
+        // trigger generate simulation
+        triggerGeneration();
+      });
+    }
+
+    // Toggle Bounding Box
+    const bboxToggle = document.getElementById('toggle-bbox');
+    const bboxOverlay = document.getElementById('bbox-overlay');
+    if (bboxToggle && bboxOverlay) {
+      bboxToggle.addEventListener('click', () => {
+        bboxOverlay.classList.toggle('hidden');
+      });
+    }
+
+    // Preset Selection
+    const sampleFaces = document.querySelectorAll('.sample-face-card');
+    sampleFaces.forEach(card => {
+      card.addEventListener('click', () => {
+        sampleFaces.forEach(c => c.classList.remove('ring-2', 'ring-primary'));
+        card.classList.add('ring-2', 'ring-primary');
+        triggerGeneration();
+      });
+    });
+
+    // Generation Loading State micro-interaction
+    const genBtn = document.getElementById('generate-btn');
+    const genSpinner = document.getElementById('gen-btn-spinner');
+    const genIcon = document.getElementById('gen-btn-icon');
+    const genText = document.getElementById('gen-btn-text');
+
+    function triggerGeneration() {
+      if (!genBtn) return;
+      genBtn.disabled = true;
+      genSpinner.classList.remove('hidden');
+      genIcon.classList.add('hidden');
+      genText.textContent = 'Synthesizing Strokes...';
+
+      setTimeout(() => {
+        genBtn.disabled = false;
+        genSpinner.classList.add('hidden');
+        genIcon.classList.remove('hidden');
+        genText.textContent = 'Generate Sketch';
+      }, 950);
+    }
+
+    if (genBtn) {
+      genBtn.addEventListener('click', triggerGeneration);
+    }
+  </script>
+</div></main></div></body></html>
