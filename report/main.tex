@@ -19,8 +19,8 @@
 
 \title{Restoration Studio: Universal, Hard-Routed and Soft Mixture-of-Experts Image Restoration, and Style-Conditioned Face-to-Sketch Generation}
 
-\author{\IEEEauthorblockN{Afnan Rizwan}
-\IEEEauthorblockA{Generative AI, Assignment 1\\
+\author{\IEEEauthorblockN{Afnan Rizwan (23I-0561)}
+\IEEEauthorblockA{National University of Computer and Emerging Sciences (FAST), Generative AI, Assignment 1\\
 Repository: \url{https://github.com/AfnanRizwan1/GenAI-A1}\\
 Demonstration video: \todo{insert the YouTube link}}}
 
@@ -413,9 +413,11 @@ The application brings the four models together in one interface that starts fro
 \item \textbf{Claude Code (Anthropic, \cite{claudecode})} was used throughout as a coding assistant: to write and refactor the data pipeline, models, training and evaluation scripts, Optuna studies, ONNX export, the FastAPI backend, the React frontend, the Dockerfiles, the tests, the report skeleton and the figure and table generation scripts; and to discuss design decisions (for example the convolutional bottleneck, the balance regulariser, the FiLM conditioning).
 \item \textbf{Google Stitch~\cite{stitch}} generated the interface mock-ups from prompts and a design-system file written for the project; the generated designs were corrected by hand where they contained invented content.
 \end{itemize}
-\textbf{How the outputs were tested and corrected.} Generated code was run, not trusted: the repository has 59 Python and 33 frontend tests, including tests that compare the batched GPU blur with OpenCV, check that decoding the code reproduces the autoencoder output (no skip path), verify that experts are frozen during warm-up, check that the augmentation transforms photograph and sketch identically, compare ONNX with PyTorch outputs, and check that the backend SSIM equals the library definition used in training.
+\textbf{How the outputs were tested and corrected.} Generated code was run, not trusted: the repository has 69 Python and 33 frontend tests, including tests that compare the batched GPU blur with OpenCV, check that decoding the code reproduces the autoencoder output (no skip path), verify that experts are frozen during warm-up, check that the augmentation transforms photograph and sketch identically, compare ONNX with PyTorch outputs, and check that the backend SSIM equals the library definition used in training.
 Several failures found this way were fixed (for example a wrongly ignored \texttt{src/data} folder that broke the cloud runs, a metric key naming slip in the routing analysis, and layout problems found by driving the application in a real browser), and a mutation check confirmed that the frontend tests fail when the code is deliberately broken.
-Training was run by the author on Kaggle GPUs, and every result in this report is read from the files written by the evaluation scripts. The student remains responsible for the submitted system. \todo{review and edit this appendix so it describes your own contribution accurately}
+Training was run by the author on Kaggle GPUs, and every result in this report is read from the files written by the evaluation scripts. The student remains responsible for the submitted system. 
+
+\textbf{My own contribution.} I set the scope and made the main decisions (for example choosing Kaggle instead of a shared company server, the design brief for Stitch, the Docker setup), ran every training and Optuna job on Kaggle, downloaded and checked the results, reviewed the generated code and the interface in the browser, and wrote the interpretation of the results from the tables and figures. Every number in this report comes from the evaluation outputs in the repository.
 
 \section{Reproducing the results}
 \begin{enumerate}\footnotesize
