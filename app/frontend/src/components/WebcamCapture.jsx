@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Icon } from './Icons'
 
 /** Opens the camera, shows a live preview and returns a captured PNG File through onCapture. */
 export default function WebcamCapture({ onCapture }) {
@@ -46,17 +47,17 @@ export default function WebcamCapture({ onCapture }) {
   return (
     <div className="space-y-3">
       {!active ? (
-        <button type="button" className="btn-secondary" onClick={start}>📷 Use webcam</button>
+        <button type="button" className="btn-secondary w-full" onClick={start}><Icon name="camera" className="h-4 w-4" />Use webcam</button>
       ) : (
-        <div className="space-y-2">
-          <video ref={videoRef} autoPlay playsInline muted className="w-full max-w-sm rounded-xl bg-black" aria-label="Camera preview" />
+        <div className="space-y-3 animate-fade-up">
+          <video ref={videoRef} autoPlay playsInline muted className="w-full rounded-md bg-black" aria-label="Camera preview" />
           <div className="flex gap-2">
-            <button type="button" className="btn-primary" onClick={capture}>Capture photo</button>
+            <button type="button" className="btn-primary flex-1" onClick={capture}><Icon name="camera" className="h-4 w-4" />Capture photo</button>
             <button type="button" className="btn-secondary" onClick={stop}>Cancel</button>
           </div>
         </div>
       )}
-      {error && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+      {error && <p role="alert" className="rounded-md bg-bad-tint px-3 py-2 text-xs text-bad">{error}</p>}
     </div>
   )
 }

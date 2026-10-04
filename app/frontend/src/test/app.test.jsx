@@ -30,7 +30,7 @@ describe('App shell', () => {
     await user.click(screen.getAllByRole('link', { name: /Hard-Routed Restoration/ })[0])
     expect(await screen.findByRole('heading', { name: 'Hard-Routed Restoration' })).toBeInTheDocument()
     await user.click(screen.getAllByRole('link', { name: /Soft Mixture-of-Experts/ })[0])
-    expect(await screen.findByRole('heading', { name: 'Soft Mixture-of-Experts Restoration' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Soft Mixture-of-Experts' })).toBeInTheDocument()
     await user.click(screen.getAllByRole('link', { name: /Face-to-Sketch Generator/ })[0])
     expect(await screen.findByRole('heading', { name: 'Face-to-Sketch Generator' })).toBeInTheDocument()
   })
@@ -38,13 +38,19 @@ describe('App shell', () => {
   it('shows the backend status with the number of loaded models', async () => {
     mockGet(health(7))
     render(<App />)
-    expect(await screen.findByText('Backend online · 7/7 models loaded')).toBeInTheDocument()
+    expect(await screen.findByText('Backend online · 7 models loaded')).toBeInTheDocument()
   })
 
   it('warns when only some models are loaded', async () => {
     mockGet(health(5))
     render(<App />)
-    expect(await screen.findByText('Backend online · 5/7 models loaded')).toBeInTheDocument()
+    expect(await screen.findByText('Backend online · 5 of 7 models loaded')).toBeInTheDocument()
+  })
+
+  it('always shows the runtime chip', async () => {
+    mockGet(health(7))
+    render(<App />)
+    expect(await screen.findByText('ONNX Runtime · CPU')).toBeInTheDocument()
   })
 
   it('shows offline when the backend cannot be reached', async () => {

@@ -1,27 +1,35 @@
 import { useState } from 'react'
-import { HashRouter, NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import { HashRouter, NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Icon } from './components/Icons'
 import { useDarkMode, useHealth } from './hooks'
 import { HardPage, SoftPage, UniversalPage } from './pages/RestorationPages'
 import SketchPage from './pages/SketchPage'
 
 const NAV = [
-  { to: '/universal', label: 'Universal Restoration', hint: 'Task 1', icon: '✦' },
-  { to: '/hard', label: 'Hard-Routed Restoration', hint: 'Task 2', icon: '⑂' },
-  { to: '/soft', label: 'Soft Mixture-of-Experts', hint: 'Task 3', icon: '◍' },
-  { to: '/sketch', label: 'Face-to-Sketch Generator', hint: 'Task 4', icon: '✎' },
+  { to: '/universal', label: 'Universal Restoration', task: 'Task 1', icon: 'sliders', chip: 'Autoencoder restoration pipeline' },
+  { to: '/hard', label: 'Hard-Routed Restoration', task: 'Task 2', icon: 'branch', chip: 'Classifier-routed specialists' },
+  { to: '/soft', label: 'Soft Mixture-of-Experts', task: 'Task 3', icon: 'layers', chip: 'Jointly trained gate and experts' },
+  { to: '/sketch', label: 'Face-to-Sketch Generator', task: 'Task 4', icon: 'pencil', chip: 'Conditional GAN · 3 styles' },
 ]
 
-function StatusChip({ health }) {
-  if (!health) return <span className="text-xs text-slate-400">Checking backend…</span>
-  if (health.status !== 'ok') return <span className="flex items-center gap-2 text-xs text-red-600"><span className="h-2 w-2 rounded-full bg-red-500" />Backend offline</span>
-  const loaded = Object.values(health.models).filter((m) => m.loaded).length
-  const total = Object.keys(health.models).length
-  const ok = loaded === total
+function StatusChips({ health }) {
+  let tone = 'bg-subdued text-ink-3'
+  let dot = 'bg-ink-3'
+  let text = 'Checking backend…'
+  if (health?.status === 'down') { tone = 'bg-bad-tint text-bad'; dot = 'bg-bad'; text = 'Backend offline' }
+  else if (health?.status === 'ok') {
+    const loaded = Object.values(health.models).filter((m) => m.loaded).length
+    const total = Object.keys(health.models).length
+    const all = loaded === total
+    tone = all ? 'bg-good-tint text-good' : 'bg-warn-tint text-warn'
+    dot = all ? 'bg-good' : 'bg-warn'
+    text = all ? `Backend online · ${total} models loaded` : `Backend online · ${loaded} of ${total} models loaded`
+  }
   return (
-    <span className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300" data-testid="status">
-      <span className={`h-2 w-2 rounded-full ${ok ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-      Backend online · {loaded}/{total} models loaded
-    </span>
+    <div className="space-y-2" data-testid="status">
+      <span className={`chip w-full !justify-start ${tone}`}><span className={`h-1.5 w-1.5 rounded-full ${dot} ${health?.status === 'ok' ? 'animate-pulse-dot' : ''}`} />{text}</span>
+      <span className="chip w-full !justify-start bg-subdued font-mono !text-[11px] text-ink-2"><Icon name="cpu" className="h-3.5 w-3.5" />ONNX Runtime · CPU</span>
+    </div>
   )
 }
 
@@ -29,42 +37,56 @@ function Shell() {
   const [open, setOpen] = useState(false)
   const [dark, setDark] = useDarkMode()
   const health = useHealth()
+  const { pathname } = useLocation()
+  const current = NAV.find((n) => pathname.startsWith(n.to)) ?? NAV[0]
 
   const sidebar = (
-    <nav className="flex h-full flex-col gap-1 p-4" aria-label="Workspaces">
-      <div className="mb-6 flex items-center gap-3 px-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 text-lg font-bold text-white">R</div>
-        <div>
-          <p className="text-sm font-bold leading-tight">Restoration Studio</p>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Generative AI · Assignment 1</p>
+    <nav className="flex h-full flex-col p-5" aria-label="Workspaces">
+      <div className="mb-8 flex items-center gap-3 px-1">
+        <div className="flex h-10 w-10 items-center justify-center rounded-md bg-brand text-white shadow-glow"><Icon name="image" className="h-5 w-5" /></div>
+        <div className="min-w-0">
+          <p className="font-display text-[15px] font-extrabold leading-tight tracking-tight">Restoration Studio</p>
+          <p className="whitespace-nowrap text-[11px] text-ink-3">Generative AI · Assignment 1</p>
         </div>
       </div>
-      {NAV.map((n) => (
-        <NavLink key={n.to} to={n.to} onClick={() => setOpen(false)}
-          className={({ isActive }) => `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${
-            isActive ? 'bg-brand-50 text-brand-700 dark:bg-brand-600/20 dark:text-brand-100' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'}`}>
-          <span className="w-5 text-center text-base" aria-hidden="true">{n.icon}</span>
-          <span className="flex-1">{n.label}</span>
-          <span className="text-[10px] uppercase tracking-wide text-slate-400">{n.hint}</span>
-        </NavLink>
-      ))}
-      <div className="mt-auto space-y-3 border-t border-slate-200 pt-4 dark:border-slate-800">
-        <StatusChip health={health} />
-        <button className="btn-secondary w-full !py-1.5 text-xs" onClick={() => setDark(!dark)} aria-label="Toggle dark mode">{dark ? '☀ Light mode' : '☾ Dark mode'}</button>
+      <p className="label-caps mb-2 px-3">Workspaces</p>
+      <div className="space-y-1">
+        {NAV.map((n) => (
+          <NavLink key={n.to} to={n.to} onClick={() => setOpen(false)}
+            className={({ isActive }) => `group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold transition-colors duration-150 ${
+              isActive ? 'bg-brand text-white shadow-glow' : 'text-ink-2 hover:bg-subdued hover:text-ink'}`}>
+            {({ isActive }) => (
+              <>
+                <Icon name={n.icon} className="h-5 w-5 shrink-0" />
+                <span className="min-w-0 flex-1 leading-snug">{n.label}</span>
+                <span className={`text-[10px] font-medium uppercase tracking-wider ${isActive ? 'text-white/70' : 'text-ink-3'}`}>{n.task}</span>
+              </>
+            )}
+          </NavLink>
+        ))}
+      </div>
+      <div className="mt-auto space-y-3 border-t border-line pt-5">
+        <StatusChips health={health} />
+        <button className="btn-secondary w-full !h-9 text-xs" onClick={() => setDark(!dark)} aria-label="Toggle dark mode">
+          <Icon name={dark ? 'sun' : 'moon'} className="h-4 w-4" />{dark ? 'Light mode' : 'Dark mode'}
+        </button>
       </div>
     </nav>
   )
 
   return (
     <div className="min-h-screen lg:flex">
-      <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 lg:block">{sidebar}</aside>
-      <div className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 lg:hidden">
-        <span className="text-sm font-bold">Restoration Studio</span>
-        <button className="btn-secondary !py-1.5" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Menu">☰ Menu</button>
+      <aside className="sticky top-0 hidden h-screen w-[280px] shrink-0 border-r border-line bg-surface lg:block">{sidebar}</aside>
+      <div className="flex items-center justify-between border-b border-line bg-surface px-4 py-3 lg:hidden">
+        <span className="font-display text-sm font-extrabold tracking-tight">Restoration Studio</span>
+        <button className="btn-secondary !h-9" onClick={() => setOpen(!open)} aria-expanded={open} aria-label="Menu"><Icon name="menu" className="h-4 w-4" />Menu</button>
       </div>
-      {open && <div className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 lg:hidden">{sidebar}</div>}
-      <main className="min-w-0 flex-1 px-4 py-6 sm:px-8 lg:py-10">
-        <div className="mx-auto max-w-6xl">
+      {open && <div className="border-b border-line bg-surface lg:hidden">{sidebar}</div>}
+      <main className="min-w-0 flex-1">
+        <div className="hidden items-center border-b border-line bg-surface/70 px-10 py-4 backdrop-blur-md lg:flex">
+          <span className="chip bg-subdued font-mono !text-[11px] font-medium text-ink-2"><Icon name="sparkles" className="h-3.5 w-3.5 text-brand" />{current.chip}</span>
+        </div>
+        <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8 lg:px-10 lg:py-10">
           <Routes>
             <Route path="/" element={<Navigate to="/universal" replace />} />
             <Route path="/universal" element={<UniversalPage />} />

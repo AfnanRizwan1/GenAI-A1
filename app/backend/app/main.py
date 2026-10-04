@@ -81,6 +81,8 @@ def create_app(models_dir: Path | str | None = None, samples_dir: Path | str | N
     def response(clean, corrupted, spec, applied, restored, ms, extra):
         return {"original": imaging.to_data_url(clean) if applied else None, "input": imaging.to_data_url(corrupted),
                 "restored": imaging.to_data_url(restored), "settings": imaging.describe_spec(spec),
+                "difference": imaging.to_data_url(imaging.difference_map(restored, clean)) if applied else None,
+                "difference_full_scale": imaging.DIFF_FULL_SCALE,
                 "metrics": imaging.quality(clean, corrupted, restored) if applied else None,
                 "inference_ms": round(ms, 2), "image_size": config.IMAGE_SIZE, **extra}
 
@@ -133,6 +135,7 @@ def create_app(models_dir: Path | str | None = None, samples_dir: Path | str | N
         order = np.argsort(weights)[::-1]
         extra = {"weights": dict(zip(config.BRANCH_NAMES, weights)),
                  "dominant_branch": config.BRANCH_NAMES[int(order[0])],
+                 "routing_entropy": imaging.routing_entropy(weights),
                  "contribution_ranking": [{"branch": config.BRANCH_NAMES[int(i)], "weight": weights[int(i)]} for i in order],
                  "total_ms": round((time.perf_counter() - t0) * 1000, 2)}
         return response(clean, corrupted, spec, applied, imaging.from_nchw(y), ms, extra)

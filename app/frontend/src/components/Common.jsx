@@ -1,3 +1,5 @@
+import { Icon } from './Icons'
+
 export function Spinner({ className = 'h-4 w-4' }) {
   return (
     <svg className={`animate-spin ${className}`} viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -10,27 +12,55 @@ export function Spinner({ className = 'h-4 w-4' }) {
 export function ErrorBanner({ message, onClose }) {
   if (!message) return null
   return (
-    <div role="alert" className="flex items-start justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
-      <span><strong className="font-semibold">Something went wrong: </strong>{message}</span>
-      {onClose && <button onClick={onClose} aria-label="Dismiss error" className="shrink-0 font-bold leading-none">×</button>}
+    <div role="alert" className="flex animate-fade-up items-start gap-3 rounded-xl border border-bad/20 bg-bad-tint px-4 py-3 text-sm text-bad">
+      <Icon name="alert" className="mt-0.5 h-5 w-5 shrink-0" />
+      <span className="flex-1 text-ink"><strong className="font-semibold text-bad">Something went wrong: </strong>{message}</span>
+      {onClose && (
+        <button onClick={onClose} aria-label="Dismiss error" className="shrink-0 rounded p-0.5 text-bad hover:bg-bad/10">
+          <Icon name="x" className="h-4 w-4" />
+        </button>
+      )}
     </div>
   )
 }
 
-export function Badge({ children, tone = 'brand' }) {
-  const tones = {
-    brand: 'bg-brand-100 text-brand-700 dark:bg-brand-600/20 dark:text-brand-100',
-    gray: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200',
-    green: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200',
-  }
-  return <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${tones[tone]}`}>{children}</span>
+const TONES = {
+  brand: 'bg-brand-tint text-brand-on-tint',
+  good: 'bg-good-tint text-good',
+  info: 'bg-info-tint text-info',
+  bad: 'bg-bad-tint text-bad',
+  gray: 'bg-subdued text-ink-2',
 }
 
-export function PageHeader({ title, subtitle }) {
+export function Badge({ children, tone = 'brand', icon }) {
   return (
-    <header className="mb-6">
-      <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-      <p className="mt-1 max-w-3xl text-sm text-slate-600 dark:text-slate-400">{subtitle}</p>
+    <span className={`chip ${TONES[tone]}`}>
+      {icon && <Icon name={icon} className="h-3.5 w-3.5" />}
+      {children}
+    </span>
+  )
+}
+
+/** Eyebrow, title, one-sentence description and the gradient accent line. */
+export function PageHeader({ eyebrow, title, subtitle }) {
+  return (
+    <header className="mb-8">
+      <p className="label-caps !text-brand">{eyebrow}</p>
+      <h1 className="mt-1 text-[2rem] font-extrabold leading-tight tracking-tight sm:text-4xl">{title}</h1>
+      <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-ink-2">{subtitle}</p>
+      <div className="accent-line mt-5" />
     </header>
+  )
+}
+
+export function CardTitle({ icon, title, right }) {
+  return (
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
+      <h3 className="flex items-center gap-2 text-base font-bold tracking-tight">
+        {icon && <Icon name={icon} className="h-5 w-5 text-brand" />}
+        {title}
+      </h3>
+      {right}
+    </div>
   )
 }
