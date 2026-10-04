@@ -1,0 +1,13 @@
+.git
+data
+outputs
+mlruns
+**/node_modules
+**/dist
+**/__pycache__
+.pytest_cache
+docs
+report
+notebooks
+tests
+models/*.onnx
