@@ -1,0 +1,20 @@
+{
+  "task": "Task 2 specialist autoencoders (shared architecture search; three independent trainings)",
+  "selected_by": "Optuna (TPE sampler, seed 42, median pruner)",
+  "search_budget": {
+    "trials": 30,
+    "epochs_per_trial": 10,
+    "final_epochs": 150
+  },
+  "selected_hyperparameters": {
+    "lr": 0.0013667614251117758,
+    "batch_size": 32,
+    "base_ch": 48,
+    "dropout": 0.04376913255903388,
+    "alpha": 0.6251800358670697,
+    "bottleneck": "conv",
+    "latent_ch": 32
+  },
+  "seed": 42,
+  "source_study": "spec_shared_v2"
+}

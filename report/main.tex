@@ -34,7 +34,7 @@ specialist autoencoders, and (3) a jointly trained soft mixture of experts in wh
 to the three experts. The fourth system is (4) a style-conditioned conditional GAN that translates face photographs of the FS2K dataset into
 sketches in one of three styles. Hyper-parameters of every model are tuned with Optuna, experiments are tracked with MLflow, the
 inference models are exported to ONNX and verified against PyTorch, and the whole system runs from one \texttt{docker compose} command
-behind a React and FastAPI application whose interface was designed in Google Stitch. \todo{add the headline numbers once the final results are in}
+behind a React and FastAPI application whose interface was designed in Google Stitch. On the fixed test manifest of 36,690 corrupted images, the mean PSNR is 23.3\,dB without restoration, 24.0\,dB for the universal autoencoder, 28.6\,dB for hard routing (classifier accuracy 99.8\,\%) and 28.0\,dB for the soft mixture, which has the best SSIM (0.837); the sketch generator reaches an SSIM of 0.48 and uses its style condition on every style.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -158,7 +158,8 @@ Only for high blur do the two meet in PSNR (24.4 against 24.2\,dB), and there th
 \caption{Task~1 failure cases: for each corruption the test entry with the lowest PSNR gain over the input, and the worst remaining entry.}
 \label{fig:t1_failures}
 \end{figure}
-\todo{discuss the four failure cases in Fig.~\ref{fig:t1_failures}: what went wrong and why}
+The failure cases in Fig.~\ref{fig:t1_failures} show two different problems. First, the colour is not reproduced faithfully: the pink background of the salt-and-pepper example comes out beige and the purple background of the blur example blue-grey, so the PSNR (15.8\,dB) is much lower than that of the input (20.8 and 37.0\,dB). The strict bottleneck keeps the shape of the animal but not the exact colour of large uniform regions, and these regions dominate the pixel error.
+Second, in the two occlusion examples the animal sits on a black background, so a black rectangle is almost invisible and the input is already close to the target (58.2 and 48.9\,dB). The autoencoder nevertheless reconstructs a brown glow in the upper right corner, so restoration makes these images much worse (13.1 and 12.6\,dB). Both effects come from the same cause: the network always reconstructs from a compressed code and cannot copy pixels that were fine.
 
 %% ------------------------------------------------------------------------------------------------
 \section{Task 2: Corruption Classification and Hard-Routed Specialists}
@@ -196,7 +197,7 @@ Test accuracy of the classifier is \gen{classifier_summary} (Table~\ref{tab:cls}
 \caption{Row-normalised confusion matrix of the four-class classifier on the test manifest.}
 \label{fig:confusion}
 \end{figure}
-\todo{interpret the per-class metrics, the confusion matrix and the accuracy-by-severity table (which confusions occur and at which severity)}
+Corruption type is recognised almost perfectly: all salt-and-pepper and blur entries are classified correctly at every severity. The remaining errors are between clean and occlusion. Clean images have the lowest precision (0.984) because some occluded images are taken for clean ones, and occlusion has the lowest recall (0.994); the only severity below 99.6\,\% is low occlusion (98.3\,\%), where a single small rectangle is easy to miss, particularly on a dark background.
 
 \begin{figure}[t]
 \centering
@@ -207,7 +208,7 @@ Test accuracy of the classifier is \gen{classifier_summary} (Table~\ref{tab:cls}
 With oracle routing the specialists are better than the universal autoencoder in every corrupted condition, by 0.8 to 1.6\,dB PSNR (for example 26.8 against 25.3\,dB for low salt-and-pepper noise and 25.8 against 24.2\,dB for high blur) and by about 0.01 to 0.04 SSIM,
 which supports the idea that three narrower problems are easier than one broad one. They share the limitation of the bottleneck: for low and medium blur they remain below the uncorrected input (26.4 and 26.6\,dB against 32.3 and 26.8\,dB).
 Predicted routing is practically as good as oracle routing. For all nine corrupted conditions the two PSNR values agree to within 0.01\,dB; the only visible effect of classifier errors is on clean images, where the mean PSNR falls from 60 (the cap for an exact identity) to 59.85\,dB because some clean inputs were sent through an expert.
-On this benchmark the cost of the classifier's mistakes is therefore negligible. \todo{describe the four misrouting cases in Fig.~\ref{fig:misroute}}
+On this benchmark the cost of the classifier's mistakes is therefore negligible. The four misrouted examples in Fig.~\ref{fig:misroute} are all clean photographs with wide black borders (pictures that were letterboxed before the dataset was assembled). The classifier takes these borders for occlusion rectangles and sends the image to the occlusion specialist, which rebuilds it at 14.8 to 17.8\,dB instead of leaving it untouched (60\,dB). Such errors are rare, but a single one is costly because the identity bypass is lost.
 
 %% ------------------------------------------------------------------------------------------------
 \section{Task 3: Jointly Trained Soft Mixture of Experts}
@@ -231,7 +232,7 @@ where $c$ is the true corruption class and
 with $\bar{g}_i$ the mean weight of branch $i$ over a class-balanced batch, so the target for a healthy gate is uniform usage of the four branches over the batch. The assignment's starting weights are $a=0.8$ ($\beta=0.2$ for SSIM, here $1-a$), $\gamma=0.1$ and $\delta=0.01$.
 (The assignment text gives the balance formula only in a garbled form, so we use the squared deviation from uniform usage, the simplest differentiable regulariser of this kind; Switch Transformers~\cite{fedus2022} use a related load-balancing loss.)
 Optuna tunes the joint learning rate $[10^{-5},5\cdot10^{-4}]$ (log), temperature $T\in[0.5,3]$, classification weight $\gamma\in[0.01,1]$ (log), balance weight $\delta\in[10^{-3},1]$ (log) and $a\in[0.5,0.95]$.
-A trial is pruned when its validation objective is poor, or when one branch receives a mean weight above 0.9 after the warm-up (routing collapse). \todo{state the completed / pruned trial counts and the selected configuration}
+A trial is pruned when its validation objective is poor, or when one branch receives a mean weight above 0.9 after the warm-up (routing collapse). All 20 trials completed and none was pruned; no trial collapsed. The best trial (number 15, validation objective 0.166) used joint learning rate $2.0\cdot10^{-4}$, temperature $T=2.18$, $\gamma=0.012$, $\delta=0.050$ and $a=0.53$; $\gamma$ and $a$ lie close to the lower edge of their ranges. The final model was trained for 40 epochs after a warm-up of 3 epochs.
 
 \subsection{Routing analysis}
 \gen{moe_gate_acc} of test entries have their largest weight on the branch that matches the true condition. Table~\ref{tab:moe_w} lists the mean routing weights per true corruption and severity and Fig.~\ref{fig:heatmap} shows them as a heat map.
@@ -261,7 +262,9 @@ Table~\ref{tab:moe_act} checks for an inactive expert (mean weight below 0.05 ov
 \caption{Left: inputs for which one expert dominates (lowest routing entropy). Right: inputs for which the weights are spread over several branches (highest entropy). Bars show the four routing weights.}
 \label{fig:moe_examples}
 \end{figure*}
-\todo{interpret Tables~\ref{tab:moe_w}--\ref{tab:moe_act} and Figs.~\ref{fig:heatmap}--\ref{fig:moe_examples}: which expert handles which corruption, whether any expert is inactive or dominating, and how the soft system compares with hard routing in Tables~\ref{tab:rest_psnr}--\ref{tab:rest_ssim}}
+The gate learned a sensible division of labour. Salt-and-pepper noise goes to the salt expert at every severity (0.90 to 0.99), blur to the blur expert and occlusion to the occlusion expert, and the weight of the matching expert grows with severity (blur 0.38, 0.82, 0.95; occlusion 0.40, 0.79, 0.96). For clean images the identity branch receives 0.94. At low blur and low occlusion the identity branch gets the larger share (0.61 and 0.60), which is reasonable because these inputs are barely damaged; it also explains why the argmax matches the true condition for only 83.3\,\% of entries, since the gate is not trained to name the corruption but to restore.
+No expert is inactive (mean weights between 0.22 and 0.29) and none dominates unrelated inputs (mean weight on other types at most 0.010 for the experts; the identity branch has 0.20 on corrupted inputs because of the mild cases above). The examples in Fig.~\ref{fig:moe_examples} show both regimes: confident routing has an entropy of 0.0004\,nats, while the spread-out cases reach 1.10\,nats (maximum $\ln 4=1.39$).
+Compared with hard routing, the soft system has a lower mean $L_1$ error (0.0323 against 0.0343) and a higher SSIM in every corrupted condition (overall 0.837 against 0.811), and it is clearly better on low blur (30.4 against 26.5\,dB), where the identity branch keeps the sharp input. It is worse in PSNR on clean images (52.4 against 60\,dB, since the weight on the identity branch is 0.94 rather than 1) and on low and medium occlusion (21.3 against 24.1\,dB and 22.1 against 22.5\,dB), so its overall PSNR is lower (28.0 against 28.6\,dB). Hard routing is therefore better when the classifier is right and the cost of mixing matters, and soft routing gives smoother behaviour for mild corruptions; neither dominates.
 
 %% ------------------------------------------------------------------------------------------------
 \begin{table*}[t]
@@ -319,7 +322,9 @@ Table~\ref{tab:t4} reports $L_1$, SSIM and PSNR on the official test split per s
 \caption{Task~4 failure cases: the four test pairs with the largest $L_1$ error.}
 \label{fig:t4_fail}
 \end{figure}
-\todo{interpret Tables~\ref{tab:t4}--\ref{tab:t4_cond}, the loss curves (Fig.~\ref{fig:curves34}) and the example and failure grids; note the small style-3 test set (46 images) and the limits of an $L_1$-dominated objective on 899 training pairs}
+On the 1,046 test pairs the generator reaches an $L_1$ error of 0.106, an SSIM of 0.481 and a PSNR of 15.6\,dB, against 0.410, 0.268 and 6.8\,dB for the grayscale photograph without any generator. Style~2 is the hardest (12.4\,dB, SSIM 0.398), which fits the visual impression: its targets have heavy dark strokes and dense hatching that cannot be matched pixel by pixel. Style~1 (thin lines) and style~3 reach 17.4 and 18.7\,dB, but style~3 has only 46 test images, so its numbers are uncertain.
+The style condition is used. In Table~\ref{tab:t4_cond} the lowest error in every row is on the diagonal, that is, each style is closest to its own target when the matching style is given (for example 0.080 against 0.120 and 0.120 for style~1). In Fig.~\ref{fig:t4_examples} the three columns differ clearly: style~1 gives thin light lines, style~2 heavy dark strokes with shaded hair and clothes, and style~3 an intermediate look with a grey background tone.
+The failure cases show the limits of the model. Face outlines and eyes are placed correctly, but hair is rendered as a smooth mass or as short scribbles rather than the long strokes of the artist, and the contrast is lower than in the targets. This is what one expects from an objective dominated by $L_1$ with only 899 training pairs: the generator averages over plausible strokes, and the adversarial term is too weak to sharpen them fully.
 
 \begin{figure*}[t]
 \centering
@@ -393,7 +398,9 @@ Training corruptions place occlusion rectangles independently, whereas the test 
 The sketch generator is trained on 899 pairs with an $L_1$-dominated objective and the style-3 test set has only 46 images, so per-style numbers must be read with care. No skip-connection ablation and no repeated runs with different seeds were performed, so no confidence intervals are given.
 
 \section{Conclusion}
-\todo{write the conclusion from the final results: which restoration strategy worked best per corruption, what the routing analysis showed, how well the sketch generator uses its style condition, and what the application delivers}
+Specialisation helped. Three specialist autoencoders chosen by a classifier that is right in 99.8\,\% of cases beat the single universal autoencoder in every corrupted condition by 0.8 to 1.6\,dB, and the cost of the classifier's rare mistakes was negligible except for clean images with black borders, which it mistook for occlusion. The jointly trained soft mixture learned a clear division of labour without any expert becoming inactive or dominant, gave the best SSIM and the best result for low blur, and kept mild corruptions close to the input, but it lost PSNR on clean images and on occlusion. For salt-and-pepper noise all three restorers clearly improved the input; for blur and for mild occlusion the strict bottleneck often removes more detail than the corruption does, so doing nothing, or the identity branch of the mixture, can be better.
+The style-conditioned GAN follows its style input (the matching style has the lowest error in every case) and clearly beats a grayscale baseline, but it produces smoother and lighter strokes than the artists, especially for hair, and the style-3 result rests on only 46 test images.
+The application brings the four models together in one interface that starts from a single \texttt{docker compose} command. The main limits are the single training run per model without confidence intervals, hyper-parameters that sit at the edge of some searched ranges, and the missing comparison with a network with skip connections, which would show how much of the loss comes from the strict bottleneck.
 
 %% ------------------------------------------------------------------------------------------------
 \appendices

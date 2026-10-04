@@ -1,0 +1,16 @@
+\begin{tabular}{llrrrrr}
+\toprule
+Corruption & Level & No restoration & Universal AE & Hard (oracle) & Hard (predicted) & Soft MoE \\
+\midrule
+Clean & -- & \textbf{0.0000} & 0.0404 & \textbf{0.0000} & 0.0002 & 0.0017 \\
+Salt-and-pepper & low & \textbf{0.0150} & 0.0405 & 0.0323 & 0.0323 & 0.0294 \\
+Salt-and-pepper & medium & 0.0400 & 0.0407 & 0.0324 & 0.0324 & \textbf{0.0322} \\
+Salt-and-pepper & high & 0.0750 & 0.0414 & \textbf{0.0327} & \textbf{0.0327} & 0.0329 \\
+Gaussian blur & low & \textbf{0.0158} & 0.0401 & 0.0337 & 0.0337 & 0.0204 \\
+Gaussian blur & medium & \textbf{0.0301} & 0.0404 & 0.0333 & 0.0333 & 0.0311 \\
+Gaussian blur & high & 0.0404 & 0.0454 & 0.0363 & 0.0363 & \textbf{0.0358} \\
+Occlusion & low & 0.0444 & 0.0471 & 0.0396 & 0.0393 & \textbf{0.0351} \\
+Occlusion & medium & 0.0890 & 0.0542 & 0.0460 & 0.0460 & \textbf{0.0444} \\
+Occlusion & high & 0.1542 & 0.0658 & \textbf{0.0566} & \textbf{0.0566} & 0.0601 \\
+\bottomrule
+\end{tabular}

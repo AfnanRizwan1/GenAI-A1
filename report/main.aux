@@ -1,0 +1,132 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{vincent2008}
+\citation{wang2004}
+\citation{ronneberger2015}
+\citation{jacobs1991}
+\citation{shazeer2017}
+\citation{fedus2022}
+\citation{goodfellow2014}
+\citation{mirza2014}
+\citation{isola2017}
+\citation{perez2018}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{1}{section.2}\protected@file@percent }
+\citation{akiba2019}
+\citation{bergstra2011}
+\citation{mlflow}
+\citation{paszke2019}
+\citation{onnxruntime}
+\citation{fan2022}
+\citation{ioffe2015}
+\citation{loshchilov2019}
+\citation{smith2019}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Datasets and Data Pipeline}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Oxford-IIIT Pet (Tasks 1--3)}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Run-time corruption}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Deterministic validation and test manifests}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}FS2K (Task 4)}{2}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Task 1: Universal Multi-Corruption Denoising Autoencoder}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Architecture}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Loss, optimiser and tuning}{2}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}A first run and the bottleneck study}{3}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Results}{3}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {V}Task 2: Corruption Classification and Hard-Routed Specialists}{3}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Classifier}{3}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Specialists and hard routing}{3}{subsection.5.2}\protected@file@percent }
+\citation{fedus2022}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Task~2 classifier on the test manifest (per class, macro average).}}{4}{table.1}\protected@file@percent }
+\newlabel{tab:cls}{{I}{4}{Task~2 classifier on the test manifest (per class, macro average)}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Classifier accuracy by corruption and severity (\%).}}{4}{table.2}\protected@file@percent }
+\newlabel{tab:cls_cond}{{II}{4}{Classifier accuracy by corruption and severity (\%)}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Evaluation modes}{4}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Results}{4}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Task 3: Jointly Trained Soft Mixture of Experts}{4}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Model}{4}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Training}{4}{subsection.6.2}\protected@file@percent }
+\citation{perez2018}
+\citation{ulyanov2016}
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Task~3: mean routing weights on the test manifest by true corruption and severity (largest per row in bold).}}{5}{table.3}\protected@file@percent }
+\newlabel{tab:moe_w}{{III}{5}{Task~3: mean routing weights on the test manifest by true corruption and severity (largest per row in bold)}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IV}{\ignorespaces Task~3: expert activity checks over all test entries.}}{5}{table.4}\protected@file@percent }
+\newlabel{tab:moe_act}{{IV}{5}{Task~3: expert activity checks over all test entries}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Routing analysis}{5}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Task 4: Style-Conditioned Face-to-Sketch Generation}{5}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Architecture}{5}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Objective and training}{5}{subsection.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Results}{5}{subsection.7.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {V}{\ignorespaces Restoration quality on the fixed test manifest: PSNR (dB). The first column is the corrupted input without restoration. Best per row in bold (clean images give 60\,dB for an identity mapping, the cap used for identical images).}}{6}{table.5}\protected@file@percent }
+\newlabel{tab:rest_psnr}{{V}{6}{Restoration quality on the fixed test manifest: PSNR (dB). The first column is the corrupted input without restoration. Best per row in bold (clean images give 60\,dB for an identity mapping, the cap used for identical images)}{table.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VI}{\ignorespaces Restoration quality on the fixed test manifest: SSIM. Best per row in bold.}}{6}{table.6}\protected@file@percent }
+\newlabel{tab:rest_ssim}{{VI}{6}{Restoration quality on the fixed test manifest: SSIM. Best per row in bold}{table.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VII}{\ignorespaces Task~4 on the official FS2K test split (generator vs.\ grayscale-photo baseline, subscript $g$).}}{6}{table.7}\protected@file@percent }
+\newlabel{tab:t4}{{VII}{6}{Task~4 on the official FS2K test split (generator vs.\ grayscale-photo baseline, subscript $g$)}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {VIII}{\ignorespaces Style conditioning: mean $L_1$ to the ground-truth sketch (rows: true style, columns: style given to the generator; lowest per row in bold).}}{6}{table.8}\protected@file@percent }
+\newlabel{tab:t4_cond}{{VIII}{6}{Style conditioning: mean $L_1$ to the ground-truth sketch (rows: true style, columns: style given to the generator; lowest per row in bold)}{table.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {IX}{\ignorespaces Optuna studies: number of trials and best objective value (validation $L_1+(1-\mathrm  {SSIM})$ for the autoencoders and the GAN, macro-F1 for the classifier; lower is better except for the classifier).}}{6}{table.9}\protected@file@percent }
+\newlabel{tab:optuna}{{IX}{6}{Optuna studies: number of trials and best objective value (validation $L_1+(1-\mathrm {SSIM})$ for the autoencoders and the GAN, macro-F1 for the classifier; lower is better except for the classifier)}{table.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Hyper-parameter Optimisation}{6}{section.8}\protected@file@percent }
+\citation{stitch}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Application and Deployment}{7}{section.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-A}}Design}{7}{subsection.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-B}}Architecture}{7}{subsection.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-C}}ONNX export and verification}{7}{subsection.9.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {X}{\ignorespaces ONNX export verification (ONNX Runtime vs.\ PyTorch).}}{7}{table.10}\protected@file@percent }
+\newlabel{tab:onnx}{{X}{7}{ONNX export verification (ONNX Runtime vs.\ PyTorch)}{table.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IX-D}}Containers, tracking and reproducibility}{7}{subsection.9.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {X}Limitations}{7}{section.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {XI}Conclusion}{7}{section.11}\protected@file@percent }
+\citation{claudecode}
+\citation{stitch}
+\bibstyle{IEEEtran}
+\bibdata{references}
+\bibcite{vincent2008}{1}
+\bibcite{wang2004}{2}
+\bibcite{ronneberger2015}{3}
+\bibcite{jacobs1991}{4}
+\bibcite{shazeer2017}{5}
+\bibcite{fedus2022}{6}
+\bibcite{goodfellow2014}{7}
+\bibcite{mirza2014}{8}
+\bibcite{isola2017}{9}
+\bibcite{perez2018}{10}
+\bibcite{akiba2019}{11}
+\bibcite{bergstra2011}{12}
+\bibcite{mlflow}{13}
+\bibcite{paszke2019}{14}
+\bibcite{onnxruntime}{15}
+\bibcite{fan2022}{16}
+\bibcite{ioffe2015}{17}
+\bibcite{loshchilov2019}{18}
+\bibcite{smith2019}{19}
+\bibcite{ulyanov2016}{20}
+\bibcite{stitch}{21}
+\bibcite{claudecode}{22}
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  A: Use of AI tools}{8}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Appendix\nobreakspace  B: Reproducing the results}{8}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{8}{section*.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Twelve test examples (clean target, corrupted input, Task~1 reconstruction, absolute error map) covering every corruption and severity, plus extra high-severity cases.}}{9}{figure.1}\protected@file@percent }
+\newlabel{fig:t1_examples}{{1}{9}{Twelve test examples (clean target, corrupted input, Task~1 reconstruction, absolute error map) covering every corruption and severity, plus extra high-severity cases}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Task~1 failure cases: for each corruption the test entry with the lowest PSNR gain over the input, and the worst remaining entry.}}{10}{figure.2}\protected@file@percent }
+\newlabel{fig:t1_failures}{{2}{10}{Task~1 failure cases: for each corruption the test entry with the lowest PSNR gain over the input, and the worst remaining entry}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Row-normalised confusion matrix of the four-class classifier on the test manifest.}}{10}{figure.3}\protected@file@percent }
+\newlabel{fig:confusion}{{3}{10}{Row-normalised confusion matrix of the four-class classifier on the test manifest}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Misrouting cases: the four classifier errors with the largest PSNR loss compared with oracle routing.}}{10}{figure.4}\protected@file@percent }
+\newlabel{fig:misroute}{{4}{10}{Misrouting cases: the four classifier errors with the largest PSNR loss compared with oracle routing}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Mean routing weights by true corruption and severity.}}{10}{figure.5}\protected@file@percent }
+\newlabel{fig:heatmap}{{5}{10}{Mean routing weights by true corruption and severity}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Left: inputs for which one expert dominates (lowest routing entropy). Right: inputs for which the weights are spread over several branches (highest entropy). Bars show the four routing weights.}}{11}{figure.6}\protected@file@percent }
+\newlabel{fig:moe_examples}{{6}{11}{Left: inputs for which one expert dominates (lowest routing entropy). Right: inputs for which the weights are spread over several branches (highest entropy). Bars show the four routing weights}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Test photographs generated in each of the three styles next to the ground-truth sketch of their true style.}}{12}{figure.7}\protected@file@percent }
+\newlabel{fig:t4_examples}{{7}{12}{Test photographs generated in each of the three styles next to the ground-truth sketch of their true style}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Task~4 failure cases: the four test pairs with the largest $L_1$ error.}}{13}{figure.8}\protected@file@percent }
+\newlabel{fig:t4_fail}{{8}{13}{Task~4 failure cases: the four test pairs with the largest $L_1$ error}{figure.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Left: Task~3 validation PSNR (dashed line: start of joint fine-tuning). Middle: gate accuracy and the largest mean routing weight (collapse indicator). Right: Task~4 training losses (D-real, D-fake, G-adversarial, G-reconstruction).}}{14}{figure.9}\protected@file@percent }
+\newlabel{fig:curves34}{{9}{14}{Left: Task~3 validation PSNR (dashed line: start of joint fine-tuning). Middle: gate accuracy and the largest mean routing weight (collapse indicator). Right: Task~4 training losses (D-real, D-fake, G-adversarial, G-reconstruction)}{figure.9}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Original Stitch design (first generation), Universal Restoration screen.}}{14}{figure.10}\protected@file@percent }
+\newlabel{fig:stitch1}{{10}{14}{Original Stitch design (first generation), Universal Restoration screen}{figure.10}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Refined Stitch design: Universal Restoration, Hard-Routed Restoration, Soft Mixture-of-Experts and Face-to-Sketch Generator.}}{15}{figure.11}\protected@file@percent }
+\newlabel{fig:stitch2}{{11}{15}{Refined Stitch design: Universal Restoration, Hard-Routed Restoration, Soft Mixture-of-Experts and Face-to-Sketch Generator}{figure.11}{}}
+\gdef \@abspage@last{15}
