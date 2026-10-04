@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-secondary-container":"#004666","surface-container-lowest":"#ffffff","on-primary":"#ffffff","surface-variant":"#d3e4fe","on-error":"#ffffff","secondary":"#006591","surface-tint":"#4d44e3","background":"#f8f9ff","tertiary-fixed-dim":"#4edea3","secondary-fixed-dim":"#89ceff","tertiary-fixed":"#6ffbbe","inverse-primary":"#c3c0ff","outline":"#777587","surface-dim":"#cbdbf5","on-tertiary-container":"#67f4b7","on-tertiary-fixed":"#002113","secondary-container":"#39b8fd","primary":"#3525cd","on-error-container":"#93000a","surface-container-low":"#eff4ff","surface-bright":"#f8f9ff","on-secondary-fixed":"#001e2f","inverse-surface":"#213145","error-container":"#ffdad6","primary-fixed-dim":"#c3c0ff","primary-fixed":"#e2dfff","on-background":"#0b1c30","secondary-fixed":"#c9e6ff","on-primary-fixed":"#0f0069","error":"#ba1a1a","surface-container":"#e5eeff","on-surface":"#0b1c30","on-primary-fixed-variant":"#3323cc","on-primary-container":"#dad7ff","surface-container-high":"#dce9ff","surface":"#f8f9ff","on-tertiary":"#ffffff","outline-variant":"#c7c4d8","on-tertiary-fixed-variant":"#005236","primary-container":"#4f46e5","on-secondary-fixed-variant":"#004c6e","tertiary-container":"#006e4b","on-surface-variant":"#464555","surface-container-highest":"#d3e4fe","tertiary":"#005338","inverse-on-surface":"#eaf1ff","on-secondary":"#ffffff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"2rem","margin-lg":"3rem","margin-sm":"1rem","space-2xs":"0.125rem","space-2xl":"3rem","gutter-lg":"2rem","space-lg":"1.5rem","space-sm":"0.5rem","space-xs":"0.25rem","space-xl":"2rem","space-md":"1rem","gutter":"1.5rem","gutter-sm":"1rem"},"fontFamily":{"body-md":["Inter"],"metric-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"metric-sm":["JetBrains Mono"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"metric-lg":["JetBrains Mono"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"]},"fontSize":{"body-md":["14px",{"lineHeight":"20px","letterSpacing":"0em","fontWeight":"400"}],"metric-md":["14px",{"lineHeight":"18px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"600"}],"display-lg":["36px",{"lineHeight":"44px","letterSpacing":"-0.025em","fontWeight":"700"}],"metric-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.02em","fontWeight":"500"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"500"}],"headline-md":["22px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"600"}],"metric-lg":["20px",{"lineHeight":"24px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface"><aside class="hidden md:flex fixed left-0 top-0 h-full w-72 bg-surface-container-low shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex-col justify-between p-space-md"><div class="flex flex-col gap-space-lg"><div class="flex items-center gap-space-sm px-space-xs py-space-xs"><img alt="Restoration Studio Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vkyy0iCP7j5E4aYEL88D_IeicVSAi9-RVCn2f0v4Nx31th8rgyDN_jQK0oqEtPchiB2Ks3SJMd8M9UHxY_QBpiWI8CDpoYsREbbpBJw57aogaXzc_e6-a0CQfhT5hg9g8il175eBEm8AAMuSlfK-nmzOJvrDdJRmH6aRoxPRkAA3-obVfaBnZ7ASJA3bgFepiMqGhjBKH3UtFWMjOq91P0lHc4tySjxjT92L_0nhRpX82aIDMJmCWUtGM"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Restoration Studio</span><span class="font-metric-sm text-metric-sm text-on-surface-variant tracking-wider uppercase mt-space-2xs">Gen-AI Research Lab</span></div></div><div class="px-space-xs"><span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Workspaces</span></div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="universal-restoration" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-md text-label-md">Universal Restoration</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all bg-primary-container text-on-primary font-label-md" data-path="hard-routed-restoration" href="#"><span class="material-symbols-outlined text-[20px]">alt_route</span><span class="font-label-md text-label-md">Hard-Routed Restoration</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="soft-mixture-of-experts" href="#"><span class="material-symbols-outlined text-[20px]">layers</span><span class="font-label-md text-label-md">Soft Mixture-of-Experts</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="face-to-sketch-generator" href="#"><span class="material-symbols-outlined text-[20px]">face</span><span class="font-label-md text-label-md">Face-to-Sketch Generator</span></a></nav></div><div class="flex flex-col gap-space-sm pt-space-md"><div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-space-xs rounded-full"><span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse shrink-0"></span><span class="font-metric-sm text-metric-sm text-on-surface truncate">Backend online · 7 models loaded</span></div><div class="flex items-center justify-between bg-surface-container-high p-space-xs rounded-xl"><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">memory</span><span class="font-metric-sm text-metric-sm text-on-surface">CUDA:0 (RTX 4090)</span></div><div class="flex items-center bg-surface-container rounded-lg p-space-2xs text-on-surface-variant"><span class="material-symbols-outlined text-[16px] p-space-2xs rounded bg-surface-container-lowest text-on-surface">light_mode</span><span class="material-symbols-outlined text-[16px] p-space-2xs">dark_mode</span></div></div></div></aside><div class="md:pl-72 flex flex-col min-h-screen"><header class="fixed top-0 left-0 md:left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-md md:px-space-xl"><div class="flex items-center gap-space-sm"><button class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-surface-container-high text-on-surface"><span class="material-symbols-outlined">menu</span></button><div class="flex md:hidden items-center gap-space-xs"><img alt="Restoration Studio Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Vkyy0iCP7j5E4aYEL88D_IeicVSAi9-RVCn2f0v4Nx31th8rgyDN_jQK0oqEtPchiB2Ks3SJMd8M9UHxY_QBpiWI8CDpoYsREbbpBJw57aogaXzc_e6-a0CQfhT5hg9g8il175eBEm8AAMuSlfK-nmzOJvrDdJRmH6aRoxPRkAA3-obVfaBnZ7ASJA3bgFepiMqGhjBKH3UtFWMjOq91P0lHc4tySjxjT92L_0nhRpX82aIDMJmCWUtGM"/><span class="font-headline-sm text-headline-sm text-on-surface">Restoration Studio</span></div><div class="hidden md:flex items-center gap-space-xs bg-surface-container-low px-space-sm py-space-2xs rounded-lg text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">terminal</span><span class="font-metric-sm text-metric-sm">Inference Engine v2.4-fp16</span></div></div><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full px-space-md md:px-space-xl pb-space-xl bg-surface"><div class="flex flex-col w-full">
+<!-- Top Workspace Context Strip -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col gap-space-2xs">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-primary font-semibold">Workspace 02</span>
+<span class="text-outline-variant text-[12px] font-metric-sm">•</span>
+<span class="inline-flex items-center gap-space-2xs px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-metric-sm text-metric-sm font-medium">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+          Classifier-Guided Gating
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-metric-sm text-metric-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim animate-pulse"></span>
+          ResNet-Backbone Active
+        </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-1">Hard-Routed Restoration</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Dedicated single-expert selection via learned degradation classifier gating network. The input features are mapped through a lightweight discriminator to dispatch strictly to one optimal restoration sub-network.
+      </p>
+</div>
+<!-- Quick Telemetry Chips & Global Toggle -->
+<div class="flex items-center gap-space-sm self-start lg:self-end">
+<button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors shadow-sm" id="view-mode-toggle">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+<span class="font-label-md text-label-md">Simulate Empty State</span>
+</button>
+<div class="hidden sm:flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+<span class="font-metric-sm text-metric-sm text-on-surface font-medium">FP16 Deterministic</span>
+</div>
+</div>
+</div>
+<!-- State Banner: Informative Architecture Notification -->
+<div class="flex items-center justify-between px-space-md py-space-xs rounded-xl bg-surface-container-low text-on-surface mb-space-lg shadow-sm" id="status-banner">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">alt_route</span>
+</div>
+<div class="flex items-baseline gap-space-xs truncate">
+<span class="font-label-md text-label-md font-semibold text-primary">Hard-Gating Protocol:</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">
+          Gradient discrete argmax routing. Zero parameter blend weights active; bypassing unused expert weights saves ~43% VRAM over soft-MoE.
+        </span>
+</div>
+</div>
+<span class="hidden md:inline-flex font-metric-sm text-metric-sm text-outline px-space-xs py-0.5 rounded bg-surface-container-highest">
+      Softmax Temperature: τ=0.10
+    </span>
+</div>
+<!-- Main Grid Workspace -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Parameter & Pipeline Controls (4 Cols) -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Input Synthesis</span>
+</div>
+<span class="font-metric-sm text-metric-sm text-outline uppercase tracking-wider">Step 1 of 2</span>
+</div>
+<!-- Dropzone / Sample Presets -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface font-medium">Source Image</label>
+<div class="group relative rounded-xl bg-surface-container-low p-space-md flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-all">
+<input accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary group-hover:scale-110 transition-transform mb-space-xs">
+<span class="material-symbols-outlined text-[20px]">cloud_upload</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-medium">Drop sample or browse</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">RGB 128×128 native tensor</p>
+</div>
+<!-- Clean Presets Selector -->
+<div class="flex items-center gap-space-xs mt-space-2xs">
+<span class="font-metric-sm text-metric-sm text-outline shrink-0">Presets:</span>
+<div class="flex items-center gap-space-2xs overflow-x-auto pb-1 w-full">
+<button class="px-space-xs py-1 rounded bg-surface-container-high text-primary font-metric-sm text-metric-sm hover:bg-primary-fixed transition-colors whitespace-nowrap">
+                #01 Face Crop
+              </button>
+<button class="px-space-xs py-1 rounded bg-surface-container text-on-surface-variant font-metric-sm text-metric-sm hover:bg-surface-container-high transition-colors whitespace-nowrap">
+                #02 Architecture
+              </button>
+<button class="px-space-xs py-1 rounded bg-surface-container text-on-surface-variant font-metric-sm text-metric-sm hover:bg-surface-container-high transition-colors whitespace-nowrap">
+                #03 Macro Texture
+              </button>
+</div>
+</div>
+</div>
+<!-- Artificial Corruption Selector -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface font-medium">Inject Synthetic Degradation</label>
+<span class="font-metric-sm text-metric-sm text-primary font-medium" id="selected-corruption-name">Gaussian Blur</span>
+</div>
+<!-- Segmented Buttons -->
+<div class="grid grid-cols-2 gap-space-2xs p-space-2xs bg-surface-container rounded-xl">
+<button class="corruption-pill py-space-xs px-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all text-center" data-corruption="none">
+              None (Clean)
+            </button>
+<button class="corruption-pill py-space-xs px-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all text-center" data-corruption="salt_pepper">
+              Salt-and-pepper
+            </button>
+<button class="corruption-pill active-pill py-space-xs px-space-xs rounded-lg font-label-md text-label-md bg-surface-container-lowest text-primary font-semibold shadow-sm transition-all text-center" data-corruption="gaussian">
+              Gaussian blur
+            </button>
+<button class="corruption-pill py-space-xs px-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-all text-center" data-corruption="occlusion">
+              Occlusion
+            </button>
+</div>
+</div>
+<!-- Severity Selector -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface font-medium">Degradation Severity</label>
+<span class="font-metric-sm text-metric-sm text-on-surface font-medium" id="severity-label">High (σ=3.8px)</span>
+</div>
+<div class="grid grid-cols-4 gap-space-2xs p-space-2xs bg-surface-container rounded-xl">
+<button class="sev-btn py-1 rounded-lg font-metric-sm text-metric-sm text-on-surface-variant hover:text-on-surface text-center" data-severity="low">Low</button>
+<button class="sev-btn py-1 rounded-lg font-metric-sm text-metric-sm text-on-surface-variant hover:text-on-surface text-center" data-severity="med">Medium</button>
+<button class="sev-btn active-sev py-1 rounded-lg font-metric-sm text-metric-sm bg-surface-container-lowest text-primary font-semibold shadow-sm text-center" data-severity="high">High</button>
+<button class="sev-btn py-1 rounded-lg font-metric-sm text-metric-sm text-on-surface-variant hover:text-on-surface text-center" data-severity="custom">Custom</button>
+</div>
+<!-- Slider component -->
+<div class="flex flex-col gap-1 pt-space-xs">
+<div class="flex justify-between items-center text-outline">
+<span class="font-metric-sm text-metric-sm">Kernel Radius / Noise Level</span>
+<span class="font-metric-sm text-metric-sm font-semibold text-on-surface" id="slider-val">78%</span>
+</div>
+<input class="w-full h-1.5 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" id="kernel-slider" max="100" min="5" type="range" value="78"/>
+</div>
+</div>
+<!-- Routing & Execute CTA -->
+<div class="pt-space-xs flex flex-col gap-space-xs">
+<button class="w-full flex items-center justify-center gap-space-sm px-space-lg py-space-sm rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-semibold hover:bg-primary transition-all shadow-md active:translate-y-0.5" id="route-exec-btn">
+<span class="material-symbols-outlined text-[20px]" id="btn-icon">bolt</span>
+<span id="btn-text">Apply &amp; Route Expert</span>
+</button>
+<div class="flex items-center justify-between text-outline px-1">
+<span class="font-metric-sm text-metric-sm">Routing mode: ArgMax</span>
+<span class="font-metric-sm text-metric-sm">Auto-Warmup Ready</span>
+</div>
+</div>
+</div>
+<!-- Quick Theoretical Spec Card -->
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[18px]">device_hub</span>
+<span class="font-label-md text-label-md font-semibold">Router Architecture</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          The Gating Network processes the 4-channel spectral residual vector, predicting discrete probability distribution <span class="font-metric-sm text-metric-sm text-on-surface">P(E<sub>k</sub> | x)</span>. Only the top-1 indexed sub-expert executes forward propagation.
+        </p>
+</div>
+</div>
+<!-- RIGHT / CENTER: Telemetry & Visual Triplet (8 Cols) -->
+<div class="xl:col-span-8 flex flex-col gap-space-md">
+<!-- PROMINENT FEATURE: Classifier Gating & Routing Telemetry Card -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<!-- Header of Card -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-xs gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">hub</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Gating Decision Matrix</h2>
+<span class="px-space-xs py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-metric-sm text-metric-sm font-semibold">Gated Top-1</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Continuous degradation classification probabilities</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant bg-surface-container px-space-sm py-1 rounded-lg">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span class="font-metric-sm text-metric-sm">Confidence &gt; 90% threshold</span>
+</div>
+</div>
+<!-- 4 Degradation Probability Progress Bars -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between font-label-md text-label-md text-on-surface">
+<span>Degradation Classification Probabilities</span>
+<span class="font-metric-sm text-metric-sm text-outline">Sum normalized: 100.0%</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Clean Item -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1 transition-all">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                  Clean (Identity)
+                </span>
+<span class="font-metric-md text-metric-md font-semibold text-on-surface">2.1%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full transition-all duration-700" style="width: 2.1%"></div>
+</div>
+<span class="font-metric-sm text-metric-sm text-outline">Target: Identity Bypass (Skip)</span>
+</div>
+<!-- Salt-and-pepper Item -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1 transition-all">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                  Salt-and-pepper
+                </span>
+<span class="font-metric-md text-metric-md font-semibold text-on-surface">1.4%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full transition-all duration-700" style="width: 1.4%"></div>
+</div>
+<span class="font-metric-sm text-metric-sm text-outline">Target: Expert #1 (MedianNet)</span>
+</div>
+<!-- Gaussian Blur Item (HIGH/ACTIVE HIGHLIGHT) -->
+<div class="p-space-sm rounded-xl bg-primary-fixed/40 flex flex-col gap-1 shadow-sm transition-all ring-primary-container">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container animate-ping"></span>
+                  Gaussian blur
+                  <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-primary text-on-primary font-metric-sm">WINNER</span>
+</span>
+<span class="font-metric-md text-metric-md font-bold text-primary">94.8%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-3 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full rounded-full transition-all duration-1000 shadow-sm" style="width: 94.8%"></div>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-metric-sm text-metric-sm text-primary font-medium">Target: Expert #2 (Deblur-ResNet)</span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-semibold">+68.2% margin</span>
+</div>
+</div>
+<!-- Occlusion Item -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1 transition-all">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                  Occlusion
+                </span>
+<span class="font-metric-md text-metric-md font-semibold text-on-surface">1.7%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full transition-all duration-700" style="width: 1.7%"></div>
+</div>
+<span class="font-metric-sm text-metric-sm text-outline">Target: Expert #3 (Inpaint-GatedConv)</span>
+</div>
+</div>
+</div>
+<!-- Badges Row: Predictions & Decision Path -->
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-primary-container text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[18px]">lens_blur</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-metric-sm text-primary-fixed-dim leading-none">Predicted Corruption</span>
+<span class="font-label-md text-label-md font-semibold leading-tight">Gaussian Blur (94.8% confidence)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-secondary-container text-on-secondary-container shadow-sm">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase font-metric-sm text-on-secondary-container/80 leading-none">Selected Expert</span>
+<span class="font-label-md text-label-md font-bold leading-tight">Expert #2 (Deblur-ResNet)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-xl bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-outline">info</span>
+<span class="font-metric-sm text-metric-sm">Non-selected weights (E1, E3) powered off</span>
+</div>
+</div>
+<!-- Timing Breakdown & Latency Pills -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+</div>
+<div>
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline block">Total Inference Runtime</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-metric-lg text-metric-lg text-on-surface font-bold">51.6 ms</span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-semibold">19.4 FPS</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-xs flex-wrap">
+<div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+<span class="font-metric-sm text-metric-sm text-on-surface">Classifier Latency:</span>
+<span class="font-metric-sm text-metric-sm font-bold text-on-surface">12.4 ms</span>
+<span class="text-[10px] font-metric-sm text-outline">(24%)</span>
+</div>
+<div class="text-outline text-xs">+</div>
+<div class="flex items-center gap-1.5 px-space-sm py-1.5 rounded-lg bg-surface-container-lowest shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-metric-sm text-metric-sm text-on-surface">Expert Restoration:</span>
+<span class="font-metric-sm text-metric-sm font-bold text-on-surface">39.2 ms</span>
+<span class="text-[10px] font-metric-sm text-outline">(76%)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- VISUAL TRIPLET: 3 Image Panels Side-by-Side -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-md flex flex-col gap-space-md" id="visual-triplet-container">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">view_column</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Restoration Pipeline Inspection</h3>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface text-metric-sm font-metric-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">fit_screen</span> 1:1 Pixel Lock
+            </button>
+<button class="px-space-xs py-1 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface text-metric-sm font-metric-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">zoom_in</span> Zoom 200%
+            </button>
+</div>
+</div>
+<!-- 3 Side-by-Side Panels Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Panel 1: Original Clean Reference -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-on-surface flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                1. Original (Ground Truth)
+              </span>
+<span class="font-metric-sm text-metric-sm text-outline">128×128 (x2)</span>
+</div>
+<div class="relative rounded-xl overflow-hidden bg-surface-container-high aspect-square flex items-center justify-center group shadow-inner">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Macro portrait photograph of an elderly watchmaker with intricate spectacles, sharp photographic fidelity, soft natural studio lighting with neutral indigo hints, ultra crisp focus on eye and metal dials, photorealistic 8k studio shot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMJGRBT0TDJpfsusB1WUfJC2MphlrB0j2y2SW0a1PlDzx-67RDXkKyM-pYiLO4UAn8a_cX6y6fKbTY5ypHbyTIB0_vDxFKfbRmwKa3CkvNJuIQlMij9dpVaUUqIwdPlxPyf19KNw0tSKPUsiLqm8JLjZBftEdhczC_qhAV2cjn4btNu-crjkpK0dy6bfRhzdhgIRTUgbdO5uJBchE499tEwUKjeWVgJBsjHKAuTapqMHdCvEIYRme0fA"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-inverse-surface/80 backdrop-blur-md text-inverse-on-surface font-metric-sm text-metric-sm">
+                Reference
+              </div>
+<div class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-on-surface font-metric-sm text-metric-sm shadow">
+                RGB 8-bit
+              </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">Clean baseline uncorrupted state</p>
+</div>
+<!-- Panel 2: Input to Model (Degraded) -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-error flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                2. Input to Model (Corrupted)
+              </span>
+<span class="font-metric-sm text-metric-sm text-error font-medium">PSNR: 18.2 dB</span>
+</div>
+<div class="relative rounded-xl overflow-hidden bg-surface-container-high aspect-square flex items-center justify-center group shadow-inner">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 filter blur-[2px]" data-alt="Blurred optical photograph of the elderly watchmaker with severe Gaussian defocus blur, loss of high frequency edge detail, hazy chromatic dispersion, soft diffused highlights, degraded image quality simulation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjqRXlNPh82HotNefwgVGXCdxY5RLa8bs6QCzWJmZWZBsZM-Ggc8owW0jAVJHZVVptIFGlm8Pv6B1vMotx6a9KPQ_QM3NRBpHVWDB-MGavuaJC_7xn8Oa7xk4VrOMaHBkX9awqh7NzmMtqIVE_ZRRZCIYXm3bdH5bOESkWkkSjhSJWrtV3JrZvCAN9DncmyTY91kBCO_0nQaJaxrl8JQoio1Up-01n-EqRvHhodyOBfpURV-UJYmLMkg"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-error-container text-on-error-container font-metric-sm text-metric-sm font-semibold flex items-center gap-1 shadow">
+<span class="material-symbols-outlined text-[12px]">blur_on</span>
+                Gaussian σ=3.8
+              </div>
+<div class="absolute bottom-2 left-2 right-2 py-1 px-2 rounded bg-inverse-surface/80 backdrop-blur-sm text-inverse-on-surface font-metric-sm text-metric-sm text-center">
+                Classifier Feeding Stage
+              </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">Synthetic kernel applied prior to gate</p>
+</div>
+<!-- Panel 3: Restored Output -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md font-semibold text-primary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                3. Restored Output
+              </span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-bold">+15.7 dB Gain</span>
+</div>
+<div class="relative rounded-xl overflow-hidden bg-surface-container-high aspect-square flex items-center justify-center group shadow-inner">
+<img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Restored super-resolved photograph of the elderly watchmaker, pristine reconstructed edges, sharp specular lens reflections on watch parts, refined skin texture restored by Deblur-ResNet expert, clean realistic noise distribution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA9KbDRpPj049flXqlcjTJGQ-sKDTUeVRa1YBANiyTUMadHJum2EKNceFvaSW6HVzgzxO7e36guxkhxmkXEOjC2V0NJX0rDgfEUKsmJ4uTJYh2CYz4lkKtZo0KT8IYz-uK70_Lu6kMmnHWxedoGNZM91HsO28DkwssLEWPMUi3z_2_WCaI440hLWZW79M_JRqQbYM_beDGFM3wnIH5eFHqv4-32kpGIWE_teP-db1f4gsGkrk1O35gnQ"/>
+<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary font-metric-sm text-metric-sm font-semibold flex items-center gap-1 shadow">
+<span class="material-symbols-outlined text-[12px]">check_circle</span>
+                Deblur-ResNet
+              </div>
+<div class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-on-surface font-metric-sm text-metric-sm shadow">
+                Converged
+              </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center">Recovered via discrete Expert #2</p>
+</div>
+</div>
+<!-- Metrics & Download Strip -->
+<div class="pt-space-sm flex flex-col sm:flex-row sm:items-center justify-between gap-space-md bg-surface-container-low p-space-md rounded-xl">
+<div class="flex items-center gap-space-lg flex-wrap">
+<!-- Metric: PSNR -->
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Reconstructed PSNR</span>
+<div class="flex items-baseline gap-space-2xs">
+<span class="font-metric-lg text-metric-lg font-bold text-on-surface">33.9 dB</span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-semibold">(Target: &gt;32 dB)</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-high hidden sm:block"></div>
+<!-- Metric: SSIM -->
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Structural Similarity (SSIM)</span>
+<div class="flex items-baseline gap-space-2xs">
+<span class="font-metric-lg text-metric-lg font-bold text-on-surface">0.938</span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-semibold">+0.312 delta</span>
+</div>
+</div>
+<div class="h-8 w-px bg-surface-container-high hidden sm:block"></div>
+<!-- Metric: LPIPS -->
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm uppercase tracking-wider text-outline">Perceptual (LPIPS)</span>
+<div class="flex items-baseline gap-space-2xs">
+<span class="font-metric-lg text-metric-lg font-bold text-on-surface">0.084</span>
+<span class="font-metric-sm text-metric-sm text-tertiary font-semibold">Excellent</span>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-space-xs self-end sm:self-auto">
+<button class="px-space-md py-space-xs rounded-xl bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">difference</span>
+              Diff Map
+            </button>
+<button class="px-space-md py-space-xs rounded-xl bg-primary text-on-primary font-label-md text-label-md font-semibold hover:bg-primary-container transition-all shadow-md flex items-center gap-1.5 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">download</span>
+              Download Result
+            </button>
+</div>
+</div>
+</div>
+<!-- Empty State Container (Hidden by default, toggled via test button) -->
+<div class="hidden bg-surface-container-lowest rounded-xl p-space-2xl shadow-md flex-col items-center justify-center text-center gap-space-md" id="empty-state-view">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center text-outline">
+<span class="material-symbols-outlined text-[36px]">image_search</span>
+</div>
+<div class="max-w-md flex flex-col gap-space-2xs">
+<h3 class="font-headline-md text-headline-md text-on-surface">No Image Loaded into Gating Buffer</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Upload an uncompressed RGB test tensor or select one of the clean evaluation samples on the left panel to trigger the routing network.
+          </p>
+</div>
+<button class="px-space-lg py-space-sm rounded-xl bg-primary-container text-on-primary font-label-md text-label-md font-medium shadow-sm hover:bg-primary transition-all" id="load-sample-btn">
+          Load Reference Sample #01
+        </button>
+</div>
+</div>
+</div>
+<!-- Inline Client Interaction Script -->
+<script>
+    (function initHardRoutedWorkspace() {
+      // Elements
+      const corruptionButtons = document.querySelectorAll('.corruption-pill');
+      const sevButtons = document.querySelectorAll('.sev-btn');
+      const corruptionLabel = document.getElementById('selected-corruption-name');
+      const routeBtn = document.getElementById('route-exec-btn');
+      const btnIcon = document.getElementById('btn-icon');
+      const btnText = document.getElementById('btn-text');
+      const slider = document.getElementById('kernel-slider');
+      const sliderVal = document.getElementById('slider-val');
+      const viewToggle = document.getElementById('view-mode-toggle');
+      const visualTriplet = document.getElementById('visual-triplet-container');
+      const emptyState = document.getElementById('empty-state-view');
+      const loadSampleBtn = document.getElementById('load-sample-btn');
+
+      // Corruption Switcher
+      corruptionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          corruptionButtons.forEach(b => {
+            b.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-sm');
+            b.classList.add('text-on-surface-variant');
+          });
+          btn.classList.add('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-sm');
+          btn.classList.remove('text-on-surface-variant');
+          if (corruptionLabel) {
+            corruptionLabel.textContent = btn.textContent.trim();
+          }
+        });
+      });
+
+      // Severity Buttons
+      sevButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          sevButtons.forEach(b => {
+            b.classList.remove('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-sm');
+            b.classList.add('text-on-surface-variant');
+          });
+          btn.classList.add('bg-surface-container-lowest', 'text-primary', 'font-semibold', 'shadow-sm');
+          btn.classList.remove('text-on-surface-variant');
+        });
+      });
+
+      // Slider sync
+      if (slider && sliderVal) {
+        slider.addEventListener('input', (e) => {
+          sliderVal.textContent = e.target.value + '%';
+        });
+      }
+
+      // Simulate Gating Execution
+      if (routeBtn) {
+        routeBtn.addEventListener('click', () => {
+          btnIcon.textContent = 'autorenew';
+          btnIcon.classList.add('animate-spin');
+          btnText.textContent = 'Classifying & Dispatching...';
+          routeBtn.disabled = true;
+
+          setTimeout(() => {
+            btnIcon.textContent = 'check_circle';
+            btnIcon.classList.remove('animate-spin');
+            btnText.textContent = 'Expert #2 Dispatched (51.6 ms)';
+            
+            setTimeout(() => {
+              btnIcon.textContent = 'bolt';
+              btnText.textContent = 'Apply & Route Expert';
+              routeBtn.disabled = false;
+            }, 1800);
+          }, 650);
+        });
+      }
+
+      // Empty State Toggle
+      if (viewToggle && visualTriplet && emptyState) {
+        viewToggle.addEventListener('click', () => {
+          const isCurrentlyEmpty = !emptyState.classList.contains('hidden');
+          if (isCurrentlyEmpty) {
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            visualTriplet.classList.remove('hidden');
+            visualTriplet.classList.add('flex');
+            viewToggle.querySelector('span:last-child').textContent = 'Simulate Empty State';
+          } else {
+            visualTriplet.classList.add('hidden');
+            visualTriplet.classList.remove('flex');
+            emptyState.classList.remove('hidden');
+            emptyState.classList.add('flex');
+            viewToggle.querySelector('span:last-child').textContent = 'Show Visual Triplet';
+          }
+        });
+
+        if (loadSampleBtn) {
+          loadSampleBtn.addEventListener('click', () => {
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+            visualTriplet.classList.remove('hidden');
+            visualTriplet.classList.add('flex');
+            viewToggle.querySelector('span:last-child').textContent = 'Simulate Empty State';
+          });
+        }
+      }
+    })();
+  </script>
+</div></main></div></body></html>
