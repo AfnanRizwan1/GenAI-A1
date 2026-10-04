@@ -13,3 +13,11 @@ dist/
 *.log
 screens/
 screens_v2/
+
+# LaTeX build files
+report/main.aux
+report/main.bbl
+report/main.blg
+report/main.out
+report/main.log
+report/main.pdf

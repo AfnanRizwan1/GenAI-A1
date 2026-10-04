@@ -1,0 +1,18 @@
+{
+  "task": "Task 2 corruption classifier",
+  "selected_by": "Optuna (TPE sampler, seed 42, median pruner)",
+  "search_budget": {
+    "trials": 30,
+    "epochs_per_trial": 10,
+    "final_epochs": 60
+  },
+  "selected_hyperparameters": {
+    "lr": 0.0036633885072249665,
+    "batch_size": 32,
+    "channels": "small",
+    "dropout": 0.44259864084140865,
+    "weight_decay": 9.51700232633483e-05
+  },
+  "seed": 42,
+  "source_study": "t2_cls_v2"
+}

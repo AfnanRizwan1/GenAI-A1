@@ -1,0 +1,20 @@
+{
+  "task": "Task 1 universal denoising autoencoder",
+  "selected_by": "Optuna (TPE sampler, seed 42, median pruner)",
+  "search_budget": {
+    "trials": 30,
+    "epochs_per_trial": 10,
+    "final_epochs": 150
+  },
+  "selected_hyperparameters": {
+    "lr": 0.0007739720850176257,
+    "batch_size": 32,
+    "base_ch": 48,
+    "dropout": 0.10058653627072628,
+    "alpha": 0.5136999065389088,
+    "bottleneck": "conv",
+    "latent_ch": 32
+  },
+  "seed": 42,
+  "source_study": "t1_v2"
+}
