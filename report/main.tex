@@ -372,8 +372,12 @@ contained details the system does not have (hardware names, network architecture
 The frontend (React, Tailwind CSS, served by nginx) talks to a FastAPI backend that exposes \texttt{GET /api/health}, \texttt{POST /api/universal}, \texttt{/api/hard}, \texttt{/api/soft} and \texttt{/api/sketch}. The backend validates every upload (content type, size, pixel count, decodability, minimum size),
 resizes it to $128\times128$, optionally applies a chosen corruption (type, severity or custom parameters, seed) using exactly the corruption code that was used for training, runs the ONNX models with ONNX Runtime on the CPU and returns the images together with the corruption settings,
 inference time, PSNR and SSIM against the clean reference, and the classifier probabilities or routing weights (and their entropy). Already corrupted images can be uploaded and restored as they are. A difference map, a before/after slider and JSON export of the metrics are available.
-\figmaybe[\textwidth]{app_screenshots.png}
-\todo{insert screenshots of the running application with the trained models (one per workspace) and replace this placeholder}
+\begin{figure}[t]
+\centering
+\figmaybe[\columnwidth]{app_screenshots.png}
+\caption{The running application with the trained ONNX models (screenshots from the Docker deployment): universal restoration of a blurred image, hard routing of a salt-and-pepper image (classifier probabilities and selected expert), soft mixture of experts on an occluded image (routing weights), and the face-to-sketch generator in style~2.}
+\label{fig:app}
+\end{figure}
 
 \subsection{ONNX export and verification}
 All inference models (universal autoencoder, classifier with softmax, the three specialists, the complete soft mixture as one graph returning the image and the four weights, and only the generator of Task~4) are exported with opset 17 and a dynamic batch axis. Each exported model is run with ONNX Runtime and compared with PyTorch on several inputs and two batch sizes;

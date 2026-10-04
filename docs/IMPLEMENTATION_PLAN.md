@@ -1,3 +1,5 @@
+> **Superseded.** This was the initial plan. The implemented system, the results and the exact budgets are described in the report and the README.
+
 # GenAI Assignment 1 — Implementation Plan
 
 Stack: PyTorch, Optuna (SQLite storage), MLflow, ONNX / ONNX Runtime, FastAPI, React + Tailwind, Docker Compose.
