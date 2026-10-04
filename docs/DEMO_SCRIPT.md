@@ -27,8 +27,16 @@ Upload it to YouTube and put **only the link** in the report. Do not upload it t
 | 3:50 | **Soft Mixture-of-Experts.** Run the same image; show the four routing weights, the stacked bar, the dominant expert sentence and the entropy | "Here every branch gets a continuous weight and the experts and the gate were trained jointly." |
 | 4:40 | Click *Download restored image* (show the file); *Copy metrics as JSON* | "Results can be downloaded, and the metrics exported as JSON." |
 | 4:55 | **Face-to-Sketch.** Use the webcam or upload a face; capture; generate with Style 1, 2 and 3; show the original and sketch side by side; click *Download sketch* | "A conditional GAN generates the sketch; the style embedding is part of both networks." |
-| 5:50 | **Experiment tracking.** In the second terminal: `mlflow ui --backend-store-uri sqlite:///outputs/mlflow/mlflow.db`; open `http://localhost:5000`; show an Optuna study with its trials and one final training run with its curves | "Every run, trial, loss curve and sample image was logged with MLflow, and every task was tuned with Optuna." |
+| 5:50 | **Experiment tracking.** In the second terminal: `mlflow ui --backend-store-uri sqlite:///outputs/mlflow_t12/mlflow.db`; open `http://localhost:5000`; show the `optuna-autoencoders` experiment with its trials and one training run with its curves (Tasks 1-2). Mention that Task 3 is in `outputs/mlflow` and Task 4 in `outputs/mlflow_t4`, and that `outputs/mlflow` also holds the final record of every model (experiment `final-checkpoints-and-evaluation`: parameters, final metrics, checkpoint, Optuna summary, test evaluation, ONNX verification) | "Every run, trial, loss curve and sample image was logged with MLflow, and every task was tuned with Optuna." |
 | 6:30 | Back to the application or the report's first page; close | "The code, Docker setup, ONNX export, tests and the report are in the repository." |
+
+## Tracking stores (stop one `mlflow ui` with Ctrl+C before starting the next)
+
+| Store | Contents | Command |
+|---|---|---|
+| `outputs/mlflow_t12` | Tasks 1-2: Optuna trials, training runs | `mlflow ui --backend-store-uri sqlite:///outputs/mlflow_t12/mlflow.db` |
+| `outputs/mlflow` | Task 3 runs + final record of every model and the evaluation | `mlflow ui --backend-store-uri sqlite:///outputs/mlflow/mlflow.db` |
+| `outputs/mlflow_t4` | Task 4: Optuna trials, cGAN training run | `mlflow ui --backend-store-uri sqlite:///outputs/mlflow_t4/mlflow.db` |
 
 ## Tips
 
