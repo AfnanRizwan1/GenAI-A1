@@ -229,3 +229,29 @@ def test_ssim_psnr_match_training_definition():
     assert abs(imaging.ssim(a, b) - float(ref_ssim(t(a), t(b), data_range=1.0))) < 1e-3
     assert imaging.ssim(a, a) > 0.9999 and imaging.psnr(a, a) == 99.0
     assert abs(imaging.psnr(a, b) - 10 * np.log10(1 / np.mean((a.astype(np.float64) - b) ** 2))) < 1e-9
+
+
+# ---------------------------------------------------------------- difference map / routing entropy
+def test_difference_map_is_zero_for_identical_and_bright_for_large_errors():
+    a = np.full((128, 128, 3), 0.5, np.float32)
+    same = imaging.difference_map(a, a)
+    assert same.shape == (128, 128, 3) and same.max() < 0.02                      # darkest colour of the colormap
+    far = imaging.difference_map(np.zeros_like(a), np.ones_like(a))                 # error 1.0 >> full scale
+    assert far.mean() > 0.7 and far.min() >= 0 and far.max() <= 1
+    half = imaging.difference_map(a, a + np.float32(imaging.DIFF_FULL_SCALE / 2))
+    assert same.mean() < half.mean() < far.mean()                                   # monotonic in the error
+
+
+def test_routing_entropy_bounds():
+    assert imaging.routing_entropy([1, 0, 0, 0])["normalized"] == 0.0
+    assert abs(imaging.routing_entropy([0.25] * 4)["normalized"] - 1.0) < 1e-6
+    mid = imaging.routing_entropy([0.7, 0.1, 0.1, 0.1])["normalized"]
+    assert 0.0 < mid < 1.0
+
+
+def test_responses_carry_difference_map_and_entropy(client):
+    j = post(client, "/api/universal", {"corruption": "blur", "severity": "high", "seed": 3}, png_bytes()).json()
+    assert decode_url(j["difference"]).size == (128, 128) and j["difference_full_scale"] == imaging.DIFF_FULL_SCALE
+    assert post(client, "/api/universal", {"corruption": "none"}, png_bytes()).json()["difference"] is None   # no reference
+    e = post(client, "/api/soft", {"corruption": "salt", "seed": 1}, png_bytes()).json()["routing_entropy"]
+    assert 0.0 <= e["normalized"] <= 1.0 and e["nats"] >= 0

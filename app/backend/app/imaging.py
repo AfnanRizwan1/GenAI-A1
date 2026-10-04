@@ -117,3 +117,21 @@ def ssim(a: np.ndarray, b: np.ndarray, data_range=1.0) -> float:
 def quality(clean: np.ndarray, corrupted: np.ndarray, restored: np.ndarray) -> dict:
     return {"input_psnr": round(psnr(corrupted, clean), 2), "restored_psnr": round(psnr(restored, clean), 2),
             "input_ssim": round(ssim(corrupted, clean), 4), "restored_ssim": round(ssim(restored, clean), 4)}
+
+
+DIFF_FULL_SCALE = 0.25  # absolute error (in [0,1] pixel units) that maps to the top of the colour scale
+
+
+def difference_map(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """Heat map of |a - b| averaged over the colour channels (inferno colormap, DIFF_FULL_SCALE = brightest)."""
+    err = np.abs(a.astype(np.float64) - b).mean(axis=2)
+    gray = (np.clip(err / DIFF_FULL_SCALE, 0, 1) * 255).astype(np.uint8)
+    bgr = cv2.applyColorMap(gray, cv2.COLORMAP_INFERNO)
+    return cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+
+
+def routing_entropy(weights) -> dict:
+    """Entropy of the routing weights: 0 = one branch takes everything, 1 = perfectly uniform (normalised by ln K)."""
+    w = np.clip(np.asarray(weights, dtype=np.float64), 1e-12, 1.0)
+    nats = float(-(w * np.log(w)).sum())
+    return {"nats": round(nats, 4), "normalized": round(nats / float(np.log(len(w))), 4)}

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-secondary-container":"#00476e","surface-container-lowest":"#ffffff","on-primary":"#ffffff","surface-variant":"#e4e1ee","on-error":"#ffffff","secondary":"#006398","surface-tint":"#4d44e3","background":"#fcf8ff","tertiary-fixed-dim":"#ffb695","secondary-fixed-dim":"#93ccff","tertiary-fixed":"#ffdbcc","inverse-primary":"#c3c0ff","outline":"#94a3b8","surface-dim":"#dcd8e5","on-tertiary-container":"#ffd2be","on-tertiary-fixed":"#351000","secondary-container":"#5bb8fe","primary":"#3525cd","on-error-container":"#93000a","surface-container-low":"#f1f3f9","surface-bright":"#ffffff","on-secondary-fixed":"#001d31","inverse-surface":"#302f39","error-container":"#ffdad6","primary-fixed-dim":"#c3c0ff","primary-fixed":"#e2dfff","on-background":"#1b1b24","secondary-fixed":"#cce5ff","on-primary-fixed":"#0f0069","error":"#dc2626","surface-container":"#f0ecf9","on-surface":"#0f172a","on-primary-fixed-variant":"#3323cc","on-primary-container":"#dad7ff","surface-container-high":"#eae6f4","surface":"#f6f7fb","on-tertiary":"#ffffff","outline-variant":"#e2e8f0","on-tertiary-fixed-variant":"#7b2f00","primary-container":"#4f46e5","on-secondary-fixed-variant":"#004b73","tertiary-container":"#a44100","on-surface-variant":"#475569","surface-container-highest":"#e4e1ee","tertiary":"#059669","inverse-on-surface":"#f3effc","on-secondary":"#ffffff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","2xl":"1rem","3xl":"1.5rem","full":"9999px"},"spacing":{"margin":"2rem","margin-lg":"3rem","margin-sm":"1rem","space-2xs":"0.125rem","space-2xl":"3rem","gutter-lg":"2rem","space-lg":"1.5rem","space-sm":"0.5rem","space-xs":"0.25rem","space-xl":"2rem","space-md":"1rem","gutter":"1.5rem","gutter-sm":"1rem"},"fontFamily":{"body-md":["Inter"],"metric-md":["JetBrains Mono"],"body-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"metric-sm":["JetBrains Mono"],"label-md":["Inter"],"headline-md":["Plus Jakarta Sans"],"metric-lg":["JetBrains Mono"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"]},"fontSize":{"body-md":["14px",{"lineHeight":"22px","letterSpacing":"0em","fontWeight":"400"}],"metric-md":["14px",{"lineHeight":"20px","letterSpacing":"-0.01em","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"18px","letterSpacing":"0em","fontWeight":"400"}],"headline-lg":["30px",{"lineHeight":"38px","letterSpacing":"-0.025em","fontWeight":"700"}],"display-lg":["36px",{"lineHeight":"42px","letterSpacing":"-0.03em","fontWeight":"800"}],"metric-sm":["11px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"label-md":["13px",{"lineHeight":"18px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-md":["20px",{"lineHeight":"28px","letterSpacing":"-0.015em","fontWeight":"700"}],"metric-lg":["28px",{"lineHeight":"32px","letterSpacing":"-0.03em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"26px","letterSpacing":"-0.005em","fontWeight":"400"}],"headline-sm":["16px",{"lineHeight":"24px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><div class="flex flex-col min-h-screen"><header class="sticky top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-xl border-b border-outline-variant/60 z-40 flex items-center justify-between px-4"><div class="flex items-center gap-2.5"><button aria-label="Open menu" class="flex items-center justify-center w-10 h-10 rounded-xl border border-outline-variant/70 hover:bg-surface-container-high text-on-surface active:scale-[0.98] transition-all"><span class="material-symbols-outlined text-[22px]">menu</span></button><div class="flex items-center gap-2"><img alt="Restoration Studio Logo" class="h-8 w-8 object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida/AEtjO1UNq7dymF7SsPj_La2BpwAS-vC9ob2H6w44fH9cgLZf6RAeaEp6vAkzkcFwLN9k2EwykSQb4fmsSMfXiaF9c8ShWrRhkBnQU8YeGjd-gLmeRn_mQ-_UEHYf52NnOXb95Xke31hSxBQ3Cn3VkyJ3shQIeQ44Sh6LU544Qa4jojduVVRgR_DHgEA38K_nW_XlBsOyYgE_fkRlVEehCj3P7ST5n9QrErNsPBYALzmfMp58sOAei3SeBzda6dhQ"/><div class="flex flex-col"><span class="font-headline-sm text-[15px] font-bold text-on-surface leading-tight">Restoration Studio</span><span class="font-metric-sm text-[10px] text-on-surface-variant uppercase tracking-wider">Generative AI</span></div></div></div><div class="flex items-center gap-2"><div class="flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-2.5 py-1 rounded-full"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span><span class="font-metric-sm text-[10px] font-semibold tracking-tight">7 models online</span></div></div></header><main class="relative w-full px-space-md md:px-space-xl pb-space-xl bg-surface"><div class="flex flex-col w-full">
+<!-- Top Title & Accent Line -->
+<div class="flex flex-col pt-space-md mb-space-lg">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-metric-sm text-[11px] font-bold text-primary tracking-widest uppercase">WORKSPACE 01</span>
+<span class="font-metric-sm text-[11px] text-outline">/</span>
+<span class="font-metric-sm text-[11px] text-on-surface-variant font-medium">Task 1</span>
+</div>
+<h1 class="font-headline-lg text-[28px] md:text-[32px] font-bold text-on-surface tracking-tight leading-tight">Universal Restoration</h1>
+<p class="font-body-md text-[14px] text-on-surface-variant">One autoencoder restores clean, salt-and-pepper, blurred and occluded images</p>
+</div>
+<!-- 3px indigo-to-violet gradient accent line directly under header -->
+<div class="w-full h-[3px] bg-gradient-to-r from-primary via-indigo-500 to-purple-500 rounded-full mt-4"></div>
+</div>
+<!-- Main Workspace Layout: Controls Card (384px) + Results Area -->
+<div class="flex flex-col xl:flex-row gap-space-lg items-start w-full">
+<!-- Left Controls Card (384px fixed on large screens, 24px radius, hairline border) -->
+<section class="w-full xl:w-[384px] shrink-0 bg-surface-container-lowest rounded-3xl p-5 md:p-6 border border-outline-variant/80 shadow-[0_4px_24px_rgba(15,23,42,0.04)] flex flex-col gap-5">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">tune</span>
+<h2 class="font-headline-sm text-[15px] font-bold text-on-surface">Restoration Controls</h2>
+</div>
+<span class="font-metric-sm text-[11px] text-slate-500 bg-surface-container-low px-2 py-0.5 rounded-full border border-outline-variant/50">Unified Model</span>
+</div>
+<!-- Dropzone -->
+<div class="flex flex-col gap-1.5">
+<span class="text-[12px] font-semibold text-on-surface uppercase tracking-wider font-metric-sm">Input Image Source</span>
+<div class="border-2 border-dashed border-outline-variant hover:border-primary/60 rounded-2xl bg-surface-container-low/60 hover:bg-surface-container-low p-4 flex flex-col items-center justify-center text-center transition-all cursor-pointer group relative">
+<input accept="image/jpeg,image/png,image/webp,image/bmp" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" id="fileUploader" type="file"/>
+<div class="w-10 h-10 rounded-xl bg-surface-container-lowest border border-outline-variant/60 flex items-center justify-center text-primary group-hover:scale-105 transition-transform mb-2 shadow-xs">
+<span class="material-symbols-outlined text-[22px]">add_photo_alternate</span>
+</div>
+<span class="text-[13px] font-semibold text-on-surface group-hover:text-primary transition-colors">Drop an image here or browse</span>
+<p class="text-[11px] text-on-surface-variant mt-1 leading-snug">JPEG, PNG, WebP or BMP, up to 10 MB. Resized to 128 × 128</p>
+</div>
+</div>
+<!-- Row of 4 Sample Thumbnails (Cats & Dogs) -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="text-[12px] font-semibold text-on-surface uppercase tracking-wider font-metric-sm">Sample Benchmarks</span>
+<span class="text-[11px] text-outline font-metric-sm">128 × 128 px</span>
+</div>
+<div class="grid grid-cols-4 gap-2" id="thumbnailGrid"><button class="thumb-btn ring-2 ring-primary ring-offset-2 ring-offset-white rounded-xl overflow-hidden aspect-square border border-outline-variant/60 bg-surface-container-high transition-all hover:scale-[1.03] active:scale-[0.98]" onclick="selectSample(this, 'cat1')" title="Shorthair Gray Cat"><img alt="Shorthair Gray Cat" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvg8ojqVtvsMcXesPoXEMHT36BbvdLI6YfrzziAAeMTttHyVTStiWVNxfJhb82FJ1iZxFbqRKgaqVBDE1DaTwnphU5KL9-8LHLevpLARVWzCuO_JlR-WhqjgKUUC5U-kcuw6W2xCVpQv2r5upkw-bDrFXH9Z63iHH4zaJOYnoou3ms90X7pon1l3YPxgfo0HzbN6r3yrY95tutqEyQRRLq9QX8qbhKxF9kZUCEa4E9jIG1e2fns5gHg"/></button><button class="thumb-btn rounded-xl overflow-hidden aspect-square border border-outline-variant/60 bg-surface-container-low transition-all hover:scale-[1.03] active:scale-[0.98] opacity-80 hover:opacity-100" onclick="selectSample(this, 'dog1')" title="Border Collie"><img alt="Border Collie Dog" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Jwh72QPpeJi6Gp0LnAqdV0aVoW4VELY4aDDeZlp3_pBvWGRLdijbmFJwD6grQbbDh_bMZauASuOb6D4ovOC--YCICOgRgD_XZ8xrpj9zki1V9MxMxKV9EslUs5fSXOIsaPxWQhpNtUA8thgC8yxl_9fIvdD8HahEYjYgjJHxfR1mF9GBWkfdq6F_3gZeoMO3s-wIp9iXNpa0Ki2LxTvgjxNDzP4kJNfhm6hJFcTlT1niXkSTz8Ow3w"/></button><button class="thumb-btn rounded-xl overflow-hidden aspect-square border border-outline-variant/60 bg-surface-container-low transition-all hover:scale-[1.03] active:scale-[0.98] opacity-80 hover:opacity-100" onclick="selectSample(this, 'cat2')" title="Orange Tabby Cat"><img alt="Orange Tabby Cat" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYtQnq2epMr8_Wkgk6sqL28pD64nArGjKam4Hq1x1eEjPjYD15BuPC2vHsYUhRVGv8D4ziQrle5SAPIg_-Z-Ecok6ZO6d0Bnn2mVFDpdzw0Mbrx2CoU-Ds2IVfjFzc9JTRJAUS98bvuT0tbVo1MdFGkfTpC-fLJXSsSJgvlxmBRqbt5Vr2sCbfRygHuQ2C0YC1qSja7mBXC4LhkI_mM5fHlfsS57NQNSXAEHsc26tIskBuq_bHuc4AWg"/></button><button class="thumb-btn rounded-xl overflow-hidden aspect-square border border-outline-variant/60 bg-surface-container-low transition-all hover:scale-[1.03] active:scale-[0.98] opacity-80 hover:opacity-100" onclick="selectSample(this, 'dog2')" title="Golden Retriever"><img alt="Golden Retriever Dog" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr_xTVyHJJDvd7M6WHY_sDbL4-9wV10CqC6K_Vp1b720KQDiNuUZemTbk4hDO04sZpLmi0j9WLCT2fG-fa7ICNwCssnIv4hgNZooZPjA7fg0mST4vEBpvEse5xNlrZIUbNTW7B87YrjSU0yT4LXZibGsNR_JP0YTdwDn1Ir44iylLzS93cNsNSVDqK0KaZIYgtb9VSDUeewIStoXFWVDx0I0M_GLkWdu0RAdbYB0dzIeHD6ItBoFkV5A"/></button></div>
+</div>
+<!-- Corruption Selector (Recessed Segmented Control) -->
+<div class="flex flex-col gap-1.5">
+<label class="text-[12px] font-semibold text-on-surface uppercase tracking-wider font-metric-sm">Synthetic Corruption</label>
+<div class="grid grid-cols-2 gap-1 bg-surface-container-low p-1 rounded-xl border border-outline-variant/60 text-[12px]" id="corruptionControl">
+<button class="corr-pill py-1.5 px-2 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center" onclick="setCorruption('none', this)">None</button>
+<button class="corr-pill py-1.5 px-2 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center" onclick="setCorruption('sp', this)">Salt-and-pepper</button>
+<button class="corr-pill bg-surface-container-lowest font-semibold text-primary shadow-xs py-1.5 px-2 rounded-lg text-center transition-all border border-outline-variant/40" onclick="setCorruption('gauss', this)">Gaussian blur</button>
+<button class="corr-pill py-1.5 px-2 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center" onclick="setCorruption('occlusion', this)">Occlusion</button>
+</div>
+</div>
+<!-- Severity Selector -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="text-[12px] font-semibold text-on-surface uppercase tracking-wider font-metric-sm">Severity</label>
+<span class="font-metric-sm text-[11px] text-slate-500" id="severityValueBadge">Medium (σ = 2.4)</span>
+</div>
+<div class="grid grid-cols-4 gap-1 bg-surface-container-low p-1 rounded-xl border border-outline-variant/60 text-[12px]" id="severityControl">
+<button class="sev-pill py-1.5 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center" onclick="setSeverity('low', this)">Low</button>
+<button class="sev-pill bg-surface-container-lowest font-semibold text-primary shadow-xs py-1.5 rounded-lg text-center transition-all border border-outline-variant/40" onclick="setSeverity('medium', this)">Medium</button>
+<button class="sev-pill py-1.5 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center" onclick="setSeverity('high', this)">High</button>
+<button class="sev-pill py-1.5 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center" onclick="setSeverity('custom', this)">Custom</button>
+</div>
+</div>
+<!-- Custom Sliders Section (Visible when Custom is selected, or toggled) -->
+<div class="flex flex-col gap-2.5 p-3 rounded-xl bg-surface-container-low/70 border border-outline-variant/60" id="customSlidersBox">
+<div class="flex items-center justify-between">
+<span class="font-metric-sm text-[11px] font-semibold text-on-surface uppercase">Custom Parameters</span>
+<span class="font-metric-sm text-[11px] text-primary font-medium" id="kernelIndicator">Kernel: 5×5</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-metric-sm text-[11px]">
+<span class="text-on-surface-variant">Blur Sigma (σ)</span>
+<span class="text-on-surface font-semibold" id="sigmaValDisplay">2.4</span>
+</div>
+<input class="w-full accent-primary h-1 bg-surface-container-high rounded-lg cursor-pointer" id="sigmaSlider" max="5.0" min="0.5" oninput="updateCustomParam('sigma', this.value)" step="0.1" type="range" value="2.4"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-metric-sm text-[11px]">
+<span class="text-on-surface-variant">Noise Ratio / Density</span>
+<span class="text-on-surface font-semibold" id="densityValDisplay">15%</span>
+</div>
+<input class="w-full accent-primary h-1 bg-surface-container-high rounded-lg cursor-pointer" id="densitySlider" max="50" min="1" oninput="updateCustomParam('density', this.value)" step="1" type="range" value="15"/>
+</div>
+</div>
+<!-- Seed Field -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="text-[12px] font-semibold text-on-surface uppercase tracking-wider font-metric-sm" for="seedInput">Seed</label>
+<span class="font-metric-sm text-[11px] text-slate-500">same seed = same corruption</span>
+</div>
+<div class="flex items-center rounded-xl border border-outline-variant bg-surface-container-lowest px-3 py-1.5 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined text-[16px] text-slate-400 mr-2">tag</span>
+<input class="w-full font-metric-md text-[13px] bg-transparent outline-none text-on-surface" id="seedInput" type="text" value="42891"/>
+<button class="text-slate-400 hover:text-primary transition-colors ml-1 p-0.5" onclick="rerollSeed()" title="Randomize seed">
+<span class="material-symbols-outlined text-[17px]">casino</span>
+</button>
+</div>
+</div>
+<!-- Primary Button -->
+<button class="w-full py-3 px-4 rounded-xl font-label-md text-[14px] font-semibold text-white bg-primary hover:bg-primary-container shadow-[0_4px_14px_rgba(53,37,205,0.30)] active:scale-[0.99] transition-all flex items-center justify-center gap-2 relative overflow-hidden" id="actionBtn" onclick="runPipeline()">
+<span class="hidden material-symbols-outlined text-[18px] animate-spin" id="btnSpinner">progress_activity</span>
+<span class="material-symbols-outlined text-[18px]" id="btnIcon">auto_fix_high</span>
+<span id="btnText">Apply corruption and restore</span>
+</button>
+</section>
+<!-- Right Results Area (Flex 1) -->
+<div class="flex-1 flex flex-col gap-space-lg min-w-0 w-full">
+<!-- Top Row: Three Equal Square Image Panels -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1: Original Clean Reference -->
+<div class="bg-surface-container-lowest rounded-3xl p-4 border border-outline-variant/80 shadow-[0_4px_24px_rgba(15,23,42,0.04)] flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-[12px] font-bold text-on-surface tracking-tight">1. Original</span>
+<span class="font-metric-sm text-[11px] text-slate-500">Input Reference</span>
+</div>
+<!-- Neutral recessed image stage -->
+<div class="relative w-full aspect-square rounded-2xl bg-surface-container-low border border-outline-variant/60 overflow-hidden flex items-center justify-center p-3 shadow-inner group">
+<div class="w-full h-full rounded-xl overflow-hidden bg-slate-200 relative flex items-center justify-center">
+<img alt="Clean ground truth" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" id="imgOriginal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvg8ojqVtvsMcXesPoXEMHT36BbvdLI6YfrzziAAeMTttHyVTStiWVNxfJhb82FJ1iZxFbqRKgaqVBDE1DaTwnphU5KL9-8LHLevpLARVWzCuO_JlR-WhqjgKUUC5U-kcuw6W2xCVpQv2r5upkw-bDrFXH9Z63iHH4zaJOYnoou3ms90X7pon1l3YPxgfo0HzbN6r3yrY95tutqEyQRRLq9QX8qbhKxF9kZUCEa4E9jIG1e2fns5gHg"/>
+<!-- Frosted Label ORIGINAL -->
+<div class="absolute top-2.5 left-2.5 bg-slate-900/60 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/20 text-white font-metric-sm text-[10px] tracking-wider font-semibold uppercase shadow-xs">
+              ORIGINAL
+            </div>
+</div>
+</div>
+<div class="flex flex-col gap-0.5 pt-1">
+<span class="text-[13px] font-semibold text-on-surface">Clean ground truth</span>
+<span class="font-metric-sm text-[11px] text-slate-500 font-medium">128 × 128 px · 3 channels</span>
+</div>
+</div>
+<!-- Card 2: Input to Model (Corrupted) -->
+<div class="bg-surface-container-lowest rounded-3xl p-4 border border-outline-variant/80 shadow-[0_4px_24px_rgba(15,23,42,0.04)] flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-[12px] font-bold text-on-surface tracking-tight">2. Input to model</span>
+<span class="font-metric-sm text-[11px] text-red-600 font-medium">Corrupted input</span>
+</div>
+<!-- Neutral recessed image stage -->
+<div class="relative w-full aspect-square rounded-2xl bg-surface-container-low border border-outline-variant/60 overflow-hidden flex items-center justify-center p-3 shadow-inner group">
+<div class="w-full h-full rounded-xl overflow-hidden bg-slate-200 relative flex items-center justify-center">
+<!-- Corrupted Photo with Gaussian Blur overlay -->
+<img alt="Corrupted input" class="w-full h-full object-cover filter blur-[2.4px] transition-transform duration-300 group-hover:scale-105" id="imgCorrupted" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvg8ojqVtvsMcXesPoXEMHT36BbvdLI6YfrzziAAeMTttHyVTStiWVNxfJhb82FJ1iZxFbqRKgaqVBDE1DaTwnphU5KL9-8LHLevpLARVWzCuO_JlR-WhqjgKUUC5U-kcuw6W2xCVpQv2r5upkw-bDrFXH9Z63iHH4zaJOYnoou3ms90X7pon1l3YPxgfo0HzbN6r3yrY95tutqEyQRRLq9QX8qbhKxF9kZUCEa4E9jIG1e2fns5gHg"/>
+<!-- Frosted Label CORRUPTED INPUT in red tint -->
+<div class="absolute top-2.5 left-2.5 bg-red-950/70 backdrop-blur-md px-2.5 py-1 rounded-lg border border-red-400/30 text-red-200 font-metric-sm text-[10px] tracking-wider font-semibold uppercase shadow-xs flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+<span>CORRUPTED INPUT</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-0.5 pt-1">
+<span class="text-[13px] font-semibold text-on-surface" id="corruptedCaption">Gaussian blur (σ = 2.4)</span>
+<span class="font-metric-sm text-[11px] text-slate-500 font-medium" id="corruptedSub">Synthetic degradation</span>
+</div>
+</div>
+<!-- Card 3: Restored Output -->
+<div class="bg-surface-container-lowest rounded-3xl p-4 border border-outline-variant/80 shadow-[0_4px_24px_rgba(15,23,42,0.04)] flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-[12px] font-bold text-on-surface tracking-tight">3. Restored output</span>
+<!-- Segmented view toggle Side by side / Difference map -->
+<div class="flex items-center bg-surface-container-low p-0.5 rounded-lg border border-outline-variant/60 text-[10px] font-metric-sm">
+<button class="px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-semibold shadow-xs" id="viewSideBtn" onclick="toggleRestoredView('side')">Side by side</button>
+<button class="px-2 py-0.5 rounded text-on-surface-variant hover:text-on-surface" id="viewDiffBtn" onclick="toggleRestoredView('diff')">Difference map</button>
+</div>
+</div>
+<!-- Neutral recessed image stage -->
+<div class="relative w-full aspect-square rounded-2xl bg-surface-container-low border border-outline-variant/60 overflow-hidden flex items-center justify-center p-3 shadow-inner group">
+<div class="w-full h-full rounded-xl overflow-hidden bg-slate-200 relative flex items-center justify-center" id="restoredStageContainer">
+<!-- Crisp Restored photo -->
+<img alt="Autoencoder restored output" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" id="imgRestored" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxvg8ojqVtvsMcXesPoXEMHT36BbvdLI6YfrzziAAeMTttHyVTStiWVNxfJhb82FJ1iZxFbqRKgaqVBDE1DaTwnphU5KL9-8LHLevpLARVWzCuO_JlR-WhqjgKUUC5U-kcuw6W2xCVpQv2r5upkw-bDrFXH9Z63iHH4zaJOYnoou3ms90X7pon1l3YPxgfo0HzbN6r3yrY95tutqEyQRRLq9QX8qbhKxF9kZUCEa4E9jIG1e2fns5gHg"/>
+<!-- Difference Map Canvas Overlay (Hidden initially) -->
+<canvas class="hidden absolute inset-0 w-full h-full object-cover" id="diffCanvas"></canvas>
+<!-- Frosted Label RESTORED in emerald tint -->
+<div class="absolute top-2.5 left-2.5 bg-emerald-950/70 backdrop-blur-md px-2.5 py-1 rounded-lg border border-emerald-400/30 text-emerald-200 font-metric-sm text-[10px] tracking-wider font-semibold uppercase shadow-xs flex items-center gap-1.5" id="restoredLabelBadge">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>RESTORED</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-0.5 pt-1">
+<span class="text-[13px] font-semibold text-on-surface" id="restoredCaption">Autoencoder output</span>
+<span class="font-metric-sm text-[11px] text-emerald-600 font-medium" id="restoredSub">Reconstructed high fidelity</span>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Run details card + Metrics card + Action buttons -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+<!-- Run Details Card (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-lowest rounded-3xl p-5 border border-outline-variant/80 shadow-[0_4px_24px_rgba(15,23,42,0.04)] flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">info</span>
+<h3 class="font-headline-sm text-[14px] font-bold text-on-surface">Run Details</h3>
+</div>
+<span class="font-metric-sm text-[11px] text-slate-500 bg-surface-container-low px-2 py-0.5 rounded-md font-mono">Run #01</span>
+</div>
+<div class="grid grid-cols-2 gap-y-3 gap-x-2 text-[12px]">
+<div class="flex flex-col">
+<span class="text-slate-500 font-metric-sm text-[11px]">Corruption</span>
+<span class="font-semibold text-on-surface" id="detCorr">Gaussian blur</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-500 font-metric-sm text-[11px]">Severity</span>
+<span class="font-semibold text-on-surface" id="detSev">Medium</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-500 font-metric-sm text-[11px]">Parameters</span>
+<span class="font-metric-md text-[12px] font-medium text-on-surface" id="detParams">σ = 2.4</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-500 font-metric-sm text-[11px]">Kernel</span>
+<span class="font-metric-md text-[12px] font-medium text-on-surface" id="detKernel">5×5</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-500 font-metric-sm text-[11px]">Seed</span>
+<span class="font-metric-md text-[12px] font-medium text-on-surface" id="detSeed">42891</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-500 font-metric-sm text-[11px]">Inference time</span>
+<span class="font-metric-md text-[12px] font-semibold text-primary" id="detInfTime">43.2 ms</span>
+</div>
+</div>
+<div class="pt-2 border-t border-outline-variant/40 flex items-center justify-between text-slate-500 font-metric-sm text-[11px]">
+<span>Tensor Resolution: 128 × 128</span>
+<span class="text-slate-700 font-medium">Batch size: 1</span>
+</div>
+</div>
+<!-- Metrics Card (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-3xl p-5 border border-outline-variant/80 shadow-[0_4px_24px_rgba(15,23,42,0.04)] flex flex-col justify-between gap-4">
+<div class="flex items-center justify-between pb-2 border-b border-outline-variant/40">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-tertiary">analytics</span>
+<h3 class="font-headline-sm text-[14px] font-bold text-on-surface">Quantitative Telemetry &amp; Metrics</h3>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span class="font-metric-sm text-[11px] text-slate-600 font-medium">Validated</span>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<!-- Metric 1: Inference Time -->
+<div class="p-3 rounded-2xl bg-surface-container-low border border-outline-variant/60 flex flex-col justify-between">
+<span class="font-metric-sm text-[11px] text-slate-500 uppercase tracking-wider">Inference Time</span>
+<div class="my-1.5 flex items-baseline gap-1">
+<span class="font-metric-lg text-[24px] font-bold text-on-surface">43.2</span>
+<span class="font-metric-sm text-[12px] text-slate-500">ms</span>
+</div>
+<span class="font-metric-sm text-[10px] text-slate-500">Latency on CPU target</span>
+</div>
+<!-- Metric 2: PSNR -->
+<div class="p-3 rounded-2xl bg-surface-container-low border border-outline-variant/60 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-metric-sm text-[11px] text-slate-500 uppercase tracking-wider">PSNR</span>
+<span class="font-metric-sm text-[11px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full border border-emerald-300/60">+13.4 dB</span>
+</div>
+<div class="my-1.5 flex items-baseline gap-1.5">
+<span class="font-metric-lg text-[22px] font-bold text-on-surface">34.8</span>
+<span class="font-metric-sm text-[11px] text-slate-500">from 21.4 dB</span>
+</div>
+<span class="font-metric-sm text-[10px] text-emerald-600 font-medium">21.4 dB → 34.8 dB</span>
+</div>
+<!-- Metric 3: SSIM -->
+<div class="p-3 rounded-2xl bg-surface-container-low border border-outline-variant/60 flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-metric-sm text-[11px] text-slate-500 uppercase tracking-wider">SSIM Score</span>
+<span class="font-metric-sm text-[11px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded-full border border-emerald-300/60">+0.258</span>
+</div>
+<div class="my-1.5 flex items-baseline gap-1.5">
+<span class="font-metric-lg text-[22px] font-bold text-on-surface">0.942</span>
+<span class="font-metric-sm text-[11px] text-slate-500">from 0.684</span>
+</div>
+<span class="font-metric-sm text-[10px] text-emerald-600 font-medium">0.684 → 0.942</span>
+</div>
+</div>
+<!-- Action Buttons Row -->
+<div class="pt-2 border-t border-outline-variant/40 flex flex-wrap items-center justify-end gap-2">
+<button class="px-3.5 py-2 rounded-xl text-[12px] font-semibold bg-surface-container-low hover:bg-surface-container border border-outline-variant/70 text-on-surface transition-all flex items-center gap-1.5 shadow-xs" onclick="copyMetricsJSON()">
+<span class="material-symbols-outlined text-[16px] text-slate-600">data_object</span>
+<span>Copy metrics as JSON</span>
+</button>
+<button class="px-3.5 py-2 rounded-xl text-[12px] font-semibold bg-surface-container-low hover:bg-surface-container border border-outline-variant/70 text-on-surface transition-all flex items-center gap-1.5 shadow-xs" onclick="downloadImage('corrupted')">
+<span class="material-symbols-outlined text-[16px] text-slate-600">file_download</span>
+<span>Download input</span>
+</button>
+<button class="px-3.5 py-2 rounded-xl text-[12px] font-semibold bg-primary hover:bg-primary-container text-white transition-all flex items-center gap-1.5 shadow-xs" onclick="downloadImage('restored')">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Download restored image</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Toast Notification -->
+<div class="fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 transform translate-y-24 opacity-0 transition-all duration-300 z-50 border border-slate-700 font-body-sm text-[13px]" id="toastNotification">
+<span class="material-symbols-outlined text-emerald-400 text-[18px]">check_circle</span>
+<span class="font-medium" id="toastMessage">Notification message</span>
+</div>
+<footer class="w-full mt-space-lg pt-space-md border-t border-outline-variant/60 flex flex-col gap-3 pb-6"><div class="flex items-center justify-between gap-2"><div class="flex items-center gap-2 bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-3 py-1.5 rounded-full"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span><span class="font-metric-sm text-[11px] truncate font-medium">Backend online · 7 models loaded</span></div><div class="flex items-center bg-surface-container-lowest border border-outline-variant/40 rounded-lg p-0.5 text-on-surface-variant"><button class="p-1.5 rounded bg-surface shadow-xs text-on-surface hover:text-primary transition-colors flex items-center justify-center" title="Light mode"><span class="material-symbols-outlined text-[15px]">light_mode</span></button><button class="p-1.5 rounded hover:bg-surface text-slate-400 hover:text-on-surface transition-colors flex items-center justify-center" title="Dark mode"><span class="material-symbols-outlined text-[15px]">dark_mode</span></button></div></div><div class="flex items-center justify-between bg-surface-container-low border border-outline-variant/60 px-3 py-2 rounded-xl text-on-surface-variant"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-slate-500">settings_suggest</span><span class="font-metric-sm text-[11px] text-slate-700 font-medium">ONNX Runtime · CPU</span></div><span class="font-metric-sm text-[11px] text-slate-500 font-mono">v1.18.0</span></div></footer></div>
+<script>
+  const sampleImages = {
+    cat1: "https://lh3.googleusercontent.com/aida-public/AB6AXuDxvg8ojqVtvsMcXesPoXEMHT36BbvdLI6YfrzziAAeMTttHyVTStiWVNxfJhb82FJ1iZxFbqRKgaqVBDE1DaTwnphU5KL9-8LHLevpLARVWzCuO_JlR-WhqjgKUUC5U-kcuw6W2xCVpQv2r5upkw-bDrFXH9Z63iHH4zaJOYnoou3ms90X7pon1l3YPxgfo0HzbN6r3yrY95tutqEyQRRLq9QX8qbhKxF9kZUCEa4E9jIG1e2fns5gHg",
+    dog1: "https://lh3.googleusercontent.com/aida-public/AB6AXuB7Jwh72QPpeJi6Gp0LnAqdV0aVoW4VELY4aDDeZlp3_pBvWGRLdijbmFJwD6grQbbDh_bMZauASuOb6D4ovOC--YCICOgRgD_XZ8xrpj9zki1V9MxMxKV9EslUs5fSXOIsaPxWQhpNtUA8thgC8yxl_9fIvdD8HahEYjYgjJHxfR1mF9GBWkfdq6F_3gZeoMO3s-wIp9iXNpa0Ki2LxTvgjxNDzP4kJNfhm6hJFcTlT1niXkSTz8Ow3w",
+    cat2: "https://lh3.googleusercontent.com/aida-public/AB6AXuCYtQnq2epMr8_Wkgk6sqL28pD64nArGjKam4Hq1x1eEjPjYD15BuPC2vHsYUhRVGv8D4ziQrle5SAPIg_-Z-Ecok6ZO6d0Bnn2mVFDpdzw0Mbrx2CoU-Ds2IVfjFzc9JTRJAUS98bvuT0tbVo1MdFGkfTpC-fLJXSsSJgvlxmBRqbt5Vr2sCbfRygHuQ2C0YC1qSja7mBXC4LhkI_mM5fHlfsS57NQNSXAEHsc26tIskBuq_bHuc4AWg",
+    dog2: "https://lh3.googleusercontent.com/aida-public/AB6AXuAr_xTVyHJJDvd7M6WHY_sDbL4-9wV10CqC6K_Vp1b720KQDiNuUZemTbk4hDO04sZpLmi0j9WLCT2fG-fa7ICNwCssnIv4hgNZooZPjA7fg0mST4vEBpvEse5xNlrZIUbNTW7B87YrjSU0yT4LXZibGsNR_JP0YTdwDn1Ir44iylLzS93cNsNSVDqK0KaZIYgtb9VSDUeewIStoXFWVDx0I0M_GLkWdu0RAdbYB0dzIeHD6ItBoFkV5A"
+  };
+
+  let currentSample = 'cat1';
+  let currentCorruption = 'gauss';
+  let currentSeverity = 'medium';
+  let currentViewMode = 'side';
+
+  function selectSample(btn, sampleKey) {
+    document.querySelectorAll('.thumb-btn').forEach(b => {
+      b.className = 'thumb-btn rounded-xl overflow-hidden aspect-square border border-outline-variant/60 bg-surface-container-low transition-all hover:scale-[1.03] active:scale-[0.98] opacity-80 hover:opacity-100';
+    });
+    btn.className = 'thumb-btn ring-2 ring-primary ring-offset-2 ring-offset-white rounded-xl overflow-hidden aspect-square border border-outline-variant/60 bg-surface-container-high transition-all hover:scale-[1.03] active:scale-[0.98]';
+    
+    currentSample = sampleKey;
+    const url = sampleImages[sampleKey];
+    document.getElementById('imgOriginal').src = url;
+    document.getElementById('imgCorrupted').src = url;
+    document.getElementById('imgRestored').src = url;
+
+    applyCorruptionVisuals();
+    showToast(`Loaded sample benchmark.`);
+  }
+
+  function setCorruption(type, btn) {
+    document.querySelectorAll('.corr-pill').forEach(b => {
+      b.className = 'corr-pill py-1.5 px-2 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center';
+    });
+    btn.className = 'corr-pill bg-surface-container-lowest font-semibold text-primary shadow-xs py-1.5 px-2 rounded-lg text-center transition-all border border-outline-variant/40';
+    
+    currentCorruption = type;
+    const detCorr = document.getElementById('detCorr');
+    
+    if (type === 'none') {
+      detCorr.innerText = 'None';
+      document.getElementById('corruptedCaption').innerText = 'Clean (no degradation)';
+    } else if (type === 'sp') {
+      detCorr.innerText = 'Salt-and-pepper';
+      document.getElementById('corruptedCaption').innerText = 'Salt & pepper noise';
+    } else if (type === 'gauss') {
+      detCorr.innerText = 'Gaussian blur';
+      document.getElementById('corruptedCaption').innerText = 'Gaussian blur (σ = 2.4)';
+    } else if (type === 'occlusion') {
+      detCorr.innerText = 'Occlusion';
+      document.getElementById('corruptedCaption').innerText = 'Block occlusion';
+    }
+
+    applyCorruptionVisuals();
+  }
+
+  function setSeverity(level, btn) {
+    document.querySelectorAll('.sev-pill').forEach(b => {
+      b.className = 'sev-pill py-1.5 rounded-lg font-medium text-on-surface-variant hover:text-on-surface transition-all text-center';
+    });
+    btn.className = 'sev-pill bg-surface-container-lowest font-semibold text-primary shadow-xs py-1.5 rounded-lg text-center transition-all border border-outline-variant/40';
+
+    currentSeverity = level;
+    const badge = document.getElementById('severityValueBadge');
+    const detSev = document.getElementById('detSev');
+    const detParams = document.getElementById('detParams');
+
+    if (level === 'low') {
+      badge.innerText = 'Low (σ = 1.0)';
+      detSev.innerText = 'Low';
+      detParams.innerText = 'σ = 1.0';
+      document.getElementById('sigmaValDisplay').innerText = '1.0';
+      document.getElementById('sigmaSlider').value = 1.0;
+    } else if (level === 'medium') {
+      badge.innerText = 'Medium (σ = 2.4)';
+      detSev.innerText = 'Medium';
+      detParams.innerText = 'σ = 2.4';
+      document.getElementById('sigmaValDisplay').innerText = '2.4';
+      document.getElementById('sigmaSlider').value = 2.4;
+    } else if (level === 'high') {
+      badge.innerText = 'High (σ = 4.2)';
+      detSev.innerText = 'High';
+      detParams.innerText = 'σ = 4.2';
+      document.getElementById('sigmaValDisplay').innerText = '4.2';
+      document.getElementById('sigmaSlider').value = 4.2;
+    } else if (level === 'custom') {
+      badge.innerText = 'Custom Parameters';
+      detSev.innerText = 'Custom';
+    }
+
+    applyCorruptionVisuals();
+  }
+
+  function updateCustomParam(param, val) {
+    if (param === 'sigma') {
+      document.getElementById('sigmaValDisplay').innerText = val;
+      document.getElementById('detParams').innerText = `σ = ${val}`;
+      if (currentCorruption === 'gauss') {
+        document.getElementById('corruptedCaption').innerText = `Gaussian blur (σ = ${val})`;
+      }
+    } else if (param === 'density') {
+      document.getElementById('densityValDisplay').innerText = val + '%';
+    }
+    applyCorruptionVisuals();
+  }
+
+  function applyCorruptionVisuals() {
+    const corruptedImg = document.getElementById('imgCorrupted');
+    const sigma = document.getElementById('sigmaSlider').value;
+
+    if (currentCorruption === 'none') {
+      corruptedImg.className = 'w-full h-full object-cover transition-transform duration-300';
+    } else if (currentCorruption === 'sp') {
+      corruptedImg.className = 'w-full h-full object-cover filter contrast-125 brightness-95 saturate-150 transition-transform duration-300';
+    } else if (currentCorruption === 'gauss') {
+      corruptedImg.className = `w-full h-full object-cover filter blur-[${Math.min(sigma, 5)}px] transition-transform duration-300`;
+    } else if (currentCorruption === 'occlusion') {
+      corruptedImg.className = 'w-full h-full object-cover filter contrast-150 brightness-75 transition-transform duration-300';
+    }
+  }
+
+  function rerollSeed() {
+    const seed = Math.floor(10000 + Math.random() * 90000);
+    document.getElementById('seedInput').value = seed;
+    document.getElementById('detSeed').innerText = seed;
+    showToast(`Generated new seed #${seed}`);
+  }
+
+  function runPipeline() {
+    const btn = document.getElementById('actionBtn');
+    const spinner = document.getElementById('btnSpinner');
+    const icon = document.getElementById('btnIcon');
+    const text = document.getElementById('btnText');
+
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    icon.classList.add('hidden');
+    text.innerText = 'Restoring image...';
+
+    setTimeout(() => {
+      btn.disabled = false;
+      spinner.classList.add('hidden');
+      icon.classList.remove('hidden');
+      text.innerText = 'Apply corruption and restore';
+      showToast('Restoration completed: 43.2 ms (34.8 dB PSNR)');
+    }, 600);
+  }
+
+  function toggleRestoredView(mode) {
+    currentViewMode = mode;
+    const sideBtn = document.getElementById('viewSideBtn');
+    const diffBtn = document.getElementById('viewDiffBtn');
+    const canvas = document.getElementById('diffCanvas');
+    const imgRestored = document.getElementById('imgRestored');
+
+    if (mode === 'diff') {
+      sideBtn.className = 'px-2 py-0.5 rounded text-on-surface-variant hover:text-on-surface';
+      diffBtn.className = 'px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-semibold shadow-xs';
+      
+      // Render difference map representation onto canvas
+      canvas.classList.remove('hidden');
+      imgRestored.classList.add('opacity-0');
+      renderDifferenceMap();
+      document.getElementById('restoredCaption').innerText = 'Difference map (Residual error)';
+    } else {
+      diffBtn.className = 'px-2 py-0.5 rounded text-on-surface-variant hover:text-on-surface';
+      sideBtn.className = 'px-2 py-0.5 rounded bg-surface-container-lowest text-primary font-semibold shadow-xs';
+      
+      canvas.classList.add('hidden');
+      imgRestored.classList.remove('opacity-0');
+      document.getElementById('restoredCaption').innerText = 'Autoencoder output';
+    }
+  }
+
+  function renderDifferenceMap() {
+    const canvas = document.getElementById('diffCanvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    
+    // Create an aesthetic thermal difference gradient map representation
+    const gradient = ctx.createLinearGradient(0, 0, 128, 128);
+    gradient.addColorStop(0, '#000000');
+    gradient.addColorStop(0.3, '#1e1b4b');
+    gradient.addColorStop(0.6, '#4338ca');
+    gradient.addColorStop(0.85, '#06b6d4');
+    gradient.addColorStop(1, '#ec4899');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+
+    // Subtle edge noise
+    for (let i = 0; i < 400; i++) {
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + (Math.random() * 0.15) + ')';
+      ctx.fillRect(Math.random() * 128, Math.random() * 128, 2, 2);
+    }
+  }
+
+  function copyMetricsJSON() {
+    const metrics = {
+      task: "Universal Restoration",
+      corruption: document.getElementById('detCorr').innerText,
+      severity: document.getElementById('detSev').innerText,
+      parameters: document.getElementById('detParams').innerText,
+      kernel: document.getElementById('detKernel').innerText,
+      seed: parseInt(document.getElementById('detSeed').innerText),
+      inference_time_ms: 43.2,
+      resolution: [128, 128, 3],
+      psnr: {
+        input_db: 21.4,
+        restored_db: 34.8,
+        gain_db: "+13.4"
+      },
+      ssim: {
+        input_score: 0.684,
+        restored_score: 0.942,
+        gain: "+0.258"
+      }
+    };
+    navigator.clipboard.writeText(JSON.stringify(metrics, null, 2)).then(() => {
+      showToast('Copied metrics JSON schema to clipboard');
+    }).catch(() => {
+      showToast('Copied metrics JSON schema');
+    });
+  }
+
+  function downloadImage(type) {
+    showToast(`Downloading ${type} image (128 × 128 lossless PNG)...`);
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastNotification');
+    const msgEl = document.getElementById('toastMessage');
+    msgEl.innerText = msg;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 2800);
+  }
+</script></main></div></body></html>

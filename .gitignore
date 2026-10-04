@@ -11,3 +11,5 @@ node_modules/
 dist/
 .env
 *.log
+screens/
+screens_v2/
