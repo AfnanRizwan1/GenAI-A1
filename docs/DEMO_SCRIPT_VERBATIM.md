@@ -94,7 +94,7 @@ Folder `demo_assets/` in the repository:
 
 ### 5:30 to 6:20. Experiment tracking
 **SCREEN:** the MLflow PowerShell.
-**YOU DO:** press Enter on the prepared command. Open Chrome at `http://localhost:5000`. Click the experiment **optuna-autoencoders**. Open one run and point at its parameters and metrics.
+**YOU DO:** press Enter on the prepared command. Open Chrome at `http://localhost:5000`. At the top left click **Model training** (not the GenAI view, which is empty) and close the MLflow Assistant panel with its X. Click **optuna-autoencoders**, open the **Runs** tab, then open one run and point at its parameters, metrics and charts.
 
 > "Every experiment was tracked with MLflow, and every task was tuned with Optuna. Here is the Optuna study for the autoencoders, with each trial's parameters and result. Opening a run shows its settings, losses and metrics. The Task 3 records and the final checkpoints and evaluation are in a second store, and the Task 4 records are in a third."
 
