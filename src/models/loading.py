@@ -20,3 +20,19 @@ def load_classifier(path, device="cpu"):
     model = CorruptionClassifier(c["channels"], c.get("dropout", 0.0))
     model.load_state_dict(ck["state_dict"])
     return model.to(device).eval()
+
+
+def load_soft_moe(path, device="cpu"):
+    """Rebuild a trained SoftMoE from src.train.soft_moe's checkpoint."""
+    from .soft_moe import SoftMoE
+    ck = torch.load(path, map_location=device, weights_only=False)
+
+    def ae(c):
+        return ConvAE(c["base_ch"], c.get("latent_dim", 512), c.get("dropout", 0.0),
+                      bottleneck=c.get("bottleneck", "linear"), latent_ch=c.get("latent_ch", 16))
+
+    gc = ck["gate_cfg"]
+    moe = SoftMoE(CorruptionClassifier(gc["channels"], gc.get("dropout", 0.0)),
+                  [ae(c) for c in ck["expert_cfgs"]], ck["cfg"]["temperature"])
+    moe.load_state_dict(ck["state_dict"])
+    return moe.to(device).eval()

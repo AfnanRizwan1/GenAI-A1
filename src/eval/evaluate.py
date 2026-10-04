@@ -29,7 +29,8 @@ from src.common.metrics import l1_per_image, psnr_per_image, ssim_per_image  # n
 from src.data.corruptions import CLASSES, LEVELS  # noqa: E402
 from src.data.manifest import iter_manifest, load_manifest  # noqa: E402
 from src.data.pets import load_pets  # noqa: E402
-from src.models.loading import load_ae, load_classifier  # noqa: E402
+from src.models.loading import load_ae, load_classifier, load_soft_moe  # noqa: E402
+from src.models.soft_moe import BRANCHES  # noqa: E402
 
 PSNR_CAP = 60.0  # identical images have infinite PSNR; cap so means stay finite and comparable
 COND_ORDER = [("clean", "-")] + [(t, l) for t in CLASSES[1:] for l in LEVELS]
@@ -38,8 +39,9 @@ COND_ORDER = [("clean", "-")] + [(t, l) for t in CLASSES[1:] for l in LEVELS]
 class Systems:
     """The restoration systems under test. Any of t1 / (cls + specs) may be missing."""
 
-    def __init__(self, t1=None, cls=None, specs=None):
-        self.t1, self.cls, self.specs = t1, cls, specs  # specs: [salt, blur, occlusion]
+    def __init__(self, t1=None, cls=None, specs=None, moe=None):
+        self.t1, self.cls, self.specs, self.moe = t1, cls, specs, moe  # specs: [salt, blur, occlusion]
+        self.last_w = None  # routing weights of the last soft-MoE batch
 
     def route(self, x, route_labels):
         y = x.clone()  # label 0 (clean): identity bypass, expert never called
@@ -52,6 +54,8 @@ class Systems:
     @torch.no_grad()
     def run(self, corr, labels):
         out, pred = {"input": corr}, None
+        if self.moe is not None:
+            out["moe"], self.last_w, _ = self.moe(corr)
         if self.t1 is not None:
             out["t1"] = self.t1(corr)
         if self.cls is not None and self.specs is not None:
@@ -71,6 +75,9 @@ def per_entry_metrics(systems, imgs, entries, bs, device):
             r = {"idx": e["idx"], "type": e["type"], "level": e["level"] or "-", "label": e["label"]}
             if pred is not None:
                 r["pred"] = int(pred[i])
+            if systems.last_w is not None:
+                for j, b in enumerate(BRANCHES):
+                    r[f"w_{b}"] = float(systems.last_w[i, j])
             for n, (p, s, l) in m.items():
                 r[f"{n}_psnr"], r[f"{n}_ssim"], r[f"{n}_l1"] = float(p[i]), float(s[i]), float(l[i])
             rows.append(r)
@@ -163,6 +170,7 @@ def grid(path, df, rows, imgs, entries, system_fn, method_name, device, title_fn
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--t1"), ap.add_argument("--cls"), ap.add_argument("--specs", nargs=3)
+    ap.add_argument("--moe", help="Task 3 soft-MoE checkpoint (adds routing-weight analysis)")
     ap.add_argument("--out", default="outputs/eval")
     ap.add_argument("--data-root", default="data")
     ap.add_argument("--bs", type=int, default=256)
@@ -174,7 +182,8 @@ def main():
 
     systems = Systems(load_ae(a.t1, dev) if a.t1 else None,
                       load_classifier(a.cls, dev) if a.cls else None,
-                      [load_ae(p, dev) for p in a.specs] if a.specs else None)
+                      [load_ae(p, dev) for p in a.specs] if a.specs else None,
+                      load_soft_moe(a.moe, dev) if a.moe else None)
     imgs = load_pets(a.data_root)["test"]
     entries = load_manifest("test")
     if a.max_entries:
@@ -182,7 +191,7 @@ def main():
     df = per_entry_metrics(systems, imgs, entries, a.bs, dev)
     df.to_csv(out / "per_entry.csv", index=False)
 
-    methods = [m for m in ("input", "t1", "t2_oracle", "t2_pred") if f"{m}_psnr" in df]
+    methods = [m for m in ("input", "t1", "t2_oracle", "t2_pred", "moe") if f"{m}_psnr" in df]
     by_cond, by_type, overall = summary_tables(df, methods)
     by_cond.to_csv(out / "by_condition.csv"), by_type.to_csv(out / "by_type.csv")
     summary = {"n_entries": len(df), "methods": methods, "overall": overall.to_dict(),
@@ -197,6 +206,8 @@ def main():
     fn = {}
     if systems.t1 is not None:
         fn["t1"] = lambda c, l: systems.t1(c)
+    if systems.moe is not None:
+        fn["moe"] = lambda c, l: systems.moe(c)[0]
     if "pred" in df:
         rep = classifier_report(df)
         summary["classifier"] = rep
@@ -214,6 +225,9 @@ def main():
         grid(out / f"examples_{name}.png", df, ex, imgs, entries, f, name, dev)
     if "t1" in fn:
         grid(out / "failures_t1.png", df, pick_failures(df, "t1"), imgs, entries, fn["t1"], "t1", dev)
+    if systems.moe is not None:
+        from src.eval.moe_analysis import analyze
+        summary["moe"] = analyze(df, imgs, entries, systems.moe, out, dev)
     (out / "summary.json").write_text(json.dumps(summary, indent=2))
     print("wrote", out)
 
