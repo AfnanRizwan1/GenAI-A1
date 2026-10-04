@@ -36,3 +36,13 @@ def load_soft_moe(path, device="cpu"):
                   [ae(c) for c in ck["expert_cfgs"]], ck["cfg"]["temperature"])
     moe.load_state_dict(ck["state_dict"])
     return moe.to(device).eval()
+
+
+def load_generator(path, device="cpu"):
+    """Rebuild the Task 4 U-Net generator from src.train.cgan's checkpoint."""
+    from .cgan import UNetGenerator
+    ck = torch.load(path, map_location=device, weights_only=False)
+    c = ck["cfg"]
+    g = UNetGenerator(c["base_ch"], c["emb_dim"], c.get("dropout", 0.0))
+    g.load_state_dict(ck["state_dict"])
+    return g.to(device).eval()

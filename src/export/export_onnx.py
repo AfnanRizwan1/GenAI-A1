@@ -23,8 +23,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from src.models.cgan import UNetGenerator
-from src.models.loading import load_ae, load_classifier, load_soft_moe
+from src.models.loading import load_ae, load_classifier, load_generator, load_soft_moe
 from src.models.soft_moe import SoftMoEExport
 
 TOLERANCE = 1e-4   # max absolute difference allowed between PyTorch and ONNX Runtime outputs (fp32)
@@ -40,14 +39,6 @@ class ClassifierProbs(nn.Module):
 
     def forward(self, x):
         return torch.softmax(self.cls(x), dim=1)
-
-
-def load_generator(path, device="cpu"):
-    ck = torch.load(path, map_location=device, weights_only=False)
-    c = ck["cfg"]
-    g = UNetGenerator(c["base_ch"], c["emb_dim"], c.get("dropout", 0.0))
-    g.load_state_dict(ck["state_dict"])
-    return g.to(device).eval()
 
 
 def export_one(model, example_inputs, path, input_names, output_names):
