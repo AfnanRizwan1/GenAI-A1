@@ -10,6 +10,8 @@ export function UniversalPage() {
       subtitle="One autoencoder restores clean, salt-and-pepper, blurred and occluded images, without being told which corruption was applied."
       endpoint="/universal"
       filePrefix="universal"
+      controlsTitle="Restoration controls"
+      controlsChip="one model"
     />
   )
 }
@@ -24,6 +26,8 @@ export function HardPage() {
       subtitle="A classifier predicts the corruption and routes the image to exactly one specialist autoencoder. Clean images bypass the experts."
       endpoint="/hard"
       filePrefix="hard-routed"
+      controlsTitle="Routing controls"
+      controlsChip="classifier + 3 experts"
       extra={(r) => (
         <div className="card animate-fade-up" data-testid="routing">
           <CardTitle icon="branch" title="Classifier probabilities" right={<span className="num text-[11px] text-ink-3">argmax routing</span>} />
@@ -61,6 +65,8 @@ export function SoftPage() {
       subtitle="A gating network gives every branch a continuous weight. The output is the weighted sum of the identity branch and the three experts, trained jointly."
       endpoint="/soft"
       filePrefix="soft-moe"
+      controlsTitle="Blending controls"
+      controlsChip="gate + 3 experts"
       extra={(r) => {
         const top = r.contribution_ranking[0]
         const spread = top.weight < 0.6

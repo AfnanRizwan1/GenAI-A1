@@ -13,7 +13,7 @@ import Segmented from '../components/Segmented'
 const stagger = (i) => ({ animationDelay: `${i * 60}ms` })
 
 /** Shared layout of the three restoration workspaces; `extra(result)` renders the task-specific card. */
-export default function RestorationPage({ number, title, subtitle, endpoint, extra, filePrefix, sampleHint }) {
+export default function RestorationPage({ number, title, subtitle, endpoint, extra, filePrefix, sampleHint, controlsTitle = 'Restoration controls', controlsChip }) {
   const samples = useSamples()
   const [source, setSource] = useState({ file: null, sampleId: null })
   const [ctl, setCtl] = useState({ corruption: 'salt', severity: 'medium', seed: '', custom: DEFAULT_CUSTOM })
@@ -50,7 +50,7 @@ export default function RestorationPage({ number, title, subtitle, endpoint, ext
       <PageHeader eyebrow={`Workspace 0${number} / Task ${number}`} title={title} subtitle={subtitle} />
       <div className="grid gap-6 xl:grid-cols-[25rem_minmax(0,1fr)]">
         <section className="card h-fit space-y-6" aria-label="Controls">
-          <CardTitle icon="sliders" title="Controls" />
+          <CardTitle icon="sliders" title={controlsTitle} right={controlsChip && <span className="chip bg-subdued font-mono !text-[10px] text-ink-2">{controlsChip}</span>} />
           <ImageInput value={source} onChange={setSource} samples={samples} sampleHint={sampleHint} />
           <CorruptionControls value={ctl} onChange={setCtl} />
           <div className="space-y-2">
@@ -80,13 +80,13 @@ export default function RestorationPage({ number, title, subtitle, endpoint, ext
                   </>
                 ) : (
                   <>
-                    <ImagePanel style={stagger(0)} title="Original" src={result?.original} label="Original" meta="128 × 128" loading={loading && !result}
+                    <ImagePanel index={1} style={stagger(0)} title="Original" src={result?.original} label="Original" meta="128 × 128 px · 3 channels" loading={loading && !result}
                                 caption={result ? (applied ? 'Clean ground truth' : 'No clean reference for this upload') : undefined}
                                 placeholder={result ? 'No reference: the upload was used as given' : 'Your clean image'} />
-                    <ImagePanel style={stagger(1)} title="Input to model" src={result?.input} label={applied ? 'Corrupted input' : 'Input'} tone={applied ? 'bad' : 'neutral'}
+                    <ImagePanel index={2} style={stagger(1)} title="Input to model" src={result?.input} label={applied ? 'Corrupted input' : 'Input'} meta="what the model sees" tone={applied ? 'bad' : 'neutral'}
                                 loading={loading && !result} caption={caption} placeholder="The corrupted input" />
-                    <ImagePanel style={stagger(2)} title="Restored output" src={result?.restored} label="Restored" tone="good" meta={result ? `${result.inference_ms.toFixed(1)} ms` : undefined}
-                                loading={loading} caption={result ? 'Output of the model' : undefined} placeholder="The restoration" />
+                    <ImagePanel index={3} style={stagger(2)} title="Restored output" src={result?.restored} label="Restored" tone="good" meta={result ? `${result.inference_ms.toFixed(1)} ms inference` : undefined}
+                                loading={loading} caption={result ? (applied ? 'Restored from the corrupted input' : 'Restored from the uploaded image') : undefined} placeholder="The restoration" />
                   </>
                 )}
               </div>

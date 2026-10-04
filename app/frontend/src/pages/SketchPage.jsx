@@ -53,7 +53,7 @@ export default function SketchPage() {
                   subtitle="A conditional GAN turns a face photograph into a pencil sketch in one of three learned styles." />
       <div className="grid gap-6 xl:grid-cols-[25rem_minmax(0,1fr)]">
         <section className="card h-fit space-y-6" aria-label="Controls">
-          <CardTitle icon="sliders" title="Controls" />
+          <CardTitle icon="sliders" title="Sketch controls" right={<span className="chip bg-subdued font-mono !text-[10px] text-ink-2">3 styles</span>} />
           <ImageInput value={source} onChange={setSource} samples={samples} sampleHint="Pets for testing" />
           <WebcamCapture onCapture={(file) => setSource({ file, sampleId: null })} />
           <StylePicker value={style} onChange={setStyle} />
